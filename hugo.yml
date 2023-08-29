@@ -1,0 +1,107 @@
+baseURL: https://ispiroglu.github.io
+languageCode: en-us
+title: Evren Ispiroglu
+theme: 'PaperMod'
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+googleAnalytics: UA-123-45
+
+minify:
+  disableXML: true
+  minifyOutput: true
+
+params:
+  env: development # to enable google analytics, opengraph, twitter-cards and schema.
+  title: EvrenIspiroglu
+  description: "Evren Ispiroglu"
+  keywords: [Evren, Ispiroglu, Portfolio]
+  author: Me
+  # author: ["Me", "You"] # multiple authors
+  images: ["<link or path of image for opengraph, twitter-cards>"]
+  DateFormat: "January 2, 2006"
+  defaultTheme: auto # dark, light
+  disableThemeToggle: false
+
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: false
+  ShowWordCount: true
+  ShowRssButtonInSectionTermList: true
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+  showtoc: false
+  tocopen: false
+
+
+  assets:
+    # disableHLJS: true # to disable highlight.js
+    # disableFingerprinting: true
+    favicon: "<link / abs url>"
+    favicon16x16: "<link / abs url>"
+    favicon32x32: "<link / abs url>"
+    apple_touch_icon: "<link / abs url>"
+    safari_pinned_tab: "<link / abs url>"
+
+  label:
+    text: "Home"
+    icon: /apple-touch-icon.png
+    iconHeight: 35
+
+  # profile-mode
+  profileMode:
+    enabled: true # needs to be explicitly set
+    title: Evren Ispiroglu
+    subtitle: "Hi there, passenger! \U0001F44B "
+    imageUrl: "Evren.jpeg"
+    imageTitle: my_super_image_xd
+    imageWidth: 194
+    imageHeight: 259
+    buttons:
+      - name: CV
+        url: cv/cv
+
+  # home-info mode
+  homeInfoParams:
+    Title: "Hi there, passenger! \U0001F44B"
+    Content: I'm super excited to introduce myself!
+
+  socialIcons:
+    - name: twitter
+      url: "https://twitter.com/eispirogluu"
+    - name: linkedin
+      url: "https://www.linkedin.com/in/eispiroglu"
+    - name: github
+      url: "https://github.com/ispiroglu"
+    - name: medium
+      url: "https://medium.com/@ispiroglu"
+
+menu:
+  main:
+    - identifier: cv
+      name: cv
+      url: cv/cv
+      weight: 10
+    - identifier: github
+      name: to see what i'm currently working on
+      url: https://github.com/ispiroglu
+      weight: 30
+# Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
+pygmentsUseClasses: true
+markup:
+  highlight:
+    noClasses: false
+    # anchorLineNos: true
+    codeFences: true
+    guessSyntax: true
+    lineNos: true
+    style: hack
