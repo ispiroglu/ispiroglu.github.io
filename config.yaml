@@ -1,0 +1,5 @@
+baseURL: "https://ispiroglu.github.io/"
+languageCode: "en-us"
+title: "Hugo Novela"
+pygmentsstyle: 'monokai'
+paginate: 6
