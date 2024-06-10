@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Evren Ispiroglu</title>
+    <link>https://ispiroglu.github.io/post/</link>
+    <description>Recent content in Posts on Evren Ispiroglu</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 10 Jun 2024 23:00:00 +0300</lastBuildDate>
+    <atom:link href="https://ispiroglu.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Conway&#39;s Law: The Organizational Mirror</title>
+      <link>https://ispiroglu.github.io/blog/conways-law-the-organizational-mirror/</link>
+      <pubDate>Mon, 10 Jun 2024 23:00:00 +0300</pubDate>
+      <guid>https://ispiroglu.github.io/blog/conways-law-the-organizational-mirror/</guid>
+      <description>We, humans, have been communicating since we stared living together. Firstly, maybe we were just communicating with each other about where to hunt, where to find food etc&amp;hellip; But we evolve over time, and the reason why we communicate is changed, we started to communicate for more complex reasons like find out how to live together, building relationships, expressing emotions, sharing knowledge and so on.&#xA;With the latest technologies and needs, we started to work with high number of co-workers in our jobs.</description>
+    </item>
+  </channel>
+</rss>
