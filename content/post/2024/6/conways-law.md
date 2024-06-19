@@ -6,7 +6,7 @@ excerpt:
 draft: false
 ---
 
-We; humans, have been communicating since we stared living together. Firstly, maybe we were just communicating with each other about where to hunt, where to find food etc... But we evolve over time, and the reason why we communicate is changed, we started to communicate for more complex reasons like find out how to live together, building relationships, expressing emotions, **_sharing knowledge_** and so on.
+We; humans, have been communicating since we stared living together. Firstly, maybe we were just communicating with each other about where to hunt, where to find food etc... But we evolve over time, and the reason why we communicate is changed. We started to communicate for more complex reasons like find out how to live together, building relationships, expressing emotions, **_sharing knowledge_** and so on.
 
 As we navigate the complexities of modern work, have you ever stopped to consider how our organizational structures might be influencing the very systems we're trying to build? We started to work with high number of co-workers in our jobs. With a simple math, if there is 100x work to do, we may hire 100 people to do that job correctly. We may think this will fasten the process. But it's not like that. Just as our earliest human ancestors likely communicated effectively around the campfire, so too do our teams and departments today rely on effective communication to get things done. Even we are using all kind of tools for communication and have a great communication between us, the ending result of the job may not be the one we wanted. That's why **John Conway**, an American computer scientist, came up with the Conway's law. But what happens when these communication structures become outdated or mismatched with the systems they're supposed to support? In this article, we'll explore Conway's Law, a powerful principle that reveals the complex relationship between organizational design and system architecture. Join me as we examine how understanding this law can help us build better systems and stronger teams.
 
@@ -19,7 +19,7 @@ Now let's say that, there has to be a new project which requires all the teams t
 
 So the project starts, all the teams start to work and develop parts of the project. Every team will fill the needs of the project as they know. At the end, the result will have 3 main structures. It may be a good system but it won't be a single system. It will certanly be two systems that are connected together somehow because of there will be 3 different perspective to the project.
 
-As previosly mentioned, The system does not have to be bad, unusable system. But what if we wanted the system to consist of 4 modules? It is clear that we can't create 4 different modules with 2 different teams. Yes, we could do it on paper but the result will be no different than the current system. Instead of 2 big systems, we would have 4 small systems that connected with 3 domains.
+As previosly mentioned, The system does not have to be bad, unusable system. But what if we wanted the system to consist of 4 modules? It is clear that we can't create 4 different modules with 3 different teams. Yes, we could do it on paper but the result will be no different than the current system. Instead of 3 big systems, we would have 4 small systems that connected with 3 domains.
 
 ![alt text](/images/post/2024/6/conway.svg)
 
