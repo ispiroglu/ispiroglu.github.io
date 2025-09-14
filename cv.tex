@@ -1,0 +1,60 @@
+\documentclass[11pt,a4paper]{moderncv}
+\moderncvstyle{banking}
+\moderncvcolor{blue}
+\usepackage[utf8]{inputenc}
+\usepackage[scale=0.9]{geometry}
+
+% Personal data
+\firstname{Evren}
+\familyname{Ispiroglu}
+\title{Software Engineer}
+\address{Istanbul, Türkiye}{}{}
+\phone[mobile]{+90~5427261042}
+\email{evrenn.ispiroglu@gmail.com}
+\homepage{ispiroglu.github.io}
+\social[github]{ispiroglu}
+\social[linkedin]{eispiroglu}
+
+\begin{document}
+\makecvtitle
+
+% Summary
+\section{Summary}
+Mid-level \textbf{Backend Developer} with \textbf{3+ years of professional experience} in distributed systems and high-load microservices. Primary stack \textbf{Go (Golang)} and \textbf{Kotlin/Java (JVM)} fluency. Designs \textbf{event-driven} services with \textbf{Kafka}, \textbf{gRPC}, \textbf{CQRS}, \textbf{CDC}; applies \textbf{idempotency}, \textbf{backpressure/circuit breaking}, and robust \textbf{observability} (\textbf{Grafana}, \textbf{OpenTelemetry}). Operates mainly \textbf{on-prem Kubernetes} with CI/CD; data stores include \textbf{PostgreSQL}, \textbf{Elastic}, \textbf{Couchbase}. Motivated by \textbf{high-load} systems and hard engineering problems; remote/hybrid, relocation-ready.
+
+\section{Experience}
+\cventry{Nov 2023--Present}{Mid-level Software Engineer \textit{(promoted from Associate)}}{Trendyol}{Istanbul, Türkiye}{}{
+\begin{itemize}
+  \item Architected multi-AZ, event-driven microservices with \textbf{CQRS + CDC}, sustaining \textbf{1.4M req/min} at \textbf{100ms latency} under complex \textbf{ElasticSearch}-backed queries.
+  \item Developed an integrated Q\&A architecture with an \textbf{event-driven translation pipeline}, processing \textbf{~300k questions} into \textbf{5+ languages} and enhancing global support.
+  \item Developed a \textbf{RAG-based application} to proactively address seller queries, achieving up to \textbf{3x increase in conversion rates}.
+  \item Co-initiated \textbf{Chaki} (open-source Golang framework) by implementing auto-configuration and observability modules that reduced boilerplate and streamlined microservice development.
+  \item Owned \textbf{technical design reviews}, \textbf{code review}, and \textbf{on-call} incident response; set \textbf{OKRs/scorecards} and drove \textbf{data-driven} decisions via PoCs.
+\end{itemize}}
+
+\cventry{Sep 2022--Nov 2023}{Software Engineer \textit{(promoted from Trainee to Junior)}}{Doğuş Technology}{Istanbul, Türkiye}{}{
+\begin{itemize}
+  \item Designed and delivered a \textbf{multi-tenant authentication API} (Kotlin, Spring Boot) with token-based security, enabling centralized access control across tenants and improving platform scalability.
+  \item Led metrics-driven \textbf{PoCs} for messaging, storage, and orchestration on an on-prem platform, informing core \textbf{distributed system} architecture choices.
+  \item Implemented \textbf{Kafka} consumer \textbf{backpressure} and service-level \textbf{circuit breaking}, preventing overload and containing cascading failures during traffic spikes.
+  \item Diagnosed production bottlenecks to improve median response time by \textbf{20\%}, and established \textbf{observability} with \textbf{Grafana + OpenTelemetry} to reduce MTTR.
+\end{itemize}}
+
+% Education
+\section{Education}
+\cventry{2020--2024}{BSc in Computer Engineering}{Yildiz Technical University}{Istanbul, Türkiye}{GPA 3.39}{
+Relevant coursework: Distributed Systems, Advanced operating systems, Databases, Software Architecture.}
+
+% Projects
+\section{Projects}
+\cvitem{}{%
+  \textbf{Chaki} (\href{https://github.com/Trendyol/chaki}{github.com/Trendyol/chaki}): Co-initiated an open-source Golang framework built to reduce boilerplate.
+}
+
+\cvitem{}{%
+  \textbf{Mercurius} (\href{https://github.com/ispiroglu/mercurius}{github.com/ispiroglu/mercurius}): Built a high-throughput message broker in Go with gRPC.
+}
+\section{Skills}
+\cvitem{}{Go (Golang), Kotlin, Java (JVM), Spring Boot, JavaScript, TypeScript, Kafka, gRPC, CDC, CQRS, Event-driven systems, PostgreSQL, ElasticSearch, Couchbase, Docker, Kubernetes (on-prem), Jenkins, GitHub Actions, GitLab, Grafana, OpenTelemetry, Logging, Tracing, React, Angular}
+
+\end{document}

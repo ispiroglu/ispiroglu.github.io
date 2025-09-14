@@ -2,8 +2,10 @@ baseURL = 'https://ispiroglu.github.io/'
 languageCode = 'en-us'
 title = 'Evren Ispiroglu'
 theme = 'novela'
-paginate = 5
 enableEmoji = true
+
+[pagination]
+  pagerSize = 5
 
 description = "Evren Ispiroglu's personal blog"
 homepage = "https://ispiroglu.github.io/"
@@ -13,7 +15,6 @@ features = ["dark mode", "grid view"]
 [social]
   twitter= "https://twitter.com/eispirogluu"
   github="https://github.com/ispiroglu"
-  instagram= "https://www.instagram.com/eispirogluu/"
   linkedin= "https://www.linkedin.com/in/eispiroglu/"
 
 [menu]
