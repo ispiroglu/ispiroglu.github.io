@@ -1,125 +1,196 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/8fd7da5f-0c4d-4a43-9e23-2d1baf0d35cc/deploy-status)](https://app.netlify.com/sites/hugo-novela-forestry/deploys)
+# Personal Website & Blog
 
-# Hugo Novela Forestry Starter
+A modern, fast portfolio and blog built with React Router 7 and deployed on Cloudflare Workers.
 
-A port of [Narative](https://www.narative.co/)'s Gatsby theme [Novela](https://www.narative.co/labs/novela/)
+## Features
 
-![](images/tn.png)
+- ✨ **Modern Stack**: React Router 7, TypeScript, Tailwind CSS v4
+- ⚡ **Edge Deployment**: Runs on Cloudflare Workers for global, low-latency delivery
+- 📝 **MDX Blog**: Write posts in Markdown with React components
+- 🎨 **Beautiful UI**: shadcn/ui components with dark/light theme support
+- 📊 **Page Views**: KV-backed view counter for blog posts
+- 🔍 **Fast Search**: Client-side search with MiniSearch
+- 📱 **Responsive**: Mobile-first design with sidebar navigation
+- ♿ **Accessible**: WCAG AA compliant with proper semantic HTML
 
-<a href="https://app.forestry.io/quick-start?repo=forestryio/novela-hugo-starter&engine=hugo&version=0.80.0">
-    <img alt="Import this project into Forestry" src="https://assets.forestry.io/import-to-forestryK.svg" />
-</a>
+## Project Structure
 
-## Prerequisites
+```
+my-react-router-app/
+├── app/
+│   ├── components/
+│   │   ├── layout/          # Layout components (Sidebar, etc.)
+│   │   └── ui/              # shadcn/ui components
+│   ├── lib/
+│   │   ├── mdx.server.ts    # MDX utilities (server-only)
+│   │   └── utils.ts         # Utility functions
+│   ├── routes/              # React Router file-based routes
+│   │   ├── _index.tsx       # Home page
+│   │   ├── writing._index.tsx      # Writing list
+│   │   ├── writing.$slug.tsx       # Post detail
+│   │   ├── journey.tsx             # Timeline
+│   │   ├── stack.tsx               # Tools/stack
+│   │   ├── workspace.tsx           # Desk setup
+│   │   └── bookmarks.*.tsx         # Bookmarks pages
+│   ├── app.css              # Global styles & theme
+│   └── root.tsx             # App root component
+├── content/
+│   ├── writing/             # MDX blog posts
+│   ├── journey/             # Timeline entries (JSON)
+│   └── bookmarks/           # Bookmark collections (JSON)
+├── workers/
+│   └── app.ts               # Cloudflare Worker entry
+├── public/                  # Static assets
+├── wrangler.jsonc           # Cloudflare configuration
+└── vite.config.ts           # Vite + MDX configuration
+```
 
-This starter is importing the theme as a [Hugo Module](https://gohugo.io/hugo-modules/)
+## Tech Stack
 
-- Go > 1.12
-- Hugo > 0.65.0 
+### Core
+- **React Router 7**: Full-stack React framework
+- **TypeScript**: Type safety
+- **Vite**: Fast build tool
+- **Bun**: Package manager & runtime
 
-## Content Management
+### Styling
+- **Tailwind CSS v4**: Utility-first CSS
+- **shadcn/ui**: Accessible component library
+- **Lucide React**: Beautiful icons
 
-![Forestry user interface](images/novela-forestry.png)
+### Content
+- **MDX**: Markdown with React components
+- **gray-matter**: Frontmatter parsing
+- **remark-gfm**: GitHub Flavored Markdown
+- **rehype-pretty-code**: Syntax highlighting with Shiki
 
-This starter is ready to be imported into [Forestry](https://forestry.io)  ✨.
-
-Any changes you save in the CMS will be commited back to your Git repository.
-
-## Deploy on Netlify
-
-Import your repository in [Netlify](https://netlify.com)
-
-1. Create a new site in Netlify and import your repository.
-2. Set the build command to: `hugo --gc --minify`
-3. Set the publish directory to: `public`
-4. Set `GO_VERSION` to `1.12` or above
-4. Set `HUGO_VERSION` to `0.65.3` or above
-
-That's it, now your site gets deployed automatically on `git push` or when saving documents from Forestry.
-
-## Deploy on Vercel
-
-Import your repository in [Vercel](https://vercel.com/new/git/third-party)
-
-[Add a bash script](https://gist.github.com/DirtyF/4f89704ecd619c0dcd439d74115da542#file-hugo_build-sh) and [build steps via a `vercel.json` file](https://gist.github.com/DirtyF/4f89704ecd619c0dcd439d74115da542#file-vercel-json) in your repository in order to build the site.
+### Deployment
+- **Cloudflare Workers**: Edge compute
+- **Cloudflare KV**: Page view storage
+- **Wrangler**: Deployment CLI
 
 ## Development
 
+### Prerequisites
+- [Bun](https://bun.sh/) installed
+- Cloudflare account (for deployment)
+
+### Setup
+
+1. Install dependencies:
 ```bash
-# clone your repository
-# cd in your project directory
-# Start local server
-hugo server
+bun install
 ```
 
-For more information, see [official Hugo documentation](https://gohugo.io/getting-started/).
+2. Run the development server:
+```bash
+bun run dev
+```
+
+3. Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Commands
+
+- `bun run dev` - Start development server
+- `bun run build` - Build for production
+- `bun run typecheck` - Run TypeScript checks
+- `bun run deploy` - Deploy to Cloudflare Workers
+
+## Content Management
+
+### Writing a Blog Post
+
+Create a new `.mdx` file in `content/writing/`:
+
+```mdx
+---
+title: "Your Post Title"
+description: "A brief description"
+date: "2025-01-30"
+tags: ["react", "typescript"]
+draft: false
+---
+
+# Your Post Title
+
+Your content here...
+```
+
+### Adding a Journey Entry
+
+Edit the appropriate year in `content/journey/` or add entries directly in `app/routes/journey.tsx`.
+
+### Adding Bookmarks
+
+Add bookmark data to JSON files in `content/bookmarks/` organized by category.
+
+## Deployment
+
+### First-time Setup
+
+1. Create a Cloudflare KV namespace for page views:
+```bash
+npx wrangler kv:namespace create PAGEVIEWS
+```
+
+2. Update `wrangler.jsonc` with your KV namespace ID:
+```jsonc
+{
+  "kv_namespaces": [
+    {
+      "binding": "PAGEVIEWS",
+      "id": "your-kv-id-here"
+    }
+  ]
+}
+```
+
+3. Deploy:
+```bash
+bun run deploy
+```
+
+### Subsequent Deployments
+
+Just run:
+```bash
+bun run deploy
+```
+
+Your site will be live at `https://my-react-router-app.YOUR_SUBDOMAIN.workers.dev`
 
 ## Customization
 
-### Logo
+### Update Personal Info
 
-Add to your projects layout directory your logo's SVG:
-`/layouts/icons/ui/logo.html`
+1. Edit `app/components/layout/sidebar.tsx` - Update name, title, and social links
+2. Edit `app/routes/_index.tsx` - Update bio and intro
+3. Replace sample content in `content/writing/` with your posts
 
-### Socials
+### Theme Colors
 
-In order for the Socials to be surfaced in Forestry, you should copy the theme's `config/_default/social.yaml` to your project.
+Theme colors are defined in `app/app.css` using CSS variables. Adjust the `--color-*` variables to customize the theme.
 
-### Authors
+### Adding New Routes
 
-You should register authors as a taxonomy in your project's `config.yaml``
+Add new route files to `app/routes/` and register them in `app/routes.ts`.
 
-```yaml
-taxonomies:
-  author: authors
-```
+## Performance
 
-#### Creating authors
+- Built on Cloudflare's global edge network
+- Zero cold starts
+- Static assets served from CDN
+- Minimal JavaScript bundle
+- Optimized fonts and images
 
-Add a similar file to your content directory and Front Matter example.
-
-```yaml
-# /content/authors/firstname-lastname/_index.md
----
-title: Dennis Brotzky
-bio: |
-  Written by You. This is where your author bio lives. Share your work, your
-  joys and of course, your Twitter handle.
-avatar: /images/dennis-brotzky.jpg
-featured: true
-social:
-  - title: github
-    url: https://github.com
-  - title: twitter
-    url: https://twitter.com
-  - title: instagram
-    url: https://instagram.com
-  - title: dribbble
-    url: https://dribbble.com
-  - title: unsplash
-    url: https://unsplash.com
----
-```
-
-#### Assigning authors to posts.
-
-Add the name of the author to the "authors" field:
-
-```yaml
-authors:
-  - Dennis Brotzky
-  - Thiago Costa
-```
-### Newsletter call to action
-
-This theme includes a shortcode for a newsletter callout form that you can add to any page.
-It uses [formspree.io](//formspree.io/) as proxy to send the actual email. Each month, visitors can send you up to one thousand emails without incurring extra charges. Visit the Formspree site to get get going add your Formspree email to your shortcode like this:
-
-```
-{{< subscribe email="your@email.com" >}}
-```
-
-
-## LICENSE
+## License
 
 MIT
+
+## Author
+
+Evren Ispiroglu
+- Website: https://ispiroglu.github.io
+- Twitter: [@eispirogluu](https://x.com/eispirogluu)
+- GitHub: [@ispiroglu](https://github.com/ispiroglu)
+- LinkedIn: [@eispiroglu](https://linkedin.com/in/eispiroglu)

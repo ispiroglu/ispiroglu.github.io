@@ -1,0 +1,79 @@
+---
+title: "Building with React Router 7 on Cloudflare Workers"
+description: "A deep dive into building full-stack applications with React Router 7 deployed on Cloudflare's edge network"
+date: "2025-01-20"
+tags: ["react-router", "cloudflare", "workers", "tutorial"]
+draft: false
+---
+
+# Building with React Router 7 on Cloudflare Workers
+
+React Router 7 brings a fresh approach to building full-stack React applications, and when combined with Cloudflare Workers, you get an incredibly powerful and performant stack.
+
+## Why This Stack?
+
+### React Router 7
+
+React Router 7 (formerly Remix) offers:
+
+- **File-based routing**: Intuitive route organization
+- **Loaders & Actions**: Server-side data loading and mutations
+- **Nested layouts**: Persistent UI across route changes
+- **Progressive enhancement**: Works without JavaScript
+
+### Cloudflare Workers
+
+Workers provide:
+
+- **Edge computing**: Run code close to users globally
+- **Zero cold starts**: Instant response times
+- **KV storage**: Fast key-value storage at the edge
+- **Cost-effective**: Free tier is very generous
+
+## Getting Started
+
+You can scaffold a new project with the Cloudflare CLI (C3):
+
+```bash
+bun create cloudflare@latest my-app --framework=react-router
+```
+
+This creates a project with:
+
+- `app/`: Your React Router application code
+- `workers/`: Worker entry point
+- `wrangler.jsonc`: Cloudflare configuration
+- `vite.config.ts`: Build configuration
+
+## Accessing Cloudflare Bindings
+
+One of the best features is direct access to Cloudflare resources in your loaders:
+
+```typescript
+export async function loader({ context }: Route.LoaderArgs) {
+  // Access KV storage
+  const kv = context.cloudflare.env.MY_KV;
+  const value = await kv.get("key");
+  
+  return { value };
+}
+```
+
+## Deployment
+
+Deploying is as simple as:
+
+```bash
+bun run deploy
+```
+
+Your app is instantly available on Cloudflare's global network!
+
+## Conclusion
+
+React Router 7 + Cloudflare Workers is a fantastic combination for building modern web applications. The DX is excellent, performance is top-notch, and the deployment story is simple.
+
+Give it a try for your next project!
+
+
+
