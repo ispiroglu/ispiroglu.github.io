@@ -56,9 +56,16 @@ export default function Stack() {
           </Card>
         ))}
       </div>
+
+      {/* Skills Section */}
+      <section className="pt-8">
+        <h2 className="text-2xl font-semibold mb-4">Skills</h2>
+        <div className="prose dark:prose-invert max-w-none">
+          <p className="text-muted-foreground leading-relaxed">
+            Go (Golang), Kotlin, Java (JVM), Spring Boot, JavaScript, TypeScript, Kafka, gRPC, CDC, CQRS, Event-driven systems, PostgreSQL, ElasticSearch, Couchbase, Docker, Kubernetes (on-prem), Jenkins, GitHub Actions, GitLab, Grafana, OpenTelemetry, Logging, Tracing, React, Angular
+          </p>
+        </div>
+      </section>
     </div>
   );
 }
-
-
-

@@ -1,10 +1,12 @@
 import { Link, useLocation } from "react-router";
-import { Home, PenLine, Map, Layers, Briefcase, Bookmark } from "lucide-react";
+import { Home, PenLine, Map, Layers, Briefcase, Bookmark, User, FolderKanban } from "lucide-react";
 import { cn } from "~/lib/utils";
 import { ThemeToggle } from "../theme-toggle";
 
 const navigation = [
   { name: "Home", href: "/", icon: Home },
+  { name: "About", href: "/about", icon: User },
+  { name: "Projects", href: "/projects", icon: FolderKanban },
   { name: "Writing", href: "/writing", icon: PenLine },
   { name: "Journey", href: "/journey", icon: Map },
   { name: "Stack", href: "/stack", icon: Layers },
