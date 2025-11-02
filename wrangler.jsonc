@@ -4,15 +4,19 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "my-react-router-app",
+	"name": "ispiroglu",
 	"compatibility_date": "2025-04-04",
 	"main": "./workers/app.ts",
-	"vars": {
-		"VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare"
-	},
+	"vars": {},
 	"observability": {
 		"enabled": true
-	}
+	},
+	"kv_namespaces": [
+		{
+			"binding": "VIEWS_KV",
+			"id": "fe4f30d2bc444ed6b5699a6fdcad7c0d"
+		}
+	]
 	/**
 	 * Smart Placement
 	 * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement

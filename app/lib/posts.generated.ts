@@ -7,8 +7,7 @@ export const generatedPosts = [
     "excerpt": "We; humans, have been communicating since we stared living together. Firstly, maybe we were just communicating with each other about where to hunt, where to find food etc... But we evolve over time, a...",
     "draft": false,
     "tags": [
-      "domain driven design",
-      "organizational"
+      "domain driven design"
     ],
     "description": "We; humans, have been communicating since we stared living together. Firstly, maybe we were just communicating with each other about where to hunt, where to find food etc... But we evolve over time, a...",
     "slug": "conways-law",

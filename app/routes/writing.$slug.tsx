@@ -5,8 +5,9 @@ import { postContent } from "~/lib/post-content";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { ReadingProgress } from "~/components/reading-progress";
+import { incrementViews } from "~/lib/views.server";
 
-export async function loader({ params }: Route.LoaderArgs) {
+export async function loader({ params, context }: Route.LoaderArgs) {
   const post = await getPost(params.slug);
 
   if (!post) {
@@ -15,8 +16,9 @@ export async function loader({ params }: Route.LoaderArgs) {
 
   const allPosts = await getAllPosts();
   const navigation = getPostNavigation(allPosts, params.slug);
+  const views = await incrementViews(`writing/${params.slug}`, context.cloudflare.env);
 
-  return { post, navigation };
+  return { post, navigation, views };
 }
 
 export function meta({ data }: Route.MetaArgs) {
@@ -31,7 +33,7 @@ export function meta({ data }: Route.MetaArgs) {
 }
 
 export default function PostDetail({ loaderData }: Route.ComponentProps) {
-  const { post, navigation } = loaderData;
+  const { post, navigation, views } = loaderData;
   const date = new Date(post.date);
   const ContentComponent = postContent[post.slug];
 
@@ -68,6 +70,9 @@ export default function PostDetail({ loaderData }: Route.ComponentProps) {
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
               <span>{post.readingTime}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="text-sm">{views} views</span>
             </div>
           </div>
 

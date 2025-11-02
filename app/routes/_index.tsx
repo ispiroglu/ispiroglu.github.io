@@ -29,7 +29,7 @@ export default function Index({ loaderData }: Route.ComponentProps) {
             Welcome to my corner of the internet where I share my thoughts, projects, and experiences.
           </p>
           <p className="text-muted-foreground leading-relaxed mt-4">
-            Explore my <Link to="/about" className="text-primary hover:underline">about page</Link> to learn more about my background, 
+            Explore my <Link to="/about" className="text-primary hover:underline">about page</Link> to learn more about my background,
             check out my <Link to="/projects" className="text-primary hover:underline">projects</Link>, or browse my <Link to="/writing" className="text-primary hover:underline">writing</Link>.
           </p>
         </div>

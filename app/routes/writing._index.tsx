@@ -1,10 +1,20 @@
 import { Link } from "react-router";
 import type { Route } from "./+types/writing._index";
 import { getAllPosts } from "~/lib/mdx.server";
+import { getViews } from "~/lib/views.server";
 
-export async function loader() {
+export async function loader({ context }: Route.LoaderArgs) {
   const posts = await getAllPosts();
-  return { posts };
+
+  // Get view counts for all posts
+  const postsWithViews = await Promise.all(
+    posts.map(async (post) => ({
+      ...post,
+      views: await getViews(`writing/${post.slug}`, context.cloudflare.env),
+    }))
+  );
+
+  return { posts: postsWithViews };
 }
 
 export function meta({ }: Route.MetaArgs) {
@@ -56,7 +66,7 @@ export default function WritingIndex({ loaderData }: Route.ComponentProps) {
               <span className="text-sm text-muted-foreground w-12">{year}</span>
               <span className="text-sm text-muted-foreground w-16">{`${month}/${day}`}</span>
               <span className="text-sm font-medium flex-1">{post.title}</span>
-              <span className="text-sm text-muted-foreground w-16 text-right">-</span>
+              <span className="text-sm text-muted-foreground w-16 text-right">{post.views}</span>
             </Link>
           );
         })}
