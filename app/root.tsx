@@ -1,3 +1,4 @@
+import { createContext, useState } from "react";
 import {
   isRouteErrorResponse,
   Links,
@@ -10,6 +11,8 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import { Sidebar } from "./components/layout/sidebar";
+
+export const SidebarContext = createContext<{ isCollapsed: boolean }>({ isCollapsed: false });
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -43,15 +46,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   return (
-    <div className="min-h-screen">
-      <Sidebar />
-      <main className="lg:pl-64">
-        <div className="max-w-5xl px-8 py-12 lg:py-16">
-          <Outlet />
-        </div>
-      </main>
-    </div>
+    <SidebarContext.Provider value={{ isCollapsed }}>
+      <div className="min-h-screen">
+        <Sidebar isCollapsed={isCollapsed} onToggle={() => setIsCollapsed(!isCollapsed)} />
+        <main className={`transition-all duration-300 ${isCollapsed ? "lg:pl-16" : "lg:pl-64"}`}>
+          <div className="px-8 py-12 lg:py-16">
+            <Outlet />
+          </div>
+        </main>
+      </div>
+    </SidebarContext.Provider>
   );
 }
 

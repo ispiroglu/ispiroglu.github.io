@@ -4,10 +4,11 @@ import { getPost, getAllPosts, getPostNavigation } from "~/lib/mdx.server";
 import { postContent } from "~/lib/post-content";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
 import { Button } from "~/components/ui/button";
+import { ReadingProgress } from "~/components/reading-progress";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const post = await getPost(params.slug);
-  
+
   if (!post) {
     throw data("Post not found", { status: 404 });
   }
@@ -35,7 +36,8 @@ export default function PostDetail({ loaderData }: Route.ComponentProps) {
   const ContentComponent = postContent[post.slug];
 
   return (
-    <div className="max-w-4xl">
+    <div id="writings-container" className="max-w-4xl mx-auto relative">
+      <ReadingProgress />
       {/* Back button */}
       <div className="mb-10">
         <Link to="/writing">
@@ -51,7 +53,7 @@ export default function PostDetail({ loaderData }: Route.ComponentProps) {
         <header className="space-y-5 pb-10 border-b border-border/40">
           <h1 className="text-4xl font-bold">{post.title}</h1>
           <p className="text-xl text-muted-foreground">{post.description}</p>
-          
+
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />

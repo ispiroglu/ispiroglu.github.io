@@ -1,8 +1,4 @@
 import type { Route } from "./+types/about";
-import { Download } from "lucide-react";
-import { buttonVariants } from "~/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { cn } from "~/lib/utils";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -34,49 +30,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* CV Section */}
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">CV</h2>
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center justify-end">
-              <a 
-              href="/assets/cv.pdf" 
-              download
-              className={cn(buttonVariants({ variant: "outline", size: "sm" }))}
-              >
-                <Download className="w-4 h-4 mr-2" />
-                Download PDF
-              </a>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="w-full border border-border rounded-md overflow-hidden">
-              <object
-              data="/assets/cv.pdf"
-              type="application/pdf"
-              className="w-full h-[600px] min-h-[600px]"
-              title="CV PDF Viewer"
-              aria-label="Curriculum Vitae PDF"
-              >
-                <div className="p-8 text-center space-y-4">
-                  <p className="text-muted-foreground">
-                    Your browser doesn't support PDF preview.
-                  </p>
-                  <a 
-                  href="/assets/cv.pdf" 
-                  download
-                  className={cn(buttonVariants({ variant: "default" }))}
-                  >
-                    <Download className="w-4 h-4 mr-2" />
-                    Download PDF
-                  </a>
-                </div>
-              </object>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
+
     </div>
   );
 }

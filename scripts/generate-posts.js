@@ -40,6 +40,7 @@ function generatePosts() {
       slug,
       readingTime: `${Math.ceil(rt.minutes)} min read`,
       excerpt,
+      description: excerpt,
     };
   }).filter(post => !post.draft);
 
