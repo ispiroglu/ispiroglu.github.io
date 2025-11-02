@@ -1,6 +1,11 @@
 import type { Route } from "./+types/stack";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { ExternalLink } from "lucide-react";
+import { generatedTools, generatedSkills } from "~/lib/stack.generated";
+
+type SkillsData = Record<string, string[]>;
+
+type Tool = typeof generatedTools[number];
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -9,62 +14,74 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
-const tools = [
-  { name: "GoLand 🔥", description: "My primary IDE for Go development. Excellent refactoring, debugging, and code navigation features.", url: "https://www.jetbrains.com/go/" },
-  { name: "IntelliJ IDEA 🚀", description: "For Kotlin and Java development. Powerful IDE with great Spring Boot support.", url: "https://www.jetbrains.com/idea/" },
-  { name: "Docker Desktop 🐳", description: "Essential for containerized development and testing microservices locally.", url: "https://www.docker.com/products/docker-desktop/" },
-  { name: "k9s 🎮", description: "Terminal UI for Kubernetes. Makes managing on-prem clusters much easier.", url: "https://k9scli.io/" },
-  { name: "Postman 📮", description: "API testing and development. Great for testing gRPC endpoints and REST APIs.", url: "https://www.postman.com/" },
-  { name: "Grafana 📊", description: "Observability and monitoring dashboards. Essential for production debugging.", url: "https://grafana.com/" },
-  { name: "DBeaver 🦫", description: "Universal database tool. Works great with PostgreSQL, ElasticSearch, and Couchbase.", url: "https://dbeaver.io/" },
-  { name: "DataGrip 🔧", description: "Database IDE from JetBrains. Excellent for complex queries and data analysis.", url: "https://www.jetbrains.com/datagrip/" },
-  { name: "Raycast 👀", description: "It's like macOS Spotlight on steroids. Essential productivity tool.", url: "https://raycast.com/" },
-  { name: "1Password 🔑", description: "Best tool for password management and secure credential storage.", url: "https://1password.com/" },
-  { name: "iTerm2 🖥️", description: "Terminal replacement for macOS. Great for managing multiple sessions and SSH connections.", url: "https://iterm2.com/" },
-  { name: "GitHub CLI 🐙", description: "GitHub from the command line. Streamlines code review and repo management.", url: "https://cli.github.com/" },
-];
-
 export default function Stack() {
-  return (
-    <div className="space-y-8">
-      <header>
-        <h1 className="text-4xl font-bold mb-2">Stack</h1>
-        <p className="text-lg text-muted-foreground">
-          Here is my go-to list of tools & software that I enjoy using and have helped me level up my skills.
-        </p>
-      </header>
+const toolsByCategory = generatedTools.reduce((acc: Record<string, Tool[]>, tool) => {
+    if (!acc[tool.category]) acc[tool.category] = [];
+    acc[tool.category].push(tool);
+    return acc;
+  }, {} as Record<string, Tool[]>);
 
-      <div className="grid gap-4 md:grid-cols-2">
-        {tools.map((tool) => (
-          <Card key={tool.name} className="group hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>{tool.name}</span>
-                <a
-                  href={tool.url}
-                  target="_blank"
+return (
+<div className="space-y-8">
+<header>
+<h1 className="text-4xl font-bold mb-2">Stack</h1>
+<p className="text-lg text-muted-foreground">
+Here is my go-to list of tools & software that I enjoy using and have helped me level up my skills.
+</p>
+</header>
+
+  {/* Tech Stack Section */}
+  <section>
+        <h2 className="text-2xl font-semibold mb-6">Tech Stack</h2>
+        <div className="space-y-6">
+          {Object.entries(generatedSkills as SkillsData).map(([category, skills]) => (
+            <div key={category}>
+              <h3 className="text-lg font-medium mb-3 text-muted-foreground">{category}</h3>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="inline-flex items-center rounded-md bg-muted px-3 py-1 text-sm font-medium text-muted-foreground hover:bg-muted/80 transition-colors"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+  {/* Tools Section */}
+  <section className="pt-8">
+  <h3 className="text-xl font-semibold mb-4">Tools</h3>
+  {Object.entries(toolsByCategory).map(([category, tools]) => (
+  <div key={category} className="mb-6">
+  <h4 className="text-lg font-medium mb-3 text-muted-foreground">{category}</h4>
+  <div className="grid gap-3 md:grid-cols-1">
+  {tools.map((tool) => (
+  <Card key={tool.name} className="group hover:shadow-md transition-shadow">
+    <CardHeader className="pb-2">
+    <CardTitle className="flex items-center justify-between text-base">
+        <span>{tool.name}</span>
+          <a
+              href={tool.url}
+                target="_blank"
                   rel="noopener noreferrer"
-                  className="opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <ExternalLink className="w-4 h-4 text-muted-foreground hover:text-foreground" />
-                </a>
+                    className="opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                    <ExternalLink className="w-4 h-4 text-muted-foreground hover:text-foreground" />
+                  </a>
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground">{tool.description}</p>
-            </CardContent>
+          <CardContent className="pt-0">
+          <p className="text-sm text-muted-foreground">{tool.description}</p>
+          </CardContent>
           </Card>
+          ))}
+            </div>
+          </div>
         ))}
-      </div>
-
-      {/* Skills Section */}
-      <section className="pt-8">
-        <h2 className="text-2xl font-semibold mb-4">Skills</h2>
-        <div className="prose dark:prose-invert max-w-none">
-          <p className="text-muted-foreground leading-relaxed">
-            Go (Golang), Kotlin, Java (JVM), Spring Boot, JavaScript, TypeScript, Kafka, gRPC, CDC, CQRS, Event-driven systems, PostgreSQL, ElasticSearch, Couchbase, Docker, Kubernetes (on-prem), Jenkins, GitHub Actions, GitLab, Grafana, OpenTelemetry, Logging, Tracing, React, Angular
-          </p>
-        </div>
       </section>
     </div>
   );

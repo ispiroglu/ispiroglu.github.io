@@ -3,14 +3,15 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "node scripts/generate-posts.js && react-router build",
+		"build": "node scripts/generate-posts.js && node scripts/generate-stack.js && react-router build",
 		"cf-typegen": "wrangler types",
 		"deploy": "bun run build && wrangler deploy",
 		"dev": "react-router dev",
 		"postinstall": "npm run cf-typegen",
 		"preview": "bun run build && vite preview",
 		"typecheck": "npm run cf-typegen && react-router typegen && tsc -b",
-		"generate-posts": "node scripts/generate-posts.js"
+		"generate-posts": "node scripts/generate-posts.js",
+		"generate-stack": "node scripts/generate-stack.js"
 	},
 	"dependencies": {
 		"@mdx-js/rollup": "^3.1.1",
