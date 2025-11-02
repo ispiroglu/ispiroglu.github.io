@@ -7,7 +7,7 @@ export async function loader() {
   return { posts };
 }
 
-export function meta({}: Route.MetaArgs) {
+export function meta({ }: Route.MetaArgs) {
   return [
     { title: "Writing - Evren Ispiroglu" },
     { name: "description", content: "Articles and thoughts on software engineering, web development, and technology." },
@@ -24,16 +24,16 @@ export default function WritingIndex({ loaderData }: Route.ComponentProps) {
         <p className="text-lg text-muted-foreground leading-relaxed">
           Articles and thoughts on software engineering and technology
         </p>
+
+        {/* Elegant separator */}
+        <div className="relative mt-8">
+          <div className="absolute inset-0 flex items-center" aria-hidden="true">
+            <div className="w-full border-t border-border/40"></div>
+          </div>
+        </div>
       </header>
 
-      {/* Elegant separator */}
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center" aria-hidden="true">
-          <div className="w-full border-t border-border/40"></div>
-        </div>
-      </div>
-
-      <div className="space-y-1">
+      <div className="space-y-2">
         <div className="flex items-center gap-8 pb-4 border-b border-border/60 text-sm font-medium text-muted-foreground">
           <span className="w-12">Year</span>
           <span className="w-16">Date</span>

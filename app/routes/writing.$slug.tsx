@@ -52,7 +52,7 @@ export default function PostDetail({ loaderData }: Route.ComponentProps) {
       <article className="space-y-8">
         <header className="space-y-5 pb-10 border-b border-border/40">
           <h1 className="text-4xl font-bold">{post.title}</h1>
-          <p className="text-xl text-muted-foreground">{post.description}</p>
+
 
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <div className="flex items-center gap-2">

@@ -1,14 +1,13 @@
 import { Link, useLocation } from "react-router";
-import { Home, PenLine, Map, Layers, User, FolderKanban, ChevronLeft, ChevronRight } from "lucide-react";
+import { Home, PenLine, Map, Layers, FolderKanban, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "~/lib/utils";
 import { ThemeToggle } from "../theme-toggle";
 import { Button } from "~/components/ui/button";
 
 const navigation = [
   { name: "Home", href: "/", icon: Home },
-  { name: "About", href: "/about", icon: User },
-  { name: "Projects", href: "/projects", icon: FolderKanban },
   { name: "Writing", href: "/writing", icon: PenLine },
+  { name: "Projects", href: "/projects", icon: FolderKanban },
   { name: "Journey", href: "/journey", icon: Map },
   { name: "Stack", href: "/stack", icon: Layers },
 ];
@@ -37,9 +36,11 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
         <div className={cn("border-b border-border", isCollapsed ? "px-2 py-6" : "px-4 py-8")}>
           <div className={cn("flex mb-4", isCollapsed ? "flex-col items-center gap-4" : "items-center justify-between")}>
             <div className={cn("flex items-center gap-3", isCollapsed && "flex-col gap-2")}>
-              <div className={cn("rounded-full bg-muted flex items-center justify-center text-sm font-bold", isCollapsed ? "w-10 h-10 text-base" : "w-8 h-8")}>
-                EI
-              </div>
+              <img
+                src="/assets/evren-ispiroglu.jpg"
+                alt="Evren Ispiroglu"
+                className={cn("rounded-full object-cover", isCollapsed ? "w-10 h-10" : "w-8 h-8")}
+              />
               {!isCollapsed && (
                 <div>
                   <h1 className="font-semibold text-sm">Evren Ispiroglu</h1>
