@@ -4,82 +4,91 @@ import { getAllPosts } from "~/lib/mdx.server";
 import { getViews } from "~/lib/views.server";
 
 export async function loader({ context }: Route.LoaderArgs) {
-  const posts = await getAllPosts();
+	const posts = await getAllPosts();
 
-  // Get view counts for all posts
-  const postsWithViews = await Promise.all(
-    posts.map(async (post) => ({
-      ...post,
-      views: await getViews(`writing/${post.slug}`, context.cloudflare.env),
-    }))
-  );
+	const postsWithViews = await Promise.all(
+		posts.map(async (post) => ({
+			...post,
+			views: await getViews(`writing/${post.slug}`, context.cloudflare.env),
+		})),
+	);
 
-  return { posts: postsWithViews };
+	return { posts: postsWithViews };
 }
 
-export function meta({ }: Route.MetaArgs) {
-  return [
-    { title: "Writing - Evren Ispiroglu" },
-    { name: "description", content: "Articles and thoughts on software engineering, web development, and technology." },
-  ];
+export function meta({}: Route.MetaArgs) {
+	return [
+		{ title: "WRITING — EVREN ISPIROGLU" },
+		{
+			name: "description",
+			content:
+				"Articles and thoughts on software engineering, web development, and technology.",
+		},
+	];
 }
 
 export default function WritingIndex({ loaderData }: Route.ComponentProps) {
-  const { posts } = loaderData;
+	const { posts } = loaderData;
 
-  return (
-    <div className="space-y-12">
-      <header>
-        <h1 className="text-4xl font-bold mb-3">Writing</h1>
-        <p className="text-lg text-muted-foreground leading-relaxed">
-          Articles and thoughts on software engineering and technology
-        </p>
+	return (
+		<div className="space-y-12">
+			<header className="space-y-2">
+				<h1 className="font-header text-4xl lg:text-5xl">WRITING</h1>
+				<p className="font-mono-data text-xs text-muted-foreground">
+					/// ARTICLES AND THOUGHTS ON SOFTWARE ENGINEERING
+				</p>
+			</header>
 
-        {/* Elegant separator */}
-        <div className="relative mt-8">
-          <div className="absolute inset-0 flex items-center" aria-hidden="true">
-            <div className="w-full border-t border-border/40"></div>
-          </div>
-        </div>
-      </header>
+			<div className="border border-border">
+				<div className="grid grid-cols-[auto_auto_1fr_auto] gap-0 border-b border-border px-4 py-2.5 bg-secondary">
+					<span className="font-mono-data text-[10px] text-muted-foreground w-14">
+						YEAR
+					</span>
+					<span className="font-mono-data text-[10px] text-muted-foreground w-16">
+						DATE
+					</span>
+					<span className="font-mono-data text-[10px] text-muted-foreground">
+						TITLE
+					</span>
+					<span className="font-mono-data text-[10px] text-muted-foreground w-14 text-right">
+						VIEWS
+					</span>
+				</div>
 
-      <div className="space-y-2">
-        <div className="flex items-center gap-8 pb-4 border-b border-border/60 text-sm font-medium text-muted-foreground">
-          <span className="w-12">Year</span>
-          <span className="w-16">Date</span>
-          <span className="flex-1">Title</span>
-          <span className="w-16 text-right">Views</span>
-        </div>
+				{posts.map((post) => {
+					const date = new Date(post.date);
+					const year = date.getFullYear();
+					const month = String(date.getMonth() + 1).padStart(2, "0");
+					const day = String(date.getDate()).padStart(2, "0");
 
-        {posts.map((post) => {
-          const date = new Date(post.date);
-          const year = date.getFullYear();
-          const month = String(date.getMonth() + 1).padStart(2, "0");
-          const day = String(date.getDate()).padStart(2, "0");
+					return (
+						<Link
+							key={post.slug}
+							to={`/writing/${post.slug}`}
+							className="grid grid-cols-[auto_auto_1fr_auto] gap-0 items-center px-4 py-3 border-b border-border last:border-0 hover:bg-secondary transition-none group"
+						>
+							<span className="font-mono text-xs text-muted-foreground w-14">
+								{year}
+							</span>
+							<span className="font-mono text-xs text-muted-foreground w-16">{`${month}/${day}`}</span>
+							<span className="text-sm group-hover:text-accent transition-none">
+								{post.title}
+							</span>
+							<span className="font-mono text-xs text-muted-foreground w-14 text-right group-hover:text-accent transition-none tabular-nums">
+								{post.views}
+							</span>
+						</Link>
+					);
+				})}
+			</div>
 
-          return (
-            <Link
-              key={post.slug}
-              to={`/writing/${post.slug}`}
-              className="flex items-center gap-8 py-3 border-b border-border last:border-0 hover:bg-accent/50 transition-colors rounded px-2 -mx-2"
-            >
-              <span className="text-sm text-muted-foreground w-12">{year}</span>
-              <span className="text-sm text-muted-foreground w-16">{`${month}/${day}`}</span>
-              <span className="text-sm font-medium flex-1">{post.title}</span>
-              <span className="text-sm text-muted-foreground w-16 text-right">{post.views}</span>
-            </Link>
-          );
-        })}
-      </div>
-
-      {posts.length === 0 && (
-        <div className="text-center py-12 text-muted-foreground">
-          <p>No posts yet. Check back soon!</p>
-        </div>
-      )}
-    </div>
-  );
+			{posts.length === 0 && (
+				<div className="border border-border p-8 text-center">
+					<span className="font-mono-data text-xs text-muted-foreground">
+						[ NO DATA AVAILABLE ]
+					</span>
+				</div>
+			)}
+		</div>
+	);
 }
-
-
-

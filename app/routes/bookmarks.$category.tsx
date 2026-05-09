@@ -1,12 +1,10 @@
-import { data, Link } from "react-router";
+import { Link } from "react-router";
 import type { Route } from "./+types/bookmarks.$category";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card";
-import { Button } from "~/components/ui/button";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { TechMarker } from "~/components/brutalist/ascii-frame";
 
 export async function loader({ params }: Route.LoaderArgs) {
   const { category } = params;
-  
+
   // Mock data - in real implementation, load from JSON file
   const bookmarks = [
     {
@@ -28,19 +26,19 @@ export async function loader({ params }: Route.LoaderArgs) {
   ];
 
   const categoryNames: Record<string, string> = {
-    "apps-tools": "Apps & Tools",
-    "art-prints": "Art & Prints",
-    "books": "Books & Magazines",
-    "design": "Design",
-    "fonts": "Fonts",
-    "frontend": "Frontend",
-    "icons": "Icons",
-    "portfolio": "Portfolio",
-    "reading": "Reading",
-    "tweets": "Tweets",
-    "vscode": "VS Code",
-    "wallpapers": "Wallpapers",
-    "websites": "Websites",
+    "apps-tools": "APPS & TOOLS",
+    "art-prints": "ART & PRINTS",
+    books: "BOOKS & MAGAZINES",
+    design: "DESIGN",
+    fonts: "FONTS",
+    frontend: "FRONTEND",
+    icons: "ICONS",
+    portfolio: "PORTFOLIO",
+    reading: "READING",
+    tweets: "TWEETS",
+    vscode: "VS CODE",
+    wallpapers: "WALLPAPERS",
+    websites: "WEBSITES",
   };
 
   return {
@@ -52,80 +50,87 @@ export async function loader({ params }: Route.LoaderArgs) {
 
 export function meta({ data }: Route.MetaArgs) {
   if (!data) {
-    return [{ title: "Category Not Found" }];
+    return [{ title: "404 — NOT FOUND" }];
   }
 
   return [
-    { title: `${data.categoryName} - Bookmarks - Evren Ispiroglu` },
-    { name: "description", content: `Curated ${data.categoryName} bookmarks and resources.` },
+    { title: `${data.categoryName} — BOOKMARKS — EVREN ISPIROGLU` },
+    {
+      name: "description",
+      content: `Curated ${data.categoryName} bookmarks and resources.`,
+    },
   ];
 }
 
-export default function BookmarkCategory({ loaderData }: Route.ComponentProps) {
-  const { category, categoryName, bookmarks } = loaderData;
+export default function BookmarkCategory({
+  loaderData,
+}: Route.ComponentProps) {
+  const { categoryName, bookmarks } = loaderData;
 
   return (
-    <div className="space-y-8">
-      <div className="space-y-4">
-        <Link to="/bookmarks">
-          <Button variant="ghost" size="sm">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Bookmarks
-          </Button>
+    <div className="space-y-12">
+      {/* Back link */}
+      <div className="mb-2">
+        <Link
+          to="/bookmarks"
+          className="inline-flex items-center gap-2 font-mono-data text-[11px] text-muted-foreground hover:text-accent transition-none"
+        >
+          <span className="text-accent">&#60;&#60;&#60;</span>
+          BACK TO CATEGORIES
         </Link>
-
-        <header>
-          <h1 className="text-4xl font-bold mb-2">{categoryName}</h1>
-          <p className="text-lg text-muted-foreground">
-            {bookmarks.length} items in this collection
-          </p>
-        </header>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {/* Header */}
+      <header className="space-y-2">
+        <h1 className="font-header text-4xl lg:text-5xl">{categoryName}</h1>
+        <p className="font-mono-data text-xs text-muted-foreground">
+          /// {bookmarks.length} ITEMS IN THIS COLLECTION
+        </p>
+      </header>
+
+      {/* Bookmarks list */}
+      <div className="space-y-0">
         {bookmarks.map((bookmark) => (
-          <Card key={bookmark.id} className="group overflow-hidden">
-            <div className="aspect-video bg-muted overflow-hidden">
-              <img
-                src={bookmark.image}
-                alt={bookmark.title}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
-              />
+          <div
+            key={bookmark.id}
+            className="border border-b-0 last:border-b border-border p-5 hover:bg-secondary transition-none"
+          >
+            <div className="flex items-start justify-between gap-4 mb-2">
+              <div>
+                <div className="font-mono text-sm mb-1">{bookmark.title}</div>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  {bookmark.description}
+                </p>
+              </div>
+              <a
+                href={bookmark.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 inline-flex items-center gap-1.5 font-mono-data text-[11px] text-accent hover:text-accent/80 transition-none"
+              >
+                VISIT
+                <span className="font-mono-data text-[11px]">&#62;&#62;&#62;</span>
+              </a>
             </div>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span>{bookmark.title}</span>
-                <a
-                  href={bookmark.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="opacity-0 group-hover:opacity-100 transition-opacity"
-                >
-                  <ExternalLink className="w-4 h-4 text-muted-foreground hover:text-foreground" />
-                </a>
-              </CardTitle>
-              <CardDescription>{bookmark.description}</CardDescription>
-            </CardHeader>
+
             {bookmark.tags && bookmark.tags.length > 0 && (
-              <CardContent className="pt-0">
-                <div className="flex flex-wrap gap-2">
-                  {bookmark.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </CardContent>
+              <div className="flex flex-wrap gap-2 mt-3">
+                {bookmark.tags.map((tag) => (
+                  <TechMarker key={tag} text={tag.toUpperCase()} />
+                ))}
+              </div>
             )}
-          </Card>
+          </div>
         ))}
+
+        {bookmarks.length === 0 && (
+          <div className="border border-border p-8 text-center">
+            <span className="font-mono-data text-xs text-muted-foreground">
+              [ NO BOOKMARKS IN THIS CATEGORY ]
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
 }
-
-
-

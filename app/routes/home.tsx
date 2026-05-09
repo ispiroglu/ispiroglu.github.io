@@ -1,17 +1,21 @@
+import { redirect } from "react-router";
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+
+export function loader() {
+	return redirect("/");
+}
 
 export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "Evren Ispiroglu - Backend Engineer" },
-    { name: "description", content: "Welcome to React Router!" },
-  ];
+	return [
+		{ title: "EVREN ISPIROGLU — BACKEND ENGINEER" },
+		{
+			name: "description",
+			content:
+				"Backend engineer building event-driven systems and high-performance APIs.",
+		},
+	];
 }
 
-export function loader({ context }: Route.LoaderArgs) {
-  return { message: context.cloudflare.env.VALUE_FROM_CLOUDFLARE };
-}
-
-export default function Home({ loaderData }: Route.ComponentProps) {
-  return <Welcome message={loaderData.message} />;
+export default function Home() {
+	return null;
 }

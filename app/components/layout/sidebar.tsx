@@ -1,129 +1,170 @@
 import { Link, useLocation } from "react-router";
-import { Home, PenLine, Map, Layers, FolderKanban, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+	Home,
+	PenLine,
+	Map,
+	Layers,
+	FolderKanban,
+	PanelLeftClose,
+	PanelLeftOpen,
+} from "lucide-react";
 import { cn } from "~/lib/utils";
-import { ThemeToggle } from "../theme-toggle";
-import { Button } from "~/components/ui/button";
 
 const navigation = [
-  { name: "Home", href: "/", icon: Home },
-  { name: "Writing", href: "/writing", icon: PenLine },
-  { name: "Projects", href: "/projects", icon: FolderKanban },
-  { name: "Journey", href: "/journey", icon: Map },
-  { name: "Stack", href: "/stack", icon: Layers },
+	{ name: "HOME", href: "/", icon: Home },
+	{ name: "WRITING", href: "/writing", icon: PenLine },
+	{ name: "PROJECTS", href: "/projects", icon: FolderKanban },
+	{ name: "JOURNEY", href: "/journey", icon: Map },
+	{ name: "STACK", href: "/stack", icon: Layers },
 ];
 
 const onlineLinks = [
-  { name: "X (Twitter)", href: "https://x.com/eispirogluu" },
-  { name: "GitHub", href: "https://github.com/ispiroglu" },
-  { name: "LinkedIn", href: "https://linkedin.com/in/eispiroglu" },
+	{ name: "X / TWITTER", href: "https://x.com/eispirogluu" },
+	{ name: "GITHUB", href: "https://github.com/ispiroglu" },
+	{ name: "LINKEDIN", href: "https://linkedin.com/in/eispiroglu" },
 ];
 
 interface SidebarProps {
-  isCollapsed: boolean;
-  onToggle: () => void;
+	isCollapsed: boolean;
+	onToggle: () => void;
 }
 
 export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
-  const location = useLocation();
+	const location = useLocation();
 
-  return (
-    <aside className={cn(
-      "hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:z-50 bg-card border-r border-border transition-all duration-300",
-      isCollapsed ? "lg:w-16" : "lg:w-64"
-    )}>
-      <div className="flex flex-col h-full">
-        {/* Header */}
-        <div className={cn("border-b border-border", isCollapsed ? "px-2 py-6" : "px-4 py-8")}>
-          <div className={cn("flex mb-4", isCollapsed ? "flex-col items-center gap-4" : "items-center justify-between")}>
-            <div className={cn("flex items-center gap-3", isCollapsed && "flex-col gap-2")}>
-              <img
-                src="/assets/evren-ispiroglu.jpg"
-                alt="Evren Ispiroglu"
-                className={cn("rounded-full object-cover", isCollapsed ? "w-10 h-10" : "w-8 h-8")}
-              />
-              {!isCollapsed && (
-                <div>
-                  <h1 className="font-semibold text-sm">Evren Ispiroglu</h1>
-                  <p className="text-xs text-muted-foreground">Backend Developer</p>
-                </div>
-              )}
-            </div>
-            <div className={cn("flex items-center gap-2", isCollapsed && "flex-col gap-1")}>
-              <ThemeToggle />
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={onToggle}
-                className={cn("p-0", isCollapsed ? "h-8 w-8" : "h-8 w-8")}
-              >
-                {isCollapsed ? (
-                  <ChevronRight className="h-4 w-4" />
-                ) : (
-                  <ChevronLeft className="h-4 w-4" />
-                )}
-              </Button>
-            </div>
-          </div>
-        </div>
+	return (
+		<aside
+			className={cn(
+				"hidden lg:flex lg:flex-col lg:fixed lg:inset-y-0 lg:z-50 bg-background border-r border-border",
+				isCollapsed ? "lg:w-16" : "lg:w-64",
+			)}
+		>
+			<div className="flex flex-col h-full">
+				{/* ── UNIT HEADER ── */}
+				<div className="border-b border-border">
+					<div
+						className={cn(
+							"flex items-center gap-3",
+							isCollapsed ? "px-2 py-4 flex-col" : "px-4 py-5",
+						)}
+					>
+						<img
+							src="/assets/evren-ispiroglu.jpg"
+							alt="Evren Ispiroglu"
+							className={cn(
+								"object-cover border border-border",
+								isCollapsed ? "w-8 h-8" : "w-10 h-10",
+							)}
+						/>
+						{!isCollapsed && (
+							<div className="flex-1 min-w-0">
+								<h1 className="font-mono-data text-[11px] text-foreground truncate">
+									EVREN ISPIROGLU
+								</h1>
+								<p className="font-mono-data text-[10px] text-muted-foreground">
+									BACKEND ENGINEER
+								</p>
+							</div>
+						)}
+						<button
+							onClick={onToggle}
+							className="text-muted-foreground hover:text-foreground transition-none p-1"
+							aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+						>
+							{isCollapsed ? (
+								<PanelLeftOpen className="w-4 h-4" strokeWidth={1.5} />
+							) : (
+								<PanelLeftClose className="w-4 h-4" strokeWidth={1.5} />
+							)}
+						</button>
+					</div>
 
-        {/* Navigation */}
-        <nav className={cn("flex-1 py-6 space-y-1", isCollapsed ? "px-2" : "px-4")}>
-          {navigation.map((item) => {
-            const isActive = location.pathname === item.href ||
-              (item.href !== "/" && location.pathname.startsWith(item.href));
-            const Icon = item.icon;
+					{/* Unit metadata */}
+					{!isCollapsed && (
+						<div className="px-4 pb-3 grid grid-cols-2 gap-1">
+							<span className="font-mono-data text-[9px] text-muted-foreground">
+								UNIT / EI-01
+							</span>
+							<span className="font-mono-data text-[9px] text-muted-foreground text-right">
+								REV 2.6.1
+							</span>
+							<span className="font-mono-data text-[9px] text-muted-foreground">
+								STATUS
+							</span>
+							<span className="font-mono-data text-[9px] text-[#4AF626] text-right">
+								ONLINE
+							</span>
+						</div>
+					)}
+				</div>
 
-            return (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={cn(
-                  "flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                  isCollapsed ? "justify-center px-2" : "gap-3",
-                  isActive
-                    ? "bg-accent text-accent-foreground"
-                    : "text-muted-foreground hover:bg-accent/50 hover:text-accent-foreground"
-                )}
-                title={isCollapsed ? item.name : undefined}
-              >
-                <Icon className="w-5 h-5" />
-                {!isCollapsed && item.name}
-              </Link>
-            );
-          })}
-        </nav>
+				{/* ── NAVIGATION ── */}
+				<nav
+					className={cn("flex-1 py-4 space-y-0", isCollapsed ? "px-2" : "px-0")}
+				>
+					{!isCollapsed && (
+						<div className="px-4 pb-2">
+							<span className="font-mono-data text-[10px] text-muted-foreground">
+								[ NAVIGATION ]
+							</span>
+						</div>
+					)}
+					{navigation.map((item) => {
+						const isActive =
+							location.pathname === item.href ||
+							(item.href !== "/" && location.pathname.startsWith(item.href));
+						const Icon = item.icon;
 
-        {/* Online links */}
-        {!isCollapsed && (
-          <div className="px-6 py-6 border-t border-border">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
-              Online
-            </h3>
-            <div className="space-y-2">
-              {onlineLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  <span className="w-1 h-1 rounded-full bg-muted-foreground" />
-                  {link.name}
-                </a>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    </aside>
-  );
+						return (
+							<Link
+								key={item.name}
+								to={item.href}
+								className={cn(
+									"flex items-center border-l-2 border-transparent py-2.5 font-mono-data text-[11px] transition-none",
+									isCollapsed ? "justify-center px-2" : "px-4 gap-3",
+									isActive
+										? "border-accent text-accent bg-accent/5"
+										: "text-muted-foreground hover:text-foreground hover:bg-secondary",
+								)}
+								title={isCollapsed ? item.name : undefined}
+							>
+								<Icon className="w-4 h-4 shrink-0" strokeWidth={1.5} />
+								{!isCollapsed && <span>{item.name}</span>}
+							</Link>
+						);
+					})}
+				</nav>
+
+				{/* ── ONLINE LINKS ── */}
+				{!isCollapsed && (
+					<div className="border-t border-border">
+						<div className="px-4 pt-3 pb-2">
+							<span className="font-mono-data text-[10px] text-muted-foreground">
+								[ EXTERNAL ]
+							</span>
+						</div>
+						<div className="px-4 pb-4 space-y-0">
+							{onlineLinks.map((link) => (
+								<a
+									key={link.name}
+									href={link.href}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="block py-1.5 font-mono-data text-[10px] text-muted-foreground hover:text-foreground transition-none"
+								>
+									<span className="text-accent mr-1.5">&#62;&#62;&#62;</span>
+									{link.name}
+								</a>
+							))}
+						</div>
+					</div>
+				)}
+			</div>
+		</aside>
+	);
 }
 
 export function MobileSidebar() {
-  // For now, we'll implement the mobile drawer later with proper sheet component
-  return null;
+	// TODO: Mobile drawer with sheet component
+	return null;
 }
-
-
-

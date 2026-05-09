@@ -2,136 +2,169 @@ import { data, Link } from "react-router";
 import type { Route } from "./+types/writing.$slug";
 import { getPost, getAllPosts, getPostNavigation } from "~/lib/mdx.server";
 import { postContent } from "~/lib/post-content";
-import { ArrowLeft, Calendar, Clock } from "lucide-react";
-import { Button } from "~/components/ui/button";
+import { ArrowLeft } from "lucide-react";
 import { ReadingProgress } from "~/components/reading-progress";
 import { incrementViews } from "~/lib/views.server";
+import { TechMarker } from "~/components/brutalist/ascii-frame";
 
 export async function loader({ params, context }: Route.LoaderArgs) {
-  const post = await getPost(params.slug);
+	const post = await getPost(params.slug);
 
-  if (!post) {
-    throw data("Post not found", { status: 404 });
-  }
+	if (!post) {
+		throw data("Post not found", { status: 404 });
+	}
 
-  const allPosts = await getAllPosts();
-  const navigation = getPostNavigation(allPosts, params.slug);
-  const views = await incrementViews(`writing/${params.slug}`, context.cloudflare.env);
+	const allPosts = await getAllPosts();
+	const navigation = getPostNavigation(allPosts, params.slug);
+	const views = await incrementViews(
+		`writing/${params.slug}`,
+		context.cloudflare.env,
+	);
 
-  return { post, navigation, views };
+	return { post, navigation, views };
 }
 
 export function meta({ data }: Route.MetaArgs) {
-  if (!data || !data.post) {
-    return [{ title: "Post Not Found" }];
-  }
+	if (!data || !data.post) {
+		return [{ title: "404 — NOT FOUND" }];
+	}
 
-  return [
-    { title: `${data.post.title} - Evren Ispiroglu` },
-    { name: "description", content: data.post.description },
-  ];
+	return [
+		{ title: `${data.post.title.toUpperCase()} — EVREN ISPIROGLU` },
+		{ name: "description", content: data.post.description },
+	];
 }
 
 export default function PostDetail({ loaderData }: Route.ComponentProps) {
-  const { post, navigation, views } = loaderData;
-  const date = new Date(post.date);
-  const ContentComponent = postContent[post.slug];
+	const { post, navigation, views } = loaderData;
+	const date = new Date(post.date);
+	const ContentComponent = postContent[post.slug];
 
-  return (
-    <div id="writings-container" className="max-w-4xl mx-auto relative">
-      <ReadingProgress />
-      {/* Back button */}
-      <div className="mb-10">
-        <Link to="/writing">
-          <Button variant="ghost" size="sm">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Writing
-          </Button>
-        </Link>
-      </div>
+	return (
+		<div id="writings-container" className="max-w-4xl relative">
+			<ReadingProgress />
 
-      {/* Post header */}
-      <article className="space-y-8">
-        <header className="space-y-5 pb-10 border-b border-border/40">
-          <h1 className="text-4xl font-bold">{post.title}</h1>
+			{/* Back link */}
+			<div className="mb-8">
+				<Link
+					to="/writing"
+					className="inline-flex items-center gap-2 font-mono-data text-[11px] text-muted-foreground hover:text-foreground transition-none"
+				>
+					<ArrowLeft className="w-3 h-3" strokeWidth={1.5} />
+					&#60;&#60;&#60; BACK TO ARCHIVE
+				</Link>
+			</div>
 
+			<article className="space-y-8">
+				{/* Article header */}
+				<header className="space-y-4 pb-8 border-b border-border">
+					<h1 className="font-header text-3xl lg:text-4xl phosphor-glow">
+						{post.title.toUpperCase()}
+					</h1>
 
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
-              <time dateTime={post.date}>
-                {date.toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </time>
-            </div>
-            <div className="flex items-center gap-2">
-              <Clock className="w-4 h-4" />
-              <span>{post.readingTime}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm">{views} views</span>
-            </div>
-          </div>
+					<div className="grid grid-cols-2 md:grid-cols-4 gap-0 border border-border">
+						<div className="p-2.5 border-r border-b border-border md:border-b-0">
+							<span className="font-mono-data text-[9px] text-muted-foreground block mb-1">
+								PUBLISHED
+							</span>
+							<span className="font-mono text-xs">
+								<time dateTime={post.date}>
+									{date.toLocaleDateString("en-US", {
+										year: "numeric",
+										month: "2-digit",
+										day: "2-digit",
+									})}
+								</time>
+							</span>
+						</div>
+						<div className="p-2.5 border-b border-border md:border-r md:border-b-0">
+							<span className="font-mono-data text-[9px] text-muted-foreground block mb-1">
+								READ TIME
+							</span>
+							<span className="font-mono text-xs">
+								{post.readingTime.toUpperCase()}
+							</span>
+						</div>
+						<div className="p-2.5 border-r border-border">
+							<span className="font-mono-data text-[9px] text-muted-foreground block mb-1">
+								VIEWS
+							</span>
+							<span className="font-mono text-xs tabular-nums">{views}</span>
+						</div>
+						<div className="p-2.5">
+							<span className="font-mono-data text-[9px] text-muted-foreground block mb-1">
+								TYPE
+							</span>
+							<span className="font-mono text-xs">ARTICLE</span>
+						</div>
+					</div>
 
-          {post.tags && post.tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium text-muted-foreground"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          )}
-        </header>
+					{post.tags && post.tags.length > 0 && (
+						<div className="flex flex-wrap gap-2">
+							{post.tags.map((tag) => (
+								<TechMarker key={tag} text={tag.toUpperCase()} />
+							))}
+						</div>
+					)}
+				</header>
 
-        {/* Post content */}
-        {ContentComponent ? (
-          <ContentComponent />
-        ) : (
-          <div className="prose dark:prose-invert max-w-none">
-            <p>Content not available for this post.</p>
-          </div>
-        )}
+				{/* Post content */}
+				{ContentComponent ? (
+					<ContentComponent />
+				) : (
+					<div className="border border-border p-8 text-center">
+						<span className="font-mono-data text-xs text-muted-foreground">
+							[ CONTENT NOT AVAILABLE ]
+						</span>
+					</div>
+				)}
 
-        {/* Navigation */}
-        <nav className="flex items-center justify-between pt-10 mt-12 border-t border-border/40">
-          <div className="flex-1">
-            {navigation.prev && (
-              <Link
-                to={`/writing/${navigation.prev.slug}`}
-                className="group block"
-              >
-                <p className="text-sm text-muted-foreground mb-1">Previous</p>
-                <p className="font-medium group-hover:text-primary transition-colors">
-                  {navigation.prev.title}
-                </p>
-              </Link>
-            )}
-          </div>
-          <div className="flex-1 text-right">
-            {navigation.next && (
-              <Link
-                to={`/writing/${navigation.next.slug}`}
-                className="group block"
-              >
-                <p className="text-sm text-muted-foreground mb-1">Next</p>
-                <p className="font-medium group-hover:text-primary transition-colors">
-                  {navigation.next.title}
-                </p>
-              </Link>
-            )}
-          </div>
-        </nav>
-      </article>
-    </div>
-  );
+				{/* Navigation */}
+				<nav className="grid grid-cols-2 gap-0 border border-border mt-12">
+					<div className="border-r border-border">
+						{navigation.prev ? (
+							<Link
+								to={`/writing/${navigation.prev.slug}`}
+								className="block p-4 hover:bg-secondary transition-none group"
+							>
+								<span className="font-mono-data text-[10px] text-muted-foreground block mb-1">
+									&#60;&#60;&#60; PREVIOUS
+								</span>
+								<span className="text-sm group-hover:text-accent transition-none">
+									{navigation.prev.title}
+								</span>
+							</Link>
+						) : (
+							<div className="p-4">
+								<span className="font-mono-data text-[10px] text-muted-foreground">
+									[ NO PREVIOUS ]
+								</span>
+							</div>
+						)}
+					</div>
+					<div>
+						{navigation.next ? (
+							<Link
+								to={`/writing/${navigation.next.slug}`}
+								className="block p-4 hover:bg-secondary transition-none group text-right"
+							>
+								<span className="font-mono-data text-[10px] text-muted-foreground block mb-1">
+									NEXT &#62;&#62;&#62;
+								</span>
+								<span className="text-sm group-hover:text-accent transition-none">
+									{navigation.next.title}
+								</span>
+							</Link>
+						) : (
+							<div className="p-4 text-right">
+								<span className="font-mono-data text-[10px] text-muted-foreground">
+									[ NO NEXT ]
+								</span>
+							</div>
+						)}
+					</div>
+				</nav>
+			</article>
+		</div>
+	);
 }
-
-
-
