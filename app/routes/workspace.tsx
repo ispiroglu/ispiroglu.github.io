@@ -5,7 +5,7 @@ export function meta({}: Route.MetaArgs) {
 		{ title: "EI-01 — WORKSPACE" },
 		{
 			name: "description",
-			content: "Hardware, tools, and productivity setup.",
+			content: "Hardware, tools, and development environment.",
 		},
 	];
 }
@@ -22,12 +22,13 @@ export default function Workspace() {
 			],
 		},
 		{
-			label: "/// TOOLS",
+			label: "/// EDITORS & TERMINAL",
 			items: [
-				{ label: "EDITOR", value: "IntelliJ IDEA Ultimate + VSCode" },
+				{ label: "PRIMARY_EDITOR", value: "IntelliJ IDEA Ultimate" },
+				{ label: "SECONDARY_EDITOR", value: "Cursor / VSCode" },
 				{ label: "TERMINAL", value: "Ghostty + tmux" },
 				{ label: "SHELL", value: "zsh + oh-my-zsh" },
-				{ label: "VERSION_CONTROL", value: "Git + GitHub" },
+				{ label: "FONT", value: "JetBrains Mono (14px, ligatures on)" },
 			],
 		},
 		{
@@ -37,6 +38,21 @@ export default function Workspace() {
 				{ label: "TASK_MANAGEMENT", value: "Linear" },
 				{ label: "LAUNCHER", value: "Raycast" },
 				{ label: "BROWSER", value: "Firefox Developer Edition" },
+				{ label: "VERSION_CONTROL", value: "Git + GitHub + GitHub Actions" },
+			],
+		},
+		{
+			label: "/// HOBBIES",
+			items: [
+				{ label: "MUSIC", value: "Guitar (electric + acoustic)" },
+				{
+					label: "PHOTOGRAPHY",
+					value: "Former board member, college photography club",
+				},
+				{
+					label: "READING",
+					value: "Systems design, distributed systems, software architecture",
+				},
 			],
 		},
 	];

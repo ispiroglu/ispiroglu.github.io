@@ -14,9 +14,12 @@ export async function loader({ params, context }: Route.LoaderArgs) {
 
 	const allPosts = await getAllPosts();
 	const navigation = getPostNavigation(allPosts, params.slug);
-	void incrementViews(`writing/${params.slug}`, context.cloudflare.env);
+	const views = await incrementViews(
+		`writing/${params.slug}`,
+		context.cloudflare.env,
+	);
 
-	return { post, navigation };
+	return { post, navigation, views };
 }
 
 export function meta({ matches }: Route.MetaArgs) {
@@ -35,7 +38,7 @@ export function meta({ matches }: Route.MetaArgs) {
 }
 
 export default function LogDetail({ loaderData }: Route.ComponentProps) {
-	const { post, navigation } = loaderData;
+	const { post, navigation, views } = loaderData;
 	const date = new Date(post.date);
 	const ContentComponent = postContent[post.slug];
 
@@ -87,6 +90,14 @@ export default function LogDetail({ loaderData }: Route.ComponentProps) {
 								</div>
 								<div className="font-mono text-[11px] text-foreground tabular-nums">
 									{post.readingTime || "05 MIN"}
+								</div>
+							</div>
+							<div>
+								<div className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider mb-1">
+									VIEWS
+								</div>
+								<div className="font-mono text-[11px] text-foreground tabular-nums">
+									{views}
 								</div>
 							</div>
 							{post.tags && post.tags.length > 0 && (

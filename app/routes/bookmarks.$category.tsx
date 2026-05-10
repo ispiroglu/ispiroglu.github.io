@@ -10,19 +10,15 @@ export function meta({ params }: Route.MetaArgs) {
 	];
 }
 
-export default function BookmarksCategory({ params }: Route.ComponentProps) {
-	const category = params.category || "unknown";
-	const displayName = category.toUpperCase();
-	const [openIndex, setOpenIndex] = useState<number | null>(null);
+interface Bookmark {
+	title: string;
+	url: string;
+	tags: string[];
+	notes: string;
+}
 
-	const bookmarks = [
-		{
-			title: "The Architecture of Open Source Applications",
-			url: "https://aosabook.org",
-			tags: ["ARCHITECTURE", "OPEN_SOURCE"],
-			notes:
-				"A collection of essays from the creators of major open-source projects covering architectural decisions, trade-offs, and design philosophies.",
-		},
+const categoryBookmarks: Record<string, Bookmark[]> = {
+	engineering: [
 		{
 			title: "Designing Data-Intensive Applications",
 			url: "https://dataintensive.net",
@@ -44,7 +40,149 @@ export default function BookmarksCategory({ params }: Route.ComponentProps) {
 			notes:
 				"Enterprise and cloud computing performance analysis methodologies. Deep dives into Linux performance tools, flame graphs, and tracing.",
 		},
-	];
+		{
+			title: "The Architecture of Open Source Applications",
+			url: "https://aosabook.org",
+			tags: ["ARCHITECTURE", "OPEN_SOURCE"],
+			notes:
+				"A collection of essays from the creators of major open-source projects covering architectural decisions, trade-offs, and design philosophies.",
+		},
+		{
+			title: "Patterns of Enterprise Application Architecture",
+			url: "https://martinfowler.com/books/eaa.html",
+			tags: ["ARCHITECTURE", "PATTERNS"],
+			notes:
+				"Martin Fowler's catalog of enterprise integration patterns. Covers domain logic, data source architectural patterns, and web presentation.",
+		},
+	],
+	design: [
+		{
+			title: "Refactoring UI",
+			url: "https://refactoringui.com",
+			tags: ["UI", "PRACTICAL"],
+			notes:
+				"Practical design tactics for developers. Tactical advice on layout, typography, color, and hierarchy without requiring design background.",
+		},
+		{
+			title: "Butterick's Practical Typography",
+			url: "https://practicaltypography.com",
+			tags: ["TYPOGRAPHY", "FUNDAMENTALS"],
+			notes:
+				"Typography guide for real-world use. Covers font selection, text formatting, page layout, and common mistakes.",
+		},
+		{
+			title: "Brutalist Web Design",
+			url: "https://brutalist-web.design",
+			tags: ["BRUTALISM", "DESIGN_PHILOSOPHY"],
+			notes:
+				"Guidelines for brutalist web design — raw, honest, content-first approach that rejects decorative excess.",
+		},
+	],
+	tools: [
+		{
+			title: "Obsidian",
+			url: "https://obsidian.md",
+			tags: ["NOTE_TAKING", "MARKDOWN"],
+			notes:
+				"Knowledge base that works on local Markdown files. Graph view, backlinks, and plugin ecosystem for development notes.",
+		},
+		{
+			title: "Linear",
+			url: "https://linear.app",
+			tags: ["PROJECT_MANAGEMENT", "ISSUE_TRACKING"],
+			notes:
+				"Issue tracking and project management built for speed. Keyboard-first interface with flexible workflows.",
+		},
+		{
+			title: "Raycast",
+			url: "https://raycast.com",
+			tags: ["LAUNCHER", "PRODUCTIVITY"],
+			notes:
+				"Extensible launcher for macOS. Built-in integrations for GitHub, Jira, calendar, and custom scripts via extensions.",
+		},
+		{
+			title: "Ghostty",
+			url: "https://ghostty.org",
+			tags: ["TERMINAL", "GPU"],
+			notes:
+				"GPU-accelerated terminal emulator. Fast rendering, native platform integration, and extensive configuration options.",
+		},
+		{
+			title: "tmux",
+			url: "https://github.com/tmux/tmux",
+			tags: ["TERMINAL", "MULTIPLEXER"],
+			notes:
+				"Terminal multiplexer for persistent sessions, split panes, and scripting. Essential for remote development workflows.",
+		},
+	],
+	reading: [
+		{
+			title: "Conway's Law: The Organizational Mirror",
+			url: "/logs/conways-law",
+			tags: ["ORGANIZATIONS", "SYSTEMS"],
+			notes:
+				"How communication structures shape software architecture. Conway's Law applied to modern distributed teams and microservices.",
+		},
+		{
+			title: "Distributed Systems for Fun and Profit",
+			url: "https://book.mixu.net/distsys/",
+			tags: ["DISTRIBUTED", "SYSTEMS"],
+			notes:
+				"Accessible introduction to distributed systems theory. Covers time, replication, fault tolerance, and consensus.",
+		},
+		{
+			title: "Kafka: The Definitive Guide",
+			url: "https://www.confluent.io/resources/kafka-the-definitive-guide/",
+			tags: ["KAFKA", "STREAMING"],
+			notes:
+				"Comprehensive guide to Apache Kafka. Covers producers, consumers, stream processing, and operations at scale.",
+		},
+	],
+	reference: [
+		{
+			title: "Go Standard Library Documentation",
+			url: "https://pkg.go.dev/std",
+			tags: ["GO", "DOCS"],
+			notes:
+				"Official Go standard library reference. Well-designed packages for networking, concurrency, testing, and more.",
+		},
+		{
+			title: "OpenTelemetry Documentation",
+			url: "https://opentelemetry.io/docs/",
+			tags: ["OBSERVABILITY", "TRACING"],
+			notes:
+				"Vendor-neutral observability framework. APIs, SDKs, and tools for distributed tracing, metrics, and logging.",
+		},
+		{
+			title: "gRPC Documentation",
+			url: "https://grpc.io/docs/",
+			tags: ["gRPC", "PROTOBUF"],
+			notes:
+				"High-performance RPC framework. Protocol Buffers, service definitions, streaming, and best practices.",
+		},
+		{
+			title: "PostgreSQL Documentation",
+			url: "https://www.postgresql.org/docs/",
+			tags: ["POSTGRESQL", "DATABASE"],
+			notes:
+				"Official PostgreSQL manuals. Covers SQL syntax, performance tuning, replication, and advanced features like window functions.",
+		},
+		{
+			title: "Spring Boot Reference",
+			url: "https://docs.spring.io/spring-boot/docs/current/reference/",
+			tags: ["SPRING", "JVM"],
+			notes:
+				"Spring Boot reference documentation. Auto-configuration, actuators, testing, and production-ready features.",
+		},
+	],
+};
+
+export default function BookmarksCategory({ params }: Route.ComponentProps) {
+	const category = params.category || "unknown";
+	const displayName = category.toUpperCase();
+	const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+	const bookmarks = categoryBookmarks[category] || [];
 
 	return (
 		<div className="space-y-16 max-w-3xl">
@@ -73,7 +211,7 @@ export default function BookmarksCategory({ params }: Route.ComponentProps) {
 				{bookmarks.length === 0 ? (
 					<div className="py-16 flex items-center justify-center">
 						<span className="font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
-							[ NO BOOKMARKS AVAILABLE ]
+							[ NO BOOKMARKS IN THIS CATEGORY ]
 						</span>
 					</div>
 				) : (

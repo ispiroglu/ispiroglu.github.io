@@ -179,7 +179,7 @@ Left of the line (30% width): year labels in Satoshi Bold, Architectural Ink, al
 Right of the line (70% width): event entries aligned left, each paired with its year dot:
 
 - **2024.06** — Graduated from Yildiz Technical University. BSc Computer Engineering, GPA 3.39. Focus: Distributed Systems, Advanced OS, Software Architecture.
-- **2023.11** — Started at Trendyol as Mid-Level Software Engineer. Architected systems handling ~1.4M req/min with CQRS + CDC patterns.
+- **2023.11** — Started at Trendyol as Software Engineer II. Architected systems handling ~1.4M req/min with CQRS + CDC patterns.
 - **2023** — Co-initiated Chaki Framework. Open-source Go framework for microservice boilerplate reduction.
 - **2022.09** — Joined Doğuş Technology. Multi-tenant auth APIs, Kafka integrations, distributed systems.
 - **2020** — Started Computer Engineering at Yildiz Technical University.

@@ -259,3 +259,38 @@
   outline-offset: 2px;
   transition: none;
 }
+
+/* ─────────────────────────────────────────────────────────────
+   GLOBAL BEHAVIOR
+   ───────────────────────────────────────────────────────────── */
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   SCROLLBAR — minimal dark
+   ───────────────────────────────────────────────────────────── */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}

@@ -82,6 +82,9 @@ export default function LogsIndex({ loaderData }: Route.ComponentProps) {
 													<time className="font-mono text-[11px] text-muted-foreground tracking-wide whitespace-nowrap">
 														{date.getFullYear()}.{month}.{day}
 													</time>
+													<span className="font-mono text-[10px] text-muted-foreground/60 tabular-nums ml-auto">
+														{post.views} VIEWS
+													</span>
 													<div className="absolute -left-[10px] mt-1.5 w-1 h-1 bg-border group-hover:bg-accent transition-colors duration-150" />
 												</div>
 												<Link to={`/logs/${post.slug}`} className="block">

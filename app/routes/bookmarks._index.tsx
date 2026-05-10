@@ -6,18 +6,18 @@ export function meta({}: Route.MetaArgs) {
 		{ title: "EI-01 — BOOKMARKS" },
 		{
 			name: "description",
-			content: "Curated collection of bookmarks and resources.",
+			content: "Curated collection of bookmarks and technical resources.",
 		},
 	];
 }
 
 export default function BookmarksIndex() {
 	const categories = [
-		{ name: "ENGINEERING", slug: "engineering", count: 24 },
-		{ name: "DESIGN", slug: "design", count: 12 },
-		{ name: "TOOLS", slug: "tools", count: 18 },
-		{ name: "READING", slug: "reading", count: 8 },
-		{ name: "REFERENCE", slug: "reference", count: 15 },
+		{ name: "ENGINEERING", slug: "engineering", count: 5 },
+		{ name: "DESIGN", slug: "design", count: 3 },
+		{ name: "TOOLS", slug: "tools", count: 5 },
+		{ name: "READING", slug: "reading", count: 3 },
+		{ name: "REFERENCE", slug: "reference", count: 5 },
 	];
 
 	return (
