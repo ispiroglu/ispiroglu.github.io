@@ -66,7 +66,7 @@ export function TechMarker({
 	return (
 		<span
 			className={cn(
-				"inline-block border px-1.5 py-0.5 font-mono-data text-[10px]",
+				"inline-block border px-1.5 py-0.5 font-mono text-[9px] uppercase tracking-wider",
 				variants[variant],
 				className,
 			)}

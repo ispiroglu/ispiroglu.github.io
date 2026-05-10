@@ -1,0 +1,464 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>About - EI-01</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#5e5f5d",
+              "secondary-fixed-dim": "#c8c5ca",
+              "on-primary-fixed": "#1a1c1a",
+              "graphite-secondary": "#6B6B6B",
+              "surface-dim": "#ddd9d8",
+              secondary: "#5f5e61",
+              "inverse-surface": "#313030",
+              "on-error": "#ffffff",
+              "primary-fixed-dim": "#c7c6c4",
+              outline: "#757874",
+              background: "#fcf8f7",
+              "pure-surface": "#FFFFFF",
+              "error-container": "#ffdad6",
+              surface: "#fcf8f7",
+              "on-surface": "#1c1b1b",
+              "architectural-ink": "#18181B",
+              "on-secondary": "#ffffff",
+              "primary-container": "#faf9f6",
+              "hairline-rule": "#E5E0DA",
+              "on-surface-variant": "#444844",
+              "cool-steel": "#F0EDE8",
+              tertiary: "#625d5d",
+              "tertiary-fixed": "#e8e1e1",
+              "on-tertiary-fixed": "#1e1b1b",
+              "on-primary-fixed-variant": "#464745",
+              "secondary-container": "#e4e1e6",
+              "tertiary-fixed-dim": "#ccc5c5",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed-variant": "#47464a",
+              "on-tertiary-container": "#767171",
+              "surface-tint": "#5e5f5d",
+              "surface-container-low": "#f7f3f2",
+              "surface-container-high": "#ebe7e6",
+              "on-primary": "#ffffff",
+              "signal-red": "#D41515",
+              "on-background": "#1c1b1b",
+              "status-green": "#2D8C4A",
+              "on-secondary-container": "#656467",
+              "primary-fixed": "#e3e2e0",
+              "surface-container": "#f1edec",
+              "warm-paper": "#FAF9F6",
+              error: "#ba1a1a",
+              "surface-container-highest": "#e5e2e1",
+              "on-secondary-fixed": "#1b1b1e",
+              "on-tertiary-fixed-variant": "#4a4646",
+              "outline-variant": "#c5c7c3",
+              "on-primary-container": "#727270",
+              "inverse-on-surface": "#f4f0ef",
+              "surface-variant": "#e5e2e1",
+              "on-tertiary": "#ffffff",
+              "inverse-primary": "#c7c6c4",
+              "secondary-fixed": "#e4e1e6",
+              "on-error-container": "#93000a",
+              "tertiary-container": "#fff7f7",
+              "surface-bright": "#fcf8f7",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              "sidebar-collapsed": "64px",
+              "sidebar-expanded": "256px",
+              gutter: "24px",
+              "container-max": "1200px",
+              "section-v": "clamp(4rem, 10vw, 8rem)",
+            },
+            fontFamily: {
+              "mono-label": ["JetBrains Mono"],
+              "headline-lg": ["Hanken Grotesk"],
+              "mono-metadata": ["JetBrains Mono"],
+              "headline-md": ["Hanken Grotesk"],
+              "body-md": ["Hanken Grotesk"],
+            },
+            fontSize: {
+              "mono-label": [
+                "13px",
+                {
+                  lineHeight: "1.4",
+                  letterSpacing: "0.02em",
+                  fontWeight: "400",
+                },
+              ],
+              "headline-lg": [
+                "48px",
+                {
+                  lineHeight: "1.1",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "700",
+                },
+              ],
+              "mono-metadata": [
+                "11px",
+                {
+                  lineHeight: "1.2",
+                  fontWeight: "400",
+                },
+              ],
+              "headline-md": [
+                "32px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-md": [
+                "16px",
+                {
+                  lineHeight: "1.6",
+                  fontWeight: "400",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-warm-paper text-architectural-ink min-h-screen flex selection:bg-cool-steel selection:text-signal-red"
+  >
+    <!-- SideNavBar -->
+    <nav
+      class="hidden md:flex fixed left-0 top-0 h-screen w-sidebar-expanded bg-surface dark:bg-surface-container-lowest border-r border-hairline-rule dark:border-outline-variant flex-col py-gutter space-y-4 z-50"
+    >
+      <!-- Header -->
+      <div
+        class="px-6 pb-8 border-b border-hairline-rule dark:border-outline-variant flex items-center gap-4"
+      >
+        <img
+          alt="System Operator Avatar"
+          class="w-12 h-12 grayscale"
+          data-alt="A stark, high-contrast monochrome portrait of a futuristic system operator. The lighting is harsh and directional, emphasizing architectural lines and technical precision. The background is pure white, creating an austere, industrial aesthetic. The subject's expression is neutral and focused, embodying a professional backend engineer persona."
+          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmKFcHudEdhuL_XN8yxGYpgvnwrSfKcs7wqqiTNKx_eEZEvF7GipO-Hj1IDgMR-hIqe1mZB3lt7y1rinhSbbaYicbdb3_6vWmY7Ei1obN8tchYchY-ttpLlVSoBvBRGAATQjmbV6tMhNKARdWkzrtC0QuqiwEjHbX8G1Cjdsg5bd1qQIsUsYfEiEQAeH_D4mOqQzVQUE8hx-TOUzN4DavDFFZ5xUttjMSKUCm9udyU7ZGF9abqIaJi6xemgaXWiAk0C3qZCV0ym6Y"
+        />
+        <div>
+          <h1
+            class="font-mono-label text-mono-label font-bold text-architectural-ink dark:text-inverse-on-surface tracking-tighter"
+          >
+            EI-01
+          </h1>
+          <p
+            class="font-mono-metadata text-mono-metadata text-status-green mt-1"
+          >
+            STATUS / ONLINE
+          </p>
+        </div>
+      </div>
+      <!-- Navigation Links -->
+      <div class="flex-grow flex flex-col pt-4 space-y-1">
+        <a
+          class="flex items-center gap-3 border-l-2 border-transparent text-graphite-secondary dark:text-on-surface-variant px-6 py-3 font-mono-label text-mono-label hover:bg-cool-steel dark:hover:bg-surface-container-high transition-colors duration-100 active:-translate-y-px transition-transform duration-75 uppercase"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >home</span
+          >
+          HOME
+        </a>
+        <a
+          class="flex items-center gap-3 border-l-2 border-transparent text-graphite-secondary dark:text-on-surface-variant px-6 py-3 font-mono-label text-mono-label hover:bg-cool-steel dark:hover:bg-surface-container-high transition-colors duration-100 active:-translate-y-px transition-transform duration-75 uppercase"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >edit_note</span
+          >
+          WRITINGS
+        </a>
+        <a
+          class="flex items-center gap-3 border-l-2 border-transparent text-graphite-secondary dark:text-on-surface-variant px-6 py-3 font-mono-label text-mono-label hover:bg-cool-steel dark:hover:bg-surface-container-high transition-colors duration-100 active:-translate-y-px transition-transform duration-75 uppercase"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >terminal</span
+          >
+          PROJECTS
+        </a>
+        <a
+          class="flex items-center gap-3 border-l-2 border-transparent text-graphite-secondary dark:text-on-surface-variant px-6 py-3 font-mono-label text-mono-label hover:bg-cool-steel dark:hover:bg-surface-container-high transition-colors duration-100 active:-translate-y-px transition-transform duration-75 uppercase"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >database</span
+          >
+          TECHSTACK
+        </a>
+        <a
+          class="flex items-center gap-3 border-l-2 border-signal-red bg-cool-steel dark:bg-secondary-container text-on-surface dark:text-on-secondary-container px-6 py-3 font-mono-label text-mono-label hover:bg-cool-steel dark:hover:bg-surface-container-high transition-colors duration-100 active:-translate-y-px transition-transform duration-75 uppercase"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 1"
+            >person</span
+          >
+          ABOUT
+        </a>
+      </div>
+      <!-- CTA -->
+      <div class="px-6 py-4">
+        <button
+          class="w-full border border-architectural-ink text-architectural-ink font-mono-label text-mono-label py-3 hover:bg-cool-steel active:-translate-y-px transition-all duration-75 text-left pl-4"
+        >
+          &gt;&gt;&gt; CONTACT
+        </button>
+      </div>
+      <!-- Footer -->
+      <div
+        class="px-6 pt-4 border-t border-hairline-rule dark:border-outline-variant space-y-2"
+      >
+        <div
+          class="flex items-center gap-3 text-graphite-secondary font-mono-metadata text-mono-metadata"
+        >
+          <span
+            class="material-symbols-outlined text-[16px]"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >memory</span
+          >
+          UNIT / EI-01
+        </div>
+        <div
+          class="flex items-center gap-3 text-graphite-secondary font-mono-metadata text-mono-metadata"
+        >
+          <span
+            class="material-symbols-outlined text-[16px] text-status-green"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >check_circle</span
+          >
+          SYS / STABLE
+        </div>
+      </div>
+    </nav>
+    <!-- TopAppBar (Mobile) -->
+    <header
+      class="md:hidden fixed top-0 left-0 w-full h-16 bg-surface dark:bg-surface border-b border-hairline-rule dark:border-outline-variant flex items-center justify-between px-gutter z-50"
+    >
+      <div class="font-mono-label text-mono-label font-bold text-primary">
+        /// CORE_SYSTEM
+      </div>
+      <div class="flex items-center gap-4">
+        <button
+          class="text-graphite-secondary hover:text-architectural-ink dark:hover:text-on-surface transition-all duration-200"
+        >
+          <span class="material-symbols-outlined">settings</span>
+        </button>
+        <button
+          class="text-graphite-secondary hover:text-architectural-ink dark:hover:text-on-surface transition-all duration-200"
+        >
+          <span class="material-symbols-outlined">notifications_active</span>
+        </button>
+      </div>
+    </header>
+    <!-- Main Content Canvas -->
+    <main
+      class="flex-1 md:ml-sidebar-expanded pt-16 md:pt-0 min-h-screen pb-24"
+    >
+      <div
+        class="max-w-container-max mx-auto px-6 md:px-12 py-16 md:py-24 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16"
+      >
+        <!-- Bio Section -->
+        <section class="md:col-span-8">
+          <div class="mb-12">
+            <h2
+              class="font-mono-label text-mono-label text-graphite-secondary mb-4 flex items-center"
+            >
+              /// BIO
+              <span class="ml-4 h-px bg-hairline-rule flex-grow"></span>
+            </h2>
+            <h1
+              class="font-headline-lg text-headline-lg text-architectural-ink mb-8 max-w-2xl"
+            >
+              Architecting digital infrastructure with a focus on structural
+              clarity.
+            </h1>
+            <div
+              class="font-body-md text-body-md text-architectural-ink space-y-6 max-w-2xl"
+            >
+              <p>
+                I engineer robust, scalable systems that prioritize function and
+                semantic precision. My approach is rooted in an industrial
+                aesthetic—stripping away the superfluous to reveal the essential
+                architecture of the application.
+              </p>
+              <p>
+                Specializing in full-stack development, I build interfaces that
+                feel like technical manuals: authoritative, transparent, and
+                governed by strict typographic rules. The objective is always
+                minimal friction and maximum utility.
+              </p>
+            </div>
+          </div>
+          <!-- Experience Section -->
+          <div class="mt-24">
+            <h2
+              class="font-mono-label text-mono-label text-graphite-secondary mb-8 flex items-center"
+            >
+              /// EXPERIENCE
+              <span class="ml-4 h-px bg-hairline-rule flex-grow"></span>
+            </h2>
+            <div class="border-t border-hairline-rule">
+              <!-- Data Row 1 -->
+              <div
+                class="grid grid-cols-1 md:grid-cols-3 gap-4 py-6 border-b border-hairline-rule hover:bg-pure-surface transition-colors duration-150 px-2 md:px-4 -mx-2 md:-mx-4"
+              >
+                <div
+                  class="font-mono-label text-mono-label text-graphite-secondary self-start md:self-center"
+                >
+                  2021 — PRESENT
+                </div>
+                <div class="md:col-span-2">
+                  <h3
+                    class="font-headline-md text-headline-md text-architectural-ink mb-1 text-lg"
+                  >
+                    Senior Systems Engineer
+                  </h3>
+                  <p class="font-body-md text-body-md text-graphite-secondary">
+                    Nexus Core Technologies
+                  </p>
+                </div>
+              </div>
+              <!-- Data Row 2 -->
+              <div
+                class="grid grid-cols-1 md:grid-cols-3 gap-4 py-6 border-b border-hairline-rule hover:bg-pure-surface transition-colors duration-150 px-2 md:px-4 -mx-2 md:-mx-4"
+              >
+                <div
+                  class="font-mono-label text-mono-label text-graphite-secondary self-start md:self-center"
+                >
+                  2018 — 2021
+                </div>
+                <div class="md:col-span-2">
+                  <h3
+                    class="font-headline-md text-headline-md text-architectural-ink mb-1 text-lg"
+                  >
+                    Full-Stack Developer
+                  </h3>
+                  <p class="font-body-md text-body-md text-graphite-secondary">
+                    Obelisk Frameworks
+                  </p>
+                </div>
+              </div>
+              <!-- Data Row 3 -->
+              <div
+                class="grid grid-cols-1 md:grid-cols-3 gap-4 py-6 border-b border-hairline-rule hover:bg-pure-surface transition-colors duration-150 px-2 md:px-4 -mx-2 md:-mx-4"
+              >
+                <div
+                  class="font-mono-label text-mono-label text-graphite-secondary self-start md:self-center"
+                >
+                  2015 — 2018
+                </div>
+                <div class="md:col-span-2">
+                  <h3
+                    class="font-headline-md text-headline-md text-architectural-ink mb-1 text-lg"
+                  >
+                    Backend Specialist
+                  </h3>
+                  <p class="font-body-md text-body-md text-graphite-secondary">
+                    DataForge Ltd.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Sidebar / Contact -->
+        <aside class="md:col-span-4 mt-16 md:mt-0">
+          <div
+            class="bg-pure-surface border border-hairline-rule p-8 sticky top-24"
+          >
+            <h2
+              class="font-mono-label text-mono-label text-graphite-secondary mb-6 flex items-center"
+            >
+              /// CONTACT
+              <span class="ml-4 h-px bg-hairline-rule flex-grow"></span>
+            </h2>
+            <p class="font-body-md text-body-md text-architectural-ink mb-8">
+              Available for architectural audits, system overhauls, and contract
+              engineering. Direct inquiries only.
+            </p>
+            <div class="space-y-4 mb-8">
+              <div
+                class="flex items-center justify-between border-b border-hairline-rule pb-2"
+              >
+                <span
+                  class="font-mono-label text-mono-label text-graphite-secondary"
+                  >LOC</span
+                >
+                <span
+                  class="font-mono-label text-mono-label text-architectural-ink"
+                  >SAN FRANCISCO, CA</span
+                >
+              </div>
+              <div
+                class="flex items-center justify-between border-b border-hairline-rule pb-2"
+              >
+                <span
+                  class="font-mono-label text-mono-label text-graphite-secondary"
+                  >MAIL</span
+                >
+                <span
+                  class="font-mono-label text-mono-label text-architectural-ink"
+                  >SYS@EI-01.NET</span
+                >
+              </div>
+              <div
+                class="flex items-center justify-between border-b border-hairline-rule pb-2"
+              >
+                <span
+                  class="font-mono-label text-mono-label text-graphite-secondary"
+                  >PGP</span
+                >
+                <span
+                  class="font-mono-label text-mono-label text-architectural-ink"
+                  >0x8F9B2C1A</span
+                >
+              </div>
+            </div>
+            <button
+              class="w-full bg-signal-red text-white font-mono-label text-mono-label py-4 hover:bg-error active:-translate-y-px transition-all duration-75 text-center flex justify-center items-center gap-2 rounded-none"
+            >
+              &gt;&gt;&gt; SEND MESSAGE
+            </button>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </body>
+</html>

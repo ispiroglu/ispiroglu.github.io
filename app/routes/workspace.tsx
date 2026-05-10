@@ -1,106 +1,85 @@
 import type { Route } from "./+types/workspace";
-import {
-	SectionHeader,
-	Compartment,
-} from "~/components/brutalist/section-header";
 
 export function meta({}: Route.MetaArgs) {
 	return [
-		{ title: "WORKSPACE — EVREN ISPIROGLU" },
-		{ name: "description", content: "Desk setup and daily tools." },
+		{ title: "EI-01 — WORKSPACE" },
+		{
+			name: "description",
+			content: "Hardware, tools, and productivity setup.",
+		},
 	];
 }
 
-const hardware = [
-	'MacBook Pro 16" (M3 Max)',
-	"Apple Studio Display",
-	"Magic Keyboard & Magic Trackpad",
-	"AirPods Max",
-];
-
-const devTools = [
-	"GoLand — Go development",
-	"IntelliJ IDEA — Kotlin/Java + Spring Boot",
-	"iTerm2 — Custom terminal workflows",
-	"Docker Desktop — Local containerized development",
-	"k9s — Kubernetes cluster management",
-	"Postman — API testing + gRPC debugging",
-	"Grafana — Observability + monitoring",
-	"DBeaver / DataGrip — Database work",
-];
-
-const productivity = [
-	"Raycast — Quick actions + app launching",
-	"1Password — Secure credential management",
-	"GitHub CLI — Streamlined code review",
-];
-
 export default function Workspace() {
+	const sections = [
+		{
+			label: "/// HARDWARE",
+			items: [
+				{ label: "PRIMARY_MACHINE", value: 'MacBook Pro 14" (M4 Pro, 24GB)' },
+				{ label: "DISPLAY", value: 'Dell U2723QE 4K (27")' },
+				{ label: "KEYBOARD", value: "Keychron Q1 Pro (Gateron Brown)" },
+				{ label: "AUDIO", value: "AirPods Pro 2" },
+			],
+		},
+		{
+			label: "/// TOOLS",
+			items: [
+				{ label: "EDITOR", value: "IntelliJ IDEA Ultimate + VSCode" },
+				{ label: "TERMINAL", value: "Ghostty + tmux" },
+				{ label: "SHELL", value: "zsh + oh-my-zsh" },
+				{ label: "VERSION_CONTROL", value: "Git + GitHub" },
+			],
+		},
+		{
+			label: "/// PRODUCTIVITY",
+			items: [
+				{ label: "NOTE_TAKING", value: "Obsidian" },
+				{ label: "TASK_MANAGEMENT", value: "Linear" },
+				{ label: "LAUNCHER", value: "Raycast" },
+				{ label: "BROWSER", value: "Firefox Developer Edition" },
+			],
+		},
+	];
+
 	return (
-		<div className="space-y-12 max-w-3xl">
-			<header className="space-y-2">
-				<h1 className="font-header text-4xl lg:text-5xl">WORKSPACE</h1>
-				<p className="font-mono-data text-xs text-muted-foreground">
-					/// DESK SETUP AND DAILY EQUIPMENT
-				</p>
+		<div className="space-y-20 max-w-3xl">
+			<header className="space-y-3">
+				<h1 className="font-header text-5xl">WORKSPACE</h1>
+				<div className="flex items-center gap-4">
+					<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+						/// OPERATIONAL ENVIRONMENT
+					</span>
+					<div className="flex-1 h-px bg-border" />
+				</div>
 			</header>
 
-			<p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
-				My workspace is designed for productivity and comfort. Investing in
-				quality tools that help me do my best work building distributed systems
-				and high-performance backend services.
-			</p>
+			<div className="space-y-20">
+				{sections.map((section) => (
+					<section key={section.label}>
+						<div className="border-b border-border pb-3 mb-4">
+							<h2 className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+								{section.label}
+							</h2>
+						</div>
 
-			<section className="space-y-4">
-				<SectionHeader label="HARDWARE" />
-				<Compartment>
-					<ul className="space-y-2">
-						{hardware.map((item) => (
-							<li
-								key={item}
-								className="flex items-center gap-3 font-mono text-sm"
-							>
-								<span className="text-accent shrink-0">&#62;&#62;</span>
-								<span>{item}</span>
-							</li>
-						))}
-					</ul>
-				</Compartment>
-			</section>
-
-			<section className="space-y-4">
-				<SectionHeader label="DEVELOPMENT TOOLS" />
-				<Compartment>
-					<ul className="space-y-2">
-						{devTools.map((item) => (
-							<li
-								key={item}
-								className="flex items-center gap-3 font-mono text-sm"
-							>
-								<span className="text-accent shrink-0">&#62;&#62;</span>
-								<span>{item}</span>
-							</li>
-						))}
-					</ul>
-				</Compartment>
-			</section>
-
-			<section className="space-y-4">
-				<SectionHeader label="PRODUCTIVITY" />
-				<Compartment>
-					<ul className="space-y-2">
-						{productivity.map((item) => (
-							<li
-								key={item}
-								className="flex items-center gap-3 font-mono text-sm"
-							>
-								<span className="text-accent shrink-0">&#62;&#62;</span>
-								<span>{item}</span>
-							</li>
-						))}
-					</ul>
-				</Compartment>
-			</section>
+						<div className="border border-border">
+							{section.items.map((item) => (
+								<div
+									key={item.label}
+									className="flex justify-between items-center py-2.5 px-4 border-b border-border last:border-b-0 hover:bg-secondary transition-colors duration-150"
+								>
+									<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+										{item.label}
+									</span>
+									<span className="text-[14px] text-foreground/80 text-right">
+										{item.value}
+									</span>
+								</div>
+							))}
+						</div>
+					</section>
+				))}
+			</div>
 		</div>
 	);
 }

@@ -1,88 +1,137 @@
-import { ExternalLink } from "lucide-react";
 import type { Route } from "./+types/projects";
-import { TechMarker } from "~/components/brutalist/ascii-frame";
-
-const projects = [
-	{
-		name: "CHAKI",
-		org: "TRENDYOL",
-		description:
-			"Co-initiated an open-source Golang framework built to reduce boilerplate. Implemented auto-configuration and observability modules, streamlining microservice development.",
-		url: "https://github.com/Trendyol/chaki",
-		tags: ["GO", "FRAMEWORK", "MICROSERVICES"],
-	},
-	{
-		name: "MERCURIUS",
-		org: "PERSONAL",
-		description:
-			"Built a high-throughput message broker in Go with gRPC. Designed for performance and reliability in distributed systems.",
-		url: "https://github.com/ispiroglu/mercurius",
-		tags: ["GO", "GRPC", "MESSAGE BROKER"],
-	},
-];
 
 export function meta({}: Route.MetaArgs) {
 	return [
-		{ title: "PROJECTS — EVREN ISPIROGLU" },
-		{ name: "description", content: "Open-source projects and contributions." },
+		{ title: "EI-01 — PROJECTS" },
+		{ name: "description", content: "Engineering projects and systems." },
 	];
 }
 
+interface Project {
+	title: string;
+	status: "stable" | "archived" | "active-dev";
+	statusLabel: string;
+	description: string;
+	tech: string[];
+	commits: number;
+	url?: string;
+}
+
 export default function Projects() {
+	const projects: Project[] = [
+		{
+			title: "Portfolio API",
+			status: "stable",
+			statusLabel: "v2.6.1_STABLE",
+			description:
+				"Backend service powering this website. Event-driven architecture with Go, Kafka, and PostgreSQL. Handles content delivery, views tracking, and MDX rendering pipeline.",
+			tech: ["Go", "Kafka", "PostgreSQL", "Docker"],
+			commits: 4291,
+		},
+		{
+			title: "Chefbook",
+			status: "active-dev",
+			statusLabel: "ACTIVE_DEV",
+			description:
+				"Recipe management and meal planning application with multi-user support. Built with Next.js, tRPC, and Prisma. Features collaborative grocery lists and nutritional analysis.",
+			tech: ["TypeScript", "Next.js", "tRPC", "Prisma", "PostgreSQL"],
+			commits: 1105,
+		},
+		{
+			title: "PICrawler",
+			status: "archived",
+			statusLabel: "ARCHIVED",
+			description:
+				"Distributed web crawler that collected and processed stock market data from multiple sources. Used levelDB for local storage and custom BFT-inspired consensus for data integrity.",
+			tech: ["Go", "LevelDB", "Protobuf", "Docker"],
+			commits: 842,
+		},
+		{
+			title: "Scopy",
+			status: "stable",
+			statusLabel: "v1.0.0_STABLE",
+			description:
+				"Financial analytics tool for automated portfolio tracking and reporting. Built with Kotlin/Spring Boot backend and React frontend. Integrates with multiple brokerage APIs.",
+			tech: ["Kotlin", "Spring Boot", "React", "PostgreSQL"],
+			commits: 2560,
+		},
+	];
+
+	const statusStyles = {
+		stable: "border-status-green text-status-green",
+		"active-dev": "border-accent text-accent",
+		archived: "border-muted-foreground text-muted-foreground",
+	};
+
 	return (
-		<div className="space-y-12">
-			<header className="space-y-2">
-				<h1 className="font-header text-4xl lg:text-5xl">PROJECTS</h1>
-				<p className="font-mono-data text-xs text-muted-foreground">
-					/// OPEN-SOURCE PROJECTS AND CONTRIBUTIONS
-				</p>
+		<div className="space-y-16 max-w-5xl">
+			{/* Header */}
+			<header className="space-y-3">
+				<h1 className="font-header text-5xl">PROJECTS</h1>
+				<div className="flex items-center gap-4">
+					<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+						/// ACTIVE REPOSITORIES
+					</span>
+					<div className="flex-1 h-px bg-border" />
+				</div>
 			</header>
 
-			<div className="space-y-0">
+			{/* Project Grid */}
+			<div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 				{projects.map((project) => (
-					<div
-						key={project.name}
-						className="border border-border p-5 space-y-4 hover:bg-secondary transition-none"
+					<article
+						key={project.title}
+						className="border border-border bg-card p-6 flex flex-col hover:bg-secondary transition-colors duration-150 group"
 					>
-						<div className="flex items-start justify-between gap-4">
-							<div>
-								<div className="flex items-center gap-3 mb-1">
-									<h2 className="font-header text-xl">{project.name}</h2>
-									<span className="font-mono-data text-[10px] text-muted-foreground">
-										{project.org}
-									</span>
-								</div>
-								<div className="flex flex-wrap gap-2">
-									{project.tags.map((tag) => (
-										<TechMarker key={tag} text={tag} />
-									))}
-								</div>
-							</div>
-							<a
-								href={project.url}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="text-muted-foreground hover:text-foreground transition-none"
-								aria-label={`View ${project.name} on GitHub`}
+						{/* Title + Status */}
+						<div className="flex justify-between items-start gap-3 mb-4">
+							<h2 className="font-header text-lg uppercase">{project.title}</h2>
+							<span
+								className={`font-mono text-[9px] border px-2 py-0.5 uppercase tracking-wider whitespace-nowrap rounded-sm ${statusStyles[project.status]}`}
 							>
-								<ExternalLink className="w-4 h-4" strokeWidth={1.5} />
-							</a>
+								{project.statusLabel}
+							</span>
 						</div>
 
-						<p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
+						{/* Description */}
+						<p className="text-muted-foreground text-[14px] leading-relaxed mb-6 flex-grow">
 							{project.description}
 						</p>
 
-						<a
-							href={project.url}
-							target="_blank"
-							rel="noopener noreferrer"
-							className="inline-flex items-center gap-2 font-mono-data text-[11px] text-foreground hover:text-accent transition-none"
-						>
-							<span className="text-accent">&#62;&#62;&#62;</span>
-							VIEW SOURCE
-						</a>
-					</div>
+						{/* Tech stack */}
+						<div className="mb-5">
+							<span className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider mb-2 block">
+								/// TECH STACK
+							</span>
+							<div className="flex flex-wrap gap-2">
+								{project.tech.map((t) => (
+									<span
+										key={t}
+										className="font-mono text-[9px] text-foreground border border-border px-2 py-0.5 uppercase"
+									>
+										{t}
+									</span>
+								))}
+							</div>
+						</div>
+
+						{/* Footer */}
+						<div className="pt-4 border-t border-border flex justify-between items-center">
+							<span className="font-mono text-[9px] text-muted-foreground tabular-nums">
+								{project.commits.toLocaleString()} COMMITS
+							</span>
+							{project.url && (
+								<a
+									href={project.url}
+									target="_blank"
+									rel="noopener noreferrer"
+									className="font-mono text-[10px] text-accent hover:text-foreground transition-colors duration-150 uppercase flex items-center gap-1 group-active:translate-y-px"
+								>
+									&gt;&gt;&gt; VIEW SOURCE
+								</a>
+							)}
+						</div>
+					</article>
 				))}
 			</div>
 		</div>

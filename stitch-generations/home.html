@@ -1,0 +1,484 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>/// CORE_SYSTEM - Home</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#5e5f5d",
+              "secondary-fixed-dim": "#c8c5ca",
+              "on-primary-fixed": "#1a1c1a",
+              "graphite-secondary": "#6B6B6B",
+              "surface-dim": "#ddd9d8",
+              secondary: "#5f5e61",
+              "inverse-surface": "#313030",
+              "on-error": "#ffffff",
+              "primary-fixed-dim": "#c7c6c4",
+              outline: "#757874",
+              background: "#fcf8f7",
+              "pure-surface": "#FFFFFF",
+              "error-container": "#ffdad6",
+              surface: "#fcf8f7",
+              "on-surface": "#1c1b1b",
+              "architectural-ink": "#18181B",
+              "on-secondary": "#ffffff",
+              "primary-container": "#faf9f6",
+              "hairline-rule": "#E5E0DA",
+              "on-surface-variant": "#444844",
+              "cool-steel": "#F0EDE8",
+              tertiary: "#625d5d",
+              "tertiary-fixed": "#e8e1e1",
+              "on-tertiary-fixed": "#1e1b1b",
+              "on-primary-fixed-variant": "#464745",
+              "secondary-container": "#e4e1e6",
+              "tertiary-fixed-dim": "#ccc5c5",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed-variant": "#47464a",
+              "on-tertiary-container": "#767171",
+              "surface-tint": "#5e5f5d",
+              "surface-container-low": "#f7f3f2",
+              "surface-container-high": "#ebe7e6",
+              "on-primary": "#ffffff",
+              "signal-red": "#D41515",
+              "on-background": "#1c1b1b",
+              "status-green": "#2D8C4A",
+              "on-secondary-container": "#656467",
+              "primary-fixed": "#e3e2e0",
+              "surface-container": "#f1edec",
+              "warm-paper": "#FAF9F6",
+              error: "#ba1a1a",
+              "surface-container-highest": "#e5e2e1",
+              "on-secondary-fixed": "#1b1b1e",
+              "on-tertiary-fixed-variant": "#4a4646",
+              "outline-variant": "#c5c7c3",
+              "on-primary-container": "#727270",
+              "inverse-on-surface": "#f4f0ef",
+              "surface-variant": "#e5e2e1",
+              "on-tertiary": "#ffffff",
+              "inverse-primary": "#c7c6c4",
+              "secondary-fixed": "#e4e1e6",
+              "on-error-container": "#93000a",
+              "tertiary-container": "#fff7f7",
+              "surface-bright": "#fcf8f7",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              "sidebar-collapsed": "64px",
+              "sidebar-expanded": "256px",
+              gutter: "24px",
+              "container-max": "1200px",
+              "section-v": "clamp(4rem, 10vw, 8rem)",
+            },
+            fontFamily: {
+              "mono-label": ["JetBrains Mono"],
+              "headline-lg": ["Hanken Grotesk"],
+              "mono-metadata": ["JetBrains Mono"],
+              "headline-md": ["Hanken Grotesk"],
+              "body-md": ["Hanken Grotesk"],
+            },
+            fontSize: {
+              "mono-label": [
+                "13px",
+                {
+                  lineHeight: "1.4",
+                  letterSpacing: "0.02em",
+                  fontWeight: "400",
+                },
+              ],
+              "headline-lg": [
+                "48px",
+                {
+                  lineHeight: "1.1",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "700",
+                },
+              ],
+              "mono-metadata": [
+                "11px",
+                {
+                  lineHeight: "1.2",
+                  fontWeight: "400",
+                },
+              ],
+              "headline-md": [
+                "32px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-md": [
+                "16px",
+                {
+                  lineHeight: "1.6",
+                  fontWeight: "400",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        background-color: theme("colors.warm-paper");
+        color: theme("colors.architectural-ink");
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+  <body
+    class="flex bg-warm-paper text-architectural-ink font-body-md text-body-md overflow-x-hidden"
+  >
+    <!-- SideNavBar -->
+    <nav
+      class="hidden md:flex flex-col h-screen w-sidebar-expanded fixed left-0 top-0 border-r border-hairline-rule bg-surface py-gutter space-y-4 z-50"
+    >
+      <div class="px-gutter mb-8">
+        <h1
+          class="font-mono-label text-mono-label font-bold text-architectural-ink tracking-tighter"
+        >
+          EI-01
+        </h1>
+        <p
+          class="font-mono-metadata text-mono-metadata text-graphite-secondary uppercase mt-1"
+        >
+          STATUS / ONLINE
+        </p>
+      </div>
+      <div class="flex-1 space-y-1">
+        <a
+          class="flex items-center gap-3 border-l-2 border-signal-red bg-cool-steel text-on-surface px-4 py-3 font-mono-label uppercase"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >home</span
+          >
+          HOME
+        </a>
+        <a
+          class="flex items-center gap-3 border-l-2 border-transparent text-graphite-secondary hover:bg-cool-steel px-4 py-3 font-mono-label uppercase transition-colors duration-100"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >edit_note</span
+          >
+          WRITINGS
+        </a>
+        <a
+          class="flex items-center gap-3 border-l-2 border-transparent text-graphite-secondary hover:bg-cool-steel px-4 py-3 font-mono-label uppercase transition-colors duration-100"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >terminal</span
+          >
+          PROJECTS
+        </a>
+        <a
+          class="flex items-center gap-3 border-l-2 border-transparent text-graphite-secondary hover:bg-cool-steel px-4 py-3 font-mono-label uppercase transition-colors duration-100"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >database</span
+          >
+          TECHSTACK
+        </a>
+        <a
+          class="flex items-center gap-3 border-l-2 border-transparent text-graphite-secondary hover:bg-cool-steel px-4 py-3 font-mono-label uppercase transition-colors duration-100"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >person</span
+          >
+          ABOUT
+        </a>
+      </div>
+      <div class="px-gutter mt-auto space-y-4">
+        <button
+          class="w-full text-left font-mono-label text-mono-label text-architectural-ink hover:text-signal-red transition-colors duration-100 uppercase"
+        >
+          &gt;&gt;&gt; CONTACT
+        </button>
+        <div class="pt-4 border-t border-hairline-rule flex flex-col gap-2">
+          <div
+            class="flex items-center gap-2 text-graphite-secondary font-mono-metadata text-mono-metadata"
+          >
+            <span class="material-symbols-outlined text-[14px]">memory</span>
+            <span>UNIT / EI-01</span>
+          </div>
+          <div
+            class="flex items-center gap-2 text-status-green font-mono-metadata text-mono-metadata"
+          >
+            <span class="material-symbols-outlined text-[14px]"
+              >check_circle</span
+            >
+            <span>SYS / STABLE</span>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- Main Content Area -->
+    <main
+      class="flex-1 w-full md:ml-sidebar-expanded pt-16 md:pt-0 min-h-screen"
+    >
+      <!-- TopAppBar (Mobile & Web) -->
+      <header
+        class="fixed md:absolute top-0 right-0 w-full md:w-[calc(100%-256px)] h-16 border-b border-hairline-rule bg-surface z-40 flex items-center justify-between px-gutter"
+      >
+        <div
+          class="font-mono-label text-mono-label font-bold text-architectural-ink tracking-tighter"
+        >
+          /// CORE_SYSTEM
+        </div>
+        <div class="flex gap-4 text-graphite-secondary">
+          <button
+            class="hover:text-architectural-ink transition-colors duration-200"
+          >
+            <span class="material-symbols-outlined">settings</span>
+          </button>
+          <button
+            class="hover:text-architectural-ink transition-colors duration-200"
+          >
+            <span class="material-symbols-outlined">notifications_active</span>
+          </button>
+        </div>
+      </header>
+      <div
+        class="max-w-container-max mx-auto px-gutter py-section-v md:pt-[calc(64px+clamp(4rem,10vw,8rem))]"
+      >
+        <!-- Hero / Intro -->
+        <section class="mb-section-v">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+            <div class="lg:col-span-8">
+              <p
+                class="font-mono-label text-mono-label text-graphite-secondary mb-6"
+              >
+                /// IDENTIFICATION
+              </p>
+              <h2
+                class="font-headline-lg text-headline-lg text-architectural-ink mb-6 max-w-2xl leading-tight"
+              >
+                Architecting robust backend systems &amp; scalable data
+                pipelines.
+              </h2>
+              <p
+                class="font-body-md text-body-md text-on-surface-variant max-w-xl"
+              >
+                Specializing in distributed architecture, high-performance APIs,
+                and maintaining order in complex technical ecosystems. Currently
+                deploying solutions across multiple cloud environments.
+              </p>
+            </div>
+            <div class="lg:col-span-4 lg:text-right hidden lg:block">
+              <div
+                class="inline-flex flex-col items-end gap-2 border-r border-signal-red pr-4"
+              >
+                <span
+                  class="font-mono-metadata text-mono-metadata text-graphite-secondary uppercase tracking-wider"
+                  >Current Node</span
+                >
+                <span
+                  class="font-mono-label text-mono-label text-architectural-ink font-bold"
+                  >us-west-2a</span
+                >
+                <span
+                  class="font-mono-metadata text-mono-metadata text-status-green flex items-center gap-1"
+                >
+                  <span
+                    class="w-1.5 h-1.5 rounded-full bg-status-green animate-pulse"
+                  ></span>
+                  ACTIVE
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Activity Feed & Status -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+          <!-- Terminal Feed -->
+          <div class="lg:col-span-8">
+            <div class="flex items-center gap-4 mb-8">
+              <p
+                class="font-mono-label text-mono-label text-graphite-secondary"
+              >
+                /// LATEST_ACTIVITY
+              </p>
+              <div class="flex-1 h-px bg-hairline-rule"></div>
+            </div>
+            <div
+              class="bg-pure-surface border border-hairline-rule font-mono-label text-mono-label p-6 space-y-4 shadow-sm"
+            >
+              <div
+                class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6 border-b border-hairline-rule pb-4"
+              >
+                <span class="text-graphite-secondary w-24 shrink-0"
+                  >[14:32:01]</span
+                >
+                <span class="text-status-green w-16 shrink-0">COMMIT</span>
+                <span class="text-architectural-ink"
+                  >Optimized database query routing for primary service mesh.
+                  Latency reduced by 14ms.</span
+                >
+              </div>
+              <div
+                class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6 border-b border-hairline-rule pb-4"
+              >
+                <span class="text-graphite-secondary w-24 shrink-0"
+                  >[09:15:44]</span
+                >
+                <span class="text-signal-red w-16 shrink-0">DEPLOY</span>
+                <span class="text-architectural-ink"
+                  >v2.4.1 rolled out to production environment.</span
+                >
+              </div>
+              <div
+                class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6 border-b border-hairline-rule pb-4"
+              >
+                <span class="text-graphite-secondary w-24 shrink-0"
+                  >[08:00:00]</span
+                >
+                <span class="text-graphite-secondary w-16 shrink-0"
+                  >SYSTEM</span
+                >
+                <span class="text-architectural-ink"
+                  >Automated backup sequence completed successfully.</span
+                >
+              </div>
+              <div
+                class="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-6 pt-2"
+              >
+                <span class="text-graphite-secondary w-24 shrink-0"
+                  >[YEST]</span
+                >
+                <span class="text-status-green w-16 shrink-0">MERGE</span>
+                <span class="text-architectural-ink"
+                  >Feature branch 'auth-refactor' merged into main.</span
+                >
+              </div>
+            </div>
+          </div>
+          <!-- Status Sidebar -->
+          <div class="lg:col-span-4 space-y-8">
+            <div>
+              <div class="flex items-center gap-4 mb-6">
+                <p
+                  class="font-mono-label text-mono-label text-graphite-secondary"
+                >
+                  /// SYSTEM_STATE
+                </p>
+                <div class="flex-1 h-px bg-hairline-rule"></div>
+              </div>
+              <div class="space-y-4">
+                <div
+                  class="flex justify-between items-center py-2 border-b border-hairline-rule"
+                >
+                  <span
+                    class="font-mono-label text-mono-label text-graphite-secondary"
+                    >Uptime</span
+                  >
+                  <span
+                    class="font-mono-label text-mono-label text-architectural-ink"
+                    >99.99%</span
+                  >
+                </div>
+                <div
+                  class="flex justify-between items-center py-2 border-b border-hairline-rule"
+                >
+                  <span
+                    class="font-mono-label text-mono-label text-graphite-secondary"
+                    >Load Avg</span
+                  >
+                  <span
+                    class="font-mono-label text-mono-label text-architectural-ink"
+                    >0.14, 0.08, 0.05</span
+                  >
+                </div>
+                <div
+                  class="flex justify-between items-center py-2 border-b border-hairline-rule"
+                >
+                  <span
+                    class="font-mono-label text-mono-label text-graphite-secondary"
+                    >Memory</span
+                  >
+                  <span
+                    class="font-mono-label text-mono-label text-architectural-ink"
+                    >32GB / 64GB</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center gap-4 mb-6">
+                <p
+                  class="font-mono-label text-mono-label text-graphite-secondary"
+                >
+                  /// CORE_STACK
+                </p>
+                <div class="flex-1 h-px bg-hairline-rule"></div>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <span
+                  class="border border-graphite-secondary text-architectural-ink font-mono-metadata text-[10px] px-2 py-1 uppercase tracking-wider"
+                  >Golang</span
+                >
+                <span
+                  class="border border-graphite-secondary text-architectural-ink font-mono-metadata text-[10px] px-2 py-1 uppercase tracking-wider"
+                  >PostgreSQL</span
+                >
+                <span
+                  class="border border-graphite-secondary text-architectural-ink font-mono-metadata text-[10px] px-2 py-1 uppercase tracking-wider"
+                  >Kubernetes</span
+                >
+                <span
+                  class="border border-graphite-secondary text-architectural-ink font-mono-metadata text-[10px] px-2 py-1 uppercase tracking-wider"
+                  >Redis</span
+                >
+                <span
+                  class="border border-graphite-secondary text-architectural-ink font-mono-metadata text-[10px] px-2 py-1 uppercase tracking-wider"
+                  >gRPC</span
+                >
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

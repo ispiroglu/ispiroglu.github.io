@@ -14,7 +14,7 @@ export function SectionHeader({
 }: SectionHeaderProps) {
 	return (
 		<div className={cn("flex items-center gap-4", className)}>
-			<span className="font-mono-data text-xs text-muted-foreground shrink-0">
+			<span className="font-mono text-[10px] text-muted-foreground shrink-0 uppercase tracking-wider">
 				/// {label}
 			</span>
 			{showLine && <div className="flex-1 h-px bg-border" aria-hidden="true" />}
@@ -36,10 +36,10 @@ export function DataRow({ label, value, className }: DataRowProps) {
 				className,
 			)}
 		>
-			<span className="font-mono-data text-xs text-muted-foreground">
+			<span className="font-mono text-[10px] text-muted-foreground uppercase">
 				{label}
 			</span>
-			<span className="text-sm text-right">{value}</span>
+			<span className="text-[11px] font-mono text-right">{value}</span>
 		</div>
 	);
 }
@@ -55,7 +55,7 @@ export function Compartment({ children, className, header }: CompartmentProps) {
 		<div className={cn("border border-border", className)}>
 			{header && (
 				<div className="px-3 py-1.5 border-b border-border bg-secondary">
-					<span className="font-mono-data text-[10px] text-muted-foreground">
+					<span className="font-mono text-[9px] text-muted-foreground uppercase tracking-wider">
 						{header}
 					</span>
 				</div>

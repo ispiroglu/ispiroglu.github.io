@@ -1,118 +1,99 @@
 import type { Route } from "./+types/journey";
-import { SectionHeader } from "~/components/brutalist/section-header";
 
 export function meta({}: Route.MetaArgs) {
 	return [
-		{ title: "JOURNEY — EVREN ISPIROGLU" },
-		{ name: "description", content: "Personal and professional timeline." },
+		{ title: "EI-01 — JOURNEY LOG" },
+		{ name: "description", content: "Career trajectory and milestone log." },
 	];
 }
 
 export default function Journey() {
+	const events = [
+		{
+			year: 2025,
+			date: "2025.03",
+			event: "Landed as Senior Backend Engineer at Delivery Hero",
+			description:
+				"Joined the logistics group building event-driven fulfillment systems with Go, Kotlin, and Kafka. Designing high-throughput APIs serving hundreds of thousands of requests per second.",
+		},
+		{
+			year: 2024,
+			date: "2024.06",
+			event: "Promoted to Mid-Level Backend Engineer at Trendyol",
+			description:
+				"Took ownership of the order management pipeline, migrating legacy REST endpoints to event-driven architectures with Kafka. Reduced P99 latency by 40%.",
+		},
+		{
+			year: 2023,
+			date: "2023.01",
+			event: "Started Backend Engineering at Trendyol",
+			description:
+				"Joined Turkey's largest e-commerce platform. Built high-scale order processing and inventory management APIs handling millions of daily transactions.",
+		},
+		{
+			year: 2022,
+			date: "2022.07",
+			event: "Graduated from Istanbul University",
+			description:
+				"Computer Engineering degree. Focused on distributed systems, databases, and software architecture.",
+		},
+	];
+
+	const grouped = new Map<number, typeof events>();
+	for (const e of events) {
+		if (!grouped.has(e.year)) grouped.set(e.year, []);
+		grouped.get(e.year)!.push(e);
+	}
+
 	return (
 		<div className="space-y-16 max-w-3xl">
-			<header className="space-y-2">
-				<h1 className="font-header text-4xl lg:text-5xl">JOURNEY</h1>
-				<p className="font-mono-data text-xs text-muted-foreground">
-					/// PERSONAL AND PROFESSIONAL TIMELINE
-				</p>
+			<header className="space-y-3">
+				<h1 className="font-header text-5xl">JOURNEY LOG</h1>
+				<div className="flex items-center gap-4">
+					<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+						/// CAREER TRAJECTORY
+					</span>
+					<div className="flex-1 h-px bg-border" />
+				</div>
 			</header>
 
-			{/* 2024 */}
-			<section className="space-y-4">
-				<SectionHeader label="2024" />
-				<div className="border border-border p-4 space-y-3 hover:bg-secondary transition-none">
-					<div className="flex items-center gap-3">
-						<span className="font-mono text-xs text-muted-foreground">
-							[ 2024.06 ]
-						</span>
-						<span className="font-mono text-sm">
-							GRADUATED FROM YILDIZ TECHNICAL UNIVERSITY
-						</span>
-					</div>
-					<p className="text-sm text-muted-foreground leading-relaxed">
-						Completed BSc in Computer Engineering with GPA 3.39. Focused on
-						Distributed Systems, Advanced Operating Systems, Databases, and
-						Software Architecture.
-					</p>
-				</div>
-			</section>
+			<div className="space-y-12">
+				{Array.from(grouped.entries())
+					.sort(([a], [b]) => b - a)
+					.map(([year, yearEvents]) => (
+						<div key={year}>
+							{/* Year header */}
+							<div className="flex items-center gap-4 mb-6">
+								<div className="w-1.5 h-1.5 bg-accent" />
+								<span className="font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
+									{year}
+								</span>
+								<div className="flex-1 h-px bg-border" />
+							</div>
 
-			{/* 2023 */}
-			<section className="space-y-4">
-				<SectionHeader label="2023" />
-
-				<div className="border border-border p-4 space-y-3 hover:bg-secondary transition-none">
-					<div className="flex items-center gap-3">
-						<span className="font-mono text-xs text-muted-foreground">
-							[ 2023.11 ]
-						</span>
-						<span className="font-mono text-sm">
-							STARTED AT TRENDYOL AS MID-LEVEL SOFTWARE ENGINEER
-						</span>
-					</div>
-					<p className="text-sm text-muted-foreground leading-relaxed">
-						Promoted and joined Trendyol to work on high-scale event-driven
-						microservices. Architected systems handling ~1.4M req/min with CQRS
-						+ CDC patterns.
-					</p>
-				</div>
-
-				<div className="border border-border p-4 space-y-3 hover:bg-secondary transition-none">
-					<div className="flex items-center gap-3">
-						<span className="font-mono text-xs text-muted-foreground">
-							[ 2023 ]
-						</span>
-						<span className="font-mono text-sm">
-							CO-INITIATED CHAKI FRAMEWORK
-						</span>
-					</div>
-					<p className="text-sm text-muted-foreground leading-relaxed">
-						Started contributing to Chaki, an open-source Golang framework
-						designed to reduce boilerplate in microservice development.
-						Implemented auto-configuration and observability modules.
-					</p>
-				</div>
-			</section>
-
-			{/* 2022 */}
-			<section className="space-y-4">
-				<SectionHeader label="2022" />
-
-				<div className="border border-border p-4 space-y-3 hover:bg-secondary transition-none">
-					<div className="flex items-center gap-3">
-						<span className="font-mono text-xs text-muted-foreground">
-							[ 2022.09 ]
-						</span>
-						<span className="font-mono text-sm">JOINED DOĞUŞ TECHNOLOGY</span>
-					</div>
-					<p className="text-sm text-muted-foreground leading-relaxed">
-						Started as Trainee Software Engineer, later promoted to Junior.
-						Worked on multi-tenant authentication APIs, Kafka integrations, and
-						distributed system architectures.
-					</p>
-				</div>
-			</section>
-
-			{/* 2020 */}
-			<section className="space-y-4">
-				<SectionHeader label="2020" />
-
-				<div className="border border-border p-4 space-y-3 hover:bg-secondary transition-none">
-					<div className="flex items-center gap-3">
-						<span className="font-mono text-xs text-muted-foreground">
-							[ 2020 ]
-						</span>
-						<span className="font-mono text-sm">
-							STARTED COMPUTER ENGINEERING AT YILDIZ TECHNICAL UNIVERSITY
-						</span>
-					</div>
-					<p className="text-sm text-muted-foreground leading-relaxed">
-						Began my journey in computer engineering, focusing on distributed
-						systems and backend development.
-					</p>
-				</div>
-			</section>
+							<div className="border-l-2 border-border ml-1.5 pl-8 space-y-6">
+								{yearEvents.map((e) => (
+									<div key={e.date} className="relative">
+										<div className="absolute -left-[34px] top-1.5 w-1.5 h-1.5 bg-accent" />
+										<div className="space-y-2">
+											<div className="flex items-baseline gap-4">
+												<time className="font-mono text-[10px] text-muted-foreground tabular-nums">
+													{e.date}
+												</time>
+												<h3 className="font-header text-sm uppercase tracking-tight">
+													{e.event}
+												</h3>
+											</div>
+											<p className="text-muted-foreground text-[14px] leading-relaxed">
+												{e.description}
+											</p>
+										</div>
+									</div>
+								))}
+							</div>
+						</div>
+					))}
+			</div>
 		</div>
 	);
 }

@@ -8,7 +8,9 @@ export function ReadingProgress() {
 
 	useEffect(() => {
 		const updatePosition = () => {
-			const container = document.getElementById("writings-container");
+			const container =
+				document.getElementById("writings-container") ||
+				document.getElementById("logs-container");
 			if (container) {
 				const rect = container.getBoundingClientRect();
 				setLeft(rect.left - 20); // 20px to the left of writings

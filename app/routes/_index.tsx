@@ -1,147 +1,208 @@
 import { Link } from "react-router";
 import type { Route } from "./+types/_index";
-import { getAllPosts } from "~/lib/mdx.server";
-import { SectionHeader } from "~/components/brutalist/section-header";
+import { ActivityFeed } from "~/components/light/activity-feed";
 
 export async function loader() {
-	const posts = await getAllPosts();
-	return { posts };
+	return {};
 }
 
 export function meta({}: Route.MetaArgs) {
 	return [
-		{ title: "EVREN ISPIROGLU — BACKEND ENGINEER" },
+		{ title: "EI-01 — CORE_SYSTEM" },
 		{
 			name: "description",
 			content:
-				"Backend engineer building event-driven systems and high-performance APIs.",
+				"Architecting robust backend systems & scalable data pipelines. Specializing in distributed architecture and high-performance APIs.",
 		},
 	];
 }
 
-export default function Index({ loaderData }: Route.ComponentProps) {
-	const { posts } = loaderData;
+export default function Index({}: Route.ComponentProps) {
+	const activityEntries = [
+		{
+			timestamp: "14:32:01",
+			type: "COMMIT",
+			typeColor: "green" as const,
+			message:
+				"Optimized database query routing for primary service mesh. Latency reduced by 14ms.",
+		},
+		{
+			timestamp: "09:15:44",
+			type: "DEPLOY",
+			typeColor: "red" as const,
+			message: "v2.4.1 rolled out to production environment.",
+		},
+		{
+			timestamp: "08:00:00",
+			type: "SYSTEM",
+			typeColor: "muted" as const,
+			message: "Automated backup sequence completed successfully.",
+		},
+		{
+			timestamp: "YEST",
+			type: "MERGE",
+			typeColor: "green" as const,
+			message: "Feature branch 'auth-refactor' merged into main.",
+		},
+	];
+
+	const techStack = [
+		"Go",
+		"Kotlin",
+		"TypeScript",
+		"Kafka",
+		"gRPC",
+		"Kubernetes",
+		"PostgreSQL",
+		"Redis",
+		"Elasticsearch",
+	];
 
 	return (
-		<div className="space-y-20">
-			{/* ── HERO ── */}
-			<section className="space-y-8">
-				<div className="space-y-2">
-					<h1 className="font-header text-5xl md:text-7xl lg:text-8xl phosphor-glow">
-						EVREN
-						<br />
-						ISPIROGLU
-					</h1>
-					<p className="font-mono-data text-xs text-muted-foreground">
-						/// BACKEND ENGINEER — EVENT-DRIVEN SYSTEMS
-					</p>
-				</div>
+		<div className="space-y-20 max-w-6xl">
+			{/* ── HERO / IDENTIFICATION ── */}
+			<section>
+				<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+					<div className="lg:col-span-8 space-y-6">
+						{/* Section label */}
+						<div className="flex items-center gap-4">
+							<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+								/// IDENTIFICATION
+							</span>
+							<div className="flex-1 h-px bg-border" />
+						</div>
 
-				<div className="grid grid-cols-2 md:grid-cols-4 gap-0 border border-border">
-					<div className="p-3 border-r border-b border-border md:border-b-0">
-						<span className="font-mono-data text-[9px] text-muted-foreground block mb-1">
-							UNIT
-						</span>
-						<span className="font-mono text-sm">EI-01</span>
-					</div>
-					<div className="p-3 border-b border-border md:border-r md:border-b-0">
-						<span className="font-mono-data text-[9px] text-muted-foreground block mb-1">
-							STATUS
-						</span>
-						<span className="font-mono text-sm text-[#4AF626]">ONLINE</span>
-					</div>
-					<div className="p-3 border-r border-border">
-						<span className="font-mono-data text-[9px] text-muted-foreground block mb-1">
-							LOCATION
-						</span>
-						<span className="font-mono text-sm">REMOTE</span>
-					</div>
-					<div className="p-3">
-						<span className="font-mono-data text-[9px] text-muted-foreground block mb-1">
-							REV
-						</span>
-						<span className="font-mono text-sm">2.6.1</span>
-					</div>
-				</div>
+						{/* Headline */}
+						<h1 className="font-header text-5xl lg:text-7xl leading-[0.9]">
+							Architecting robust backend systems &amp; scalable data pipelines.
+						</h1>
 
-				<p className="text-muted-foreground max-w-xl leading-relaxed">
-					Building event-driven systems and high-performance APIs with a focus
-					on reliability, consistency, and observability. Designing distributed
-					services with Kafka, gRPC, and Kubernetes.
-				</p>
+						{/* Subtitle */}
+						<p className="text-muted-foreground text-lg leading-relaxed max-w-xl">
+							Specializing in distributed architecture, high-performance APIs,
+							and maintaining order in complex technical ecosystems. Currently
+							deploying solutions across multiple cloud environments.
+						</p>
 
-				<div className="flex gap-4">
-					<Link
-						to="/projects"
-						className="inline-flex items-center gap-2 px-4 py-2 border border-border font-mono-data text-[11px] text-foreground hover:border-accent hover:text-accent transition-none"
-					>
-						<span className="text-accent">&#62;&#62;&#62;</span>
-						VIEW PROJECTS
-					</Link>
-					<Link
-						to="/writing"
-						className="inline-flex items-center gap-2 px-4 py-2 border border-border font-mono-data text-[11px] text-muted-foreground hover:text-foreground transition-none"
-					>
-						<span className="text-muted-foreground">///</span>
-						READ WRITING
-					</Link>
+						{/* CTAs */}
+						<div className="flex gap-4 pt-2">
+							<Link
+								to="/projects"
+								className="inline-flex items-center gap-2 px-4 py-2 border border-border font-mono text-[11px] text-foreground hover:border-accent hover:text-accent transition-colors duration-150 active:translate-y-px uppercase tracking-wider"
+							>
+								<span className="text-accent">&gt;&gt;&gt;</span>
+								VIEW PROJECTS
+							</Link>
+							<Link
+								to="/logs"
+								className="inline-flex items-center gap-2 px-4 py-2 border border-border font-mono text-[11px] text-muted-foreground hover:text-foreground transition-colors duration-150 active:translate-y-px uppercase tracking-wider"
+							>
+								<span className="text-muted-foreground">&gt;&gt;&gt;</span>
+								VIEW LOGS
+							</Link>
+						</div>
+					</div>
+
+					{/* Current Node (right side, desktop only) */}
+					<div className="hidden lg:block lg:col-span-4 lg:text-right">
+						<div className="inline-flex flex-col items-end gap-2 border-r-2 border-accent pr-4">
+							<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+								Current Node
+							</span>
+							<span className="font-mono text-[11px] text-foreground font-bold tabular-nums">
+								us-west-2a
+							</span>
+							<span className="font-mono text-[10px] text-status-green flex items-center gap-1.5 uppercase tracking-wider">
+								<span className="w-1.5 h-1.5 bg-status-green inline-block animate-pulse" />
+								ACTIVE
+							</span>
+						</div>
+					</div>
 				</div>
 			</section>
 
-			{/* ── WRITING PREVIEW ── */}
-			<section className="space-y-6">
-				<SectionHeader label="WRITING ARCHIVE" />
-
-				<div className="border border-border">
-					<div className="grid grid-cols-[auto_auto_1fr_auto] gap-0 border-b border-border px-4 py-2.5 bg-secondary">
-						<span className="font-mono-data text-[10px] text-muted-foreground w-14">
-							YEAR
+			{/* ── LATEST ACTIVITY + SYSTEM STATE ── */}
+			<section className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16">
+				{/* Terminal Feed */}
+				<div className="lg:col-span-8 space-y-4">
+					<div className="flex items-center gap-4">
+						<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider whitespace-nowrap">
+							/// LATEST_ACTIVITY
 						</span>
-						<span className="font-mono-data text-[10px] text-muted-foreground w-16">
-							DATE
-						</span>
-						<span className="font-mono-data text-[10px] text-muted-foreground">
-							TITLE
-						</span>
-						<span className="font-mono-data text-[10px] text-muted-foreground w-14 text-right">
-							READ
-						</span>
+						<div className="flex-1 h-px bg-border" />
 					</div>
 
-					{posts.slice(0, 10).map((post) => {
-						const date = new Date(post.date);
-						const year = date.getFullYear();
-						const month = String(date.getMonth() + 1).padStart(2, "0");
-						const day = String(date.getDate()).padStart(2, "0");
-
-						return (
-							<Link
-								key={post.slug}
-								to={`/writing/${post.slug}`}
-								className="grid grid-cols-[auto_auto_1fr_auto] gap-0 items-center px-4 py-3 border-b border-border last:border-0 hover:bg-secondary transition-none group"
-							>
-								<span className="font-mono text-xs text-muted-foreground w-14">
-									{year}
-								</span>
-								<span className="font-mono text-xs text-muted-foreground w-16">{`${month}/${day}`}</span>
-								<span className="text-sm group-hover:text-accent transition-none">
-									{post.title}
-								</span>
-								<span className="font-mono-data text-[10px] text-muted-foreground w-14 text-right group-hover:text-accent transition-none">
-									&#62;&#62;&#62;
-								</span>
-							</Link>
-						);
-					})}
+					<ActivityFeed entries={activityEntries} />
 				</div>
 
-				{posts.length === 0 && (
-					<div className="border border-border p-8 text-center">
-						<span className="font-mono-data text-xs text-muted-foreground">
-							[ NO DATA AVAILABLE ]
-						</span>
+				{/* Status Sidebar */}
+				<aside className="lg:col-span-4 space-y-8">
+					{/* System State */}
+					<div className="space-y-3">
+						<div className="flex items-center gap-4">
+							<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider whitespace-nowrap">
+								/// SYSTEM_STATE
+							</span>
+							<div className="flex-1 h-px bg-border" />
+						</div>
+
+						<div className="border border-border bg-card">
+							<div className="flex justify-between items-center py-2.5 px-4 border-b border-border">
+								<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+									Uptime
+								</span>
+								<span className="font-mono text-[11px] text-foreground tabular-nums">
+									99.99%
+								</span>
+							</div>
+							<div className="flex justify-between items-center py-2.5 px-4 border-b border-border">
+								<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+									Load Avg
+								</span>
+								<span className="font-mono text-[11px] text-foreground tabular-nums">
+									0.14, 0.08, 0.05
+								</span>
+							</div>
+							<div className="flex justify-between items-center py-2.5 px-4 border-b border-border">
+								<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+									Memory
+								</span>
+								<span className="font-mono text-[11px] text-foreground tabular-nums">
+									32GB / 64GB
+								</span>
+							</div>
+							<div className="flex justify-between items-center py-2.5 px-4">
+								<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+									Version
+								</span>
+								<span className="font-mono text-[11px] text-foreground tabular-nums">
+									v2.6.1
+								</span>
+							</div>
+						</div>
 					</div>
-				)}
+
+					{/* Core Stack */}
+					<div className="space-y-3">
+						<div className="flex items-center gap-4">
+							<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider whitespace-nowrap">
+								/// CORE_STACK
+							</span>
+							<div className="flex-1 h-px bg-border" />
+						</div>
+
+						<div className="flex flex-wrap gap-2">
+							{techStack.map((tech) => (
+								<span
+									key={tech}
+									className="font-mono text-[9px] text-foreground border border-border px-2 py-0.5 uppercase tracking-wider"
+								>
+									{tech}
+								</span>
+							))}
+						</div>
+					</div>
+				</aside>
 			</section>
 		</div>
 	);

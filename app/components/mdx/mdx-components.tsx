@@ -6,7 +6,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 		h1: ({ className, ...props }) => (
 			<h1
 				className={cn(
-					"scroll-m-20 font-header text-3xl lg:text-4xl mb-6",
+					"scroll-m-20 font-header text-3xl lg:text-4xl mb-8",
 					className,
 				)}
 				{...props}
@@ -33,7 +33,7 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 		h4: ({ className, ...props }) => (
 			<h4
 				className={cn(
-					"scroll-m-20 font-mono-data text-sm mt-8 mb-3 text-muted-foreground",
+					"scroll-m-20 font-mono text-sm mt-8 mb-3 text-muted-foreground uppercase tracking-wide",
 					className,
 				)}
 				{...props}
@@ -66,25 +66,50 @@ export function useMDXComponents(components: MDXComponents): MDXComponents {
 		code: ({ className, ...props }) => (
 			<code
 				className={cn(
-					"relative border border-border bg-secondary px-[0.3rem] py-[0.2rem] font-mono text-xs",
+					"relative border border-border bg-secondary px-[0.3rem] py-[0.2rem] font-mono text-xs tabular-nums",
 					className,
 				)}
 				{...props}
 			/>
 		),
-		pre: ({ className, ...props }) => (
-			<pre
-				className={cn(
-					"mb-4 mt-6 overflow-x-auto border border-border bg-secondary p-4 font-mono text-xs",
-					className,
-				)}
-				{...props}
-			/>
+		pre: ({ className, children, ...props }) => (
+			<div className="my-8 border border-border">
+				{/* Code panel header */}
+				<div className="flex justify-between items-center px-4 py-2 border-b border-border bg-secondary font-mono text-[9px] text-muted-foreground uppercase tracking-wider">
+					<span>/// IMPLEMENTATION_EXAMPLE</span>
+					<button
+						type="button"
+						className="hover:text-accent transition-colors duration-150"
+						onClick={(e) => {
+							const code = e.currentTarget
+								.closest(".border-border")
+								?.querySelector("pre code");
+							if (code?.textContent) {
+								navigator.clipboard.writeText(code.textContent);
+							}
+						}}
+					>
+						COPY_CODE
+					</button>
+				</div>
+				{/* Dark code panel */}
+				<div className="code-panel overflow-x-auto p-4">
+					<pre
+						className={cn(
+							"font-mono text-xs leading-relaxed whitespace-pre",
+							className,
+						)}
+						{...props}
+					>
+						{children}
+					</pre>
+				</div>
+			</div>
 		),
 		a: ({ className, ...props }) => (
 			<a
 				className={cn(
-					"font-medium text-foreground hover:text-accent underline underline-offset-4 transition-none",
+					"font-medium text-foreground hover:text-accent underline underline-offset-4 transition-colors duration-150",
 					className,
 				)}
 				{...props}

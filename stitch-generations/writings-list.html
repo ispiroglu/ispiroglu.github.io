@@ -1,0 +1,450 @@
+<!doctype html>
+
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Writings Archive - EI-01</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&amp;family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#5e5f5d",
+              "secondary-fixed-dim": "#c8c5ca",
+              "on-primary-fixed": "#1a1c1a",
+              "graphite-secondary": "#6B6B6B",
+              "surface-dim": "#ddd9d8",
+              secondary: "#5f5e61",
+              "inverse-surface": "#313030",
+              "on-error": "#ffffff",
+              "primary-fixed-dim": "#c7c6c4",
+              outline: "#757874",
+              background: "#fcf8f7",
+              "pure-surface": "#FFFFFF",
+              "error-container": "#ffdad6",
+              surface: "#fcf8f7",
+              "on-surface": "#1c1b1b",
+              "architectural-ink": "#18181B",
+              "on-secondary": "#ffffff",
+              "primary-container": "#faf9f6",
+              "hairline-rule": "#E5E0DA",
+              "on-surface-variant": "#444844",
+              "cool-steel": "#F0EDE8",
+              tertiary: "#625d5d",
+              "tertiary-fixed": "#e8e1e1",
+              "on-tertiary-fixed": "#1e1b1b",
+              "on-primary-fixed-variant": "#464745",
+              "secondary-container": "#e4e1e6",
+              "tertiary-fixed-dim": "#ccc5c5",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed-variant": "#47464a",
+              "on-tertiary-container": "#767171",
+              "surface-tint": "#5e5f5d",
+              "surface-container-low": "#f7f3f2",
+              "surface-container-high": "#ebe7e6",
+              "on-primary": "#ffffff",
+              "signal-red": "#D41515",
+              "on-background": "#1c1b1b",
+              "status-green": "#2D8C4A",
+              "on-secondary-container": "#656467",
+              "primary-fixed": "#e3e2e0",
+              "surface-container": "#f1edec",
+              "warm-paper": "#FAF9F6",
+              error: "#ba1a1a",
+              "surface-container-highest": "#e5e2e1",
+              "on-secondary-fixed": "#1b1b1e",
+              "on-tertiary-fixed-variant": "#4a4646",
+              "outline-variant": "#c5c7c3",
+              "on-primary-container": "#727270",
+              "inverse-on-surface": "#f4f0ef",
+              "surface-variant": "#e5e2e1",
+              "on-tertiary": "#ffffff",
+              "inverse-primary": "#c7c6c4",
+              "secondary-fixed": "#e4e1e6",
+              "on-error-container": "#93000a",
+              "tertiary-container": "#fff7f7",
+              "surface-bright": "#fcf8f7",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              "sidebar-collapsed": "64px",
+              "sidebar-expanded": "256px",
+              gutter: "24px",
+              "container-max": "1200px",
+              "section-v": "clamp(4rem, 10vw, 8rem)",
+            },
+            fontFamily: {
+              "mono-label": ["JetBrains Mono"],
+              "headline-lg": ["Hanken Grotesk"],
+              "mono-metadata": ["JetBrains Mono"],
+              "headline-md": ["Hanken Grotesk"],
+              "body-md": ["Hanken Grotesk"],
+            },
+            fontSize: {
+              "mono-label": [
+                "13px",
+                {
+                  lineHeight: "1.4",
+                  letterSpacing: "0.02em",
+                  fontWeight: "400",
+                },
+              ],
+              "headline-lg": [
+                "48px",
+                {
+                  lineHeight: "1.1",
+                  letterSpacing: "-0.03em",
+                  fontWeight: "700",
+                },
+              ],
+              "mono-metadata": [
+                "11px",
+                {
+                  lineHeight: "1.2",
+                  fontWeight: "400",
+                },
+              ],
+              "headline-md": [
+                "32px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "body-md": [
+                "16px",
+                {
+                  lineHeight: "1.6",
+                  fontWeight: "400",
+                },
+              ],
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+  <body
+    class="bg-warm-paper text-on-surface font-body-md text-body-md antialiased min-h-screen flex"
+  >
+    <!-- SideNavBar Component -->
+    <nav
+      class="hidden md:flex flex-col h-screen w-sidebar-expanded fixed left-0 top-0 bg-surface border-r border-hairline-rule py-gutter space-y-4"
+    >
+      <div class="px-gutter mb-8">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-10 h-10 bg-cool-steel border border-hairline-rule flex items-center justify-center"
+          >
+            <span class="material-symbols-outlined text-architectural-ink"
+              >person</span
+            >
+          </div>
+          <div>
+            <div
+              class="font-mono-label text-mono-label font-bold text-architectural-ink tracking-tighter"
+            >
+              EI-01
+            </div>
+            <div
+              class="font-mono-metadata text-mono-metadata text-graphite-secondary uppercase tracking-widest"
+            >
+              STATUS / ONLINE
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flex-1 flex flex-col space-y-1">
+        <a
+          class="flex items-center gap-3 border-l-2 border-transparent text-graphite-secondary px-4 py-3 font-mono-label uppercase hover:bg-cool-steel transition-colors duration-100 active:-translate-y-px transition-transform duration-75"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >home</span
+          >
+          HOME
+        </a>
+        <a
+          class="flex items-center gap-3 border-l-2 border-signal-red bg-cool-steel text-on-surface px-4 py-3 font-mono-label uppercase active:-translate-y-px transition-transform duration-75"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >edit_note</span
+          >
+          WRITINGS
+        </a>
+        <a
+          class="flex items-center gap-3 border-l-2 border-transparent text-graphite-secondary px-4 py-3 font-mono-label uppercase hover:bg-cool-steel transition-colors duration-100 active:-translate-y-px transition-transform duration-75"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >terminal</span
+          >
+          PROJECTS
+        </a>
+        <a
+          class="flex items-center gap-3 border-l-2 border-transparent text-graphite-secondary px-4 py-3 font-mono-label uppercase hover:bg-cool-steel transition-colors duration-100 active:-translate-y-px transition-transform duration-75"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >database</span
+          >
+          TECHSTACK
+        </a>
+        <a
+          class="flex items-center gap-3 border-l-2 border-transparent text-graphite-secondary px-4 py-3 font-mono-label uppercase hover:bg-cool-steel transition-colors duration-100 active:-translate-y-px transition-transform duration-75"
+          href="#"
+        >
+          <span
+            class="material-symbols-outlined"
+            style="font-variation-settings: &quot;FILL&quot; 0"
+            >person</span
+          >
+          ABOUT
+        </a>
+      </div>
+      <div class="px-gutter mt-auto">
+        <button
+          class="w-full bg-pure-surface border border-architectural-ink text-architectural-ink font-mono-label text-mono-label py-3 px-4 hover:bg-cool-steel transition-colors duration-100 active:-translate-y-px text-left"
+        >
+          &gt;&gt;&gt; CONTACT
+        </button>
+        <div class="mt-8 space-y-2">
+          <div
+            class="flex items-center gap-2 text-graphite-secondary font-mono-metadata text-mono-metadata uppercase"
+          >
+            <span class="material-symbols-outlined text-[14px]">memory</span>
+            UNIT / EI-01
+          </div>
+          <div
+            class="flex items-center gap-2 text-graphite-secondary font-mono-metadata text-mono-metadata uppercase"
+          >
+            <span class="material-symbols-outlined text-[14px]"
+              >check_circle</span
+            >
+            SYS / STABLE
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- TopAppBar Component (Mobile / Responsive Context) -->
+    <header
+      class="fixed top-0 right-0 w-full md:w-[calc(100%-256px)] h-16 bg-surface border-b border-hairline-rule flex items-center justify-between px-gutter z-50 transition-all duration-200"
+    >
+      <div
+        class="font-mono-label text-mono-label font-bold text-architectural-ink md:hidden"
+      >
+        /// CORE_SYSTEM
+      </div>
+      <div class="hidden md:block"></div>
+      <!-- Spacer for web -->
+      <div class="flex items-center gap-4 text-graphite-secondary">
+        <button
+          class="hover:text-architectural-ink transition-colors duration-200"
+        >
+          <span class="material-symbols-outlined">settings</span>
+        </button>
+        <button
+          class="hover:text-architectural-ink transition-colors duration-200"
+        >
+          <span class="material-symbols-outlined">notifications_active</span>
+        </button>
+      </div>
+    </header>
+    <!-- Main Content Canvas -->
+    <main
+      class="flex-1 w-full md:ml-[256px] pt-16 md:pt-24 px-gutter pb-section-v flex justify-center"
+    >
+      <div
+        class="w-full max-w-container-max grid grid-cols-1 lg:grid-cols-12 gap-gutter"
+      >
+        <!-- Content Area Offset -->
+        <div class="lg:col-span-10 lg:col-start-2 xl:col-span-8 xl:col-start-3">
+          <!-- Section Header Pattern -->
+          <div class="mb-12 flex items-center gap-4">
+            <div
+              class="font-mono-label text-mono-label text-graphite-secondary uppercase whitespace-nowrap"
+            >
+              /// WRITING ARCHIVE
+            </div>
+            <div class="flex-1 h-px bg-hairline-rule"></div>
+          </div>
+          <!-- Articles List -->
+          <div class="flex flex-col border-t border-hairline-rule">
+            <!-- Article Row -->
+            <article
+              class="group border-b border-hairline-rule py-8 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 hover:bg-pure-surface transition-colors duration-100"
+            >
+              <div class="md:col-span-3 pt-1">
+                <time
+                  class="font-mono-label text-mono-label text-graphite-secondary"
+                  >2023.10.24</time
+                >
+              </div>
+              <div class="md:col-span-9 flex flex-col gap-3">
+                <h2
+                  class="font-headline-md text-headline-md text-architectural-ink group-hover:text-signal-red transition-colors duration-100 cursor-pointer"
+                >
+                  Architectural Patterns in Modern Distributed Systems
+                </h2>
+                <p class="text-on-surface-variant max-w-2xl">
+                  An exploration of resilience engineering and state management
+                  when scaling microservices across multi-region infrastructure.
+                  We discuss the tradeoffs between eventual consistency and
+                  strict serializability.
+                </p>
+                <div class="flex items-center gap-2 mt-2">
+                  <span
+                    class="px-2 py-0.5 border border-hairline-rule font-mono-metadata text-mono-metadata text-graphite-secondary bg-pure-surface"
+                    >SYSTEMS</span
+                  >
+                  <span
+                    class="px-2 py-0.5 border border-hairline-rule font-mono-metadata text-mono-metadata text-graphite-secondary bg-pure-surface"
+                    >ARCHITECTURE</span
+                  >
+                </div>
+              </div>
+            </article>
+            <!-- Article Row -->
+            <article
+              class="group border-b border-hairline-rule py-8 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 hover:bg-pure-surface transition-colors duration-100"
+            >
+              <div class="md:col-span-3 pt-1">
+                <time
+                  class="font-mono-label text-mono-label text-graphite-secondary"
+                  >2023.08.12</time
+                >
+              </div>
+              <div class="md:col-span-9 flex flex-col gap-3">
+                <h2
+                  class="font-headline-md text-headline-md text-architectural-ink group-hover:text-signal-red transition-colors duration-100 cursor-pointer"
+                >
+                  The Illusion of Statelessness
+                </h2>
+                <p class="text-on-surface-variant max-w-2xl">
+                  Why true statelessness is a myth in practical application
+                  development. A deep dive into session management, cache
+                  invalidation, and the hidden costs of externalizing state to
+                  the database layer.
+                </p>
+                <div class="flex items-center gap-2 mt-2">
+                  <span
+                    class="px-2 py-0.5 border border-hairline-rule font-mono-metadata text-mono-metadata text-graphite-secondary bg-pure-surface"
+                    >BACKEND</span
+                  >
+                  <span
+                    class="px-2 py-0.5 border border-hairline-rule font-mono-metadata text-mono-metadata text-graphite-secondary bg-pure-surface"
+                    >THEORY</span
+                  >
+                </div>
+              </div>
+            </article>
+            <!-- Article Row -->
+            <article
+              class="group border-b border-hairline-rule py-8 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 hover:bg-pure-surface transition-colors duration-100"
+            >
+              <div class="md:col-span-3 pt-1">
+                <time
+                  class="font-mono-label text-mono-label text-graphite-secondary"
+                  >2023.05.03</time
+                >
+              </div>
+              <div class="md:col-span-9 flex flex-col gap-3">
+                <h2
+                  class="font-headline-md text-headline-md text-architectural-ink group-hover:text-signal-red transition-colors duration-100 cursor-pointer"
+                >
+                  Migrating from Monolith to Event-Driven: A Post-Mortem
+                </h2>
+                <p class="text-on-surface-variant max-w-2xl">
+                  Lessons learned from a two-year migration project. Analyzing
+                  the friction points in event schema evolution, message replay
+                  strategies, and debugging distributed asynchronous flows.
+                </p>
+                <div class="flex items-center gap-2 mt-2">
+                  <span
+                    class="px-2 py-0.5 border border-hairline-rule font-mono-metadata text-mono-metadata text-graphite-secondary bg-pure-surface"
+                    >CASE STUDY</span
+                  >
+                  <span
+                    class="px-2 py-0.5 border border-hairline-rule font-mono-metadata text-mono-metadata text-graphite-secondary bg-pure-surface"
+                    >ENGINEERING</span
+                  >
+                </div>
+              </div>
+            </article>
+            <!-- Article Row -->
+            <article
+              class="group border-b border-hairline-rule py-8 grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-8 hover:bg-pure-surface transition-colors duration-100"
+            >
+              <div class="md:col-span-3 pt-1">
+                <time
+                  class="font-mono-label text-mono-label text-graphite-secondary"
+                  >2023.01.19</time
+                >
+              </div>
+              <div class="md:col-span-9 flex flex-col gap-3">
+                <h2
+                  class="font-headline-md text-headline-md text-architectural-ink group-hover:text-signal-red transition-colors duration-100 cursor-pointer"
+                >
+                  Typography as an Engineering Constraint
+                </h2>
+                <p class="text-on-surface-variant max-w-2xl">
+                  Treating font loading, layout shifts, and rendering
+                  performance with the same rigor as database query
+                  optimization. A perspective on technical design systems.
+                </p>
+                <div class="flex items-center gap-2 mt-2">
+                  <span
+                    class="px-2 py-0.5 border border-hairline-rule font-mono-metadata text-mono-metadata text-graphite-secondary bg-pure-surface"
+                    >DESIGN</span
+                  >
+                  <span
+                    class="px-2 py-0.5 border border-hairline-rule font-mono-metadata text-mono-metadata text-graphite-secondary bg-pure-surface"
+                    >PERFORMANCE</span
+                  >
+                </div>
+              </div>
+            </article>
+          </div>
+          <!-- Pagination / Load More (Terminal Aesthetic) -->
+          <div class="mt-16 flex justify-center">
+            <button
+              class="bg-pure-surface border border-hairline-rule text-architectural-ink font-mono-label text-mono-label py-3 px-8 hover:bg-cool-steel hover:border-architectural-ink transition-all duration-100 active:-translate-y-px"
+            >
+              [ LOAD PREVIOUS LOGS ]
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

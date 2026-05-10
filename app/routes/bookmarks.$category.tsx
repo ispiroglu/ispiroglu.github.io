@@ -1,136 +1,146 @@
 import { Link } from "react-router";
+import { useState } from "react";
 import type { Route } from "./+types/bookmarks.$category";
-import { TechMarker } from "~/components/brutalist/ascii-frame";
 
-export async function loader({ params }: Route.LoaderArgs) {
-  const { category } = params;
-
-  // Mock data - in real implementation, load from JSON file
-  const bookmarks = [
-    {
-      id: "1",
-      title: "Dia Browser",
-      url: "https://dia.com",
-      description: "AI chat with your tabs",
-      image: "https://via.placeholder.com/300x200",
-      tags: ["browser", "ai"],
-    },
-    {
-      id: "2",
-      title: "Corner Time",
-      url: "https://cornertime.app",
-      description: "No more hovering just for time checking",
-      image: "https://via.placeholder.com/300x200",
-      tags: ["productivity", "mac"],
-    },
-  ];
-
-  const categoryNames: Record<string, string> = {
-    "apps-tools": "APPS & TOOLS",
-    "art-prints": "ART & PRINTS",
-    books: "BOOKS & MAGAZINES",
-    design: "DESIGN",
-    fonts: "FONTS",
-    frontend: "FRONTEND",
-    icons: "ICONS",
-    portfolio: "PORTFOLIO",
-    reading: "READING",
-    tweets: "TWEETS",
-    vscode: "VS CODE",
-    wallpapers: "WALLPAPERS",
-    websites: "WEBSITES",
-  };
-
-  return {
-    category,
-    categoryName: categoryNames[category] || category,
-    bookmarks,
-  };
+export function meta({ params }: Route.MetaArgs) {
+	const category = params.category?.toUpperCase() || "BOOKMARKS";
+	return [
+		{ title: `EI-01 — ${category}` },
+		{ name: "description", content: `${category} bookmarks and resources.` },
+	];
 }
 
-export function meta({ data }: Route.MetaArgs) {
-  if (!data) {
-    return [{ title: "404 — NOT FOUND" }];
-  }
+export default function BookmarksCategory({ params }: Route.ComponentProps) {
+	const category = params.category || "unknown";
+	const displayName = category.toUpperCase();
+	const [openIndex, setOpenIndex] = useState<number | null>(null);
 
-  return [
-    { title: `${data.categoryName} — BOOKMARKS — EVREN ISPIROGLU` },
-    {
-      name: "description",
-      content: `Curated ${data.categoryName} bookmarks and resources.`,
-    },
-  ];
-}
+	const bookmarks = [
+		{
+			title: "The Architecture of Open Source Applications",
+			url: "https://aosabook.org",
+			tags: ["ARCHITECTURE", "OPEN_SOURCE"],
+			notes:
+				"A collection of essays from the creators of major open-source projects covering architectural decisions, trade-offs, and design philosophies.",
+		},
+		{
+			title: "Designing Data-Intensive Applications",
+			url: "https://dataintensive.net",
+			tags: ["DATA", "DISTRIBUTED"],
+			notes:
+				"Comprehensive guide to building reliable, scalable, and maintainable data systems. Covers replication, partitioning, transactions, and consensus.",
+		},
+		{
+			title: "Google SRE Book",
+			url: "https://sre.google/books/",
+			tags: ["SRE", "RELIABILITY"],
+			notes:
+				"Google's approach to service reliability engineering. Practical guidance on incident management, monitoring, and designing for reliability.",
+		},
+		{
+			title: "Systems Performance by Brendan Gregg",
+			url: "https://brendangregg.com",
+			tags: ["PERFORMANCE", "LINUX"],
+			notes:
+				"Enterprise and cloud computing performance analysis methodologies. Deep dives into Linux performance tools, flame graphs, and tracing.",
+		},
+	];
 
-export default function BookmarkCategory({
-  loaderData,
-}: Route.ComponentProps) {
-  const { categoryName, bookmarks } = loaderData;
+	return (
+		<div className="space-y-16 max-w-3xl">
+			{/* Back */}
+			<Link
+				to="/bookmarks"
+				className="inline-flex items-center gap-2 font-mono text-[11px] text-muted-foreground hover:text-accent transition-colors duration-150 group"
+			>
+				<span className="group-hover:-translate-x-0.5 transition-transform duration-100">
+					◄
+				</span>
+				ALL BOOKMARKS
+			</Link>
 
-  return (
-    <div className="space-y-12">
-      {/* Back link */}
-      <div className="mb-2">
-        <Link
-          to="/bookmarks"
-          className="inline-flex items-center gap-2 font-mono-data text-[11px] text-muted-foreground hover:text-accent transition-none"
-        >
-          <span className="text-accent">&#60;&#60;&#60;</span>
-          BACK TO CATEGORIES
-        </Link>
-      </div>
+			<header className="space-y-3">
+				<h1 className="font-header text-5xl">{displayName}</h1>
+				<div className="flex items-center gap-4">
+					<span className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+						/// BOOKMARK INDEX
+					</span>
+					<div className="flex-1 h-px bg-border" />
+				</div>
+			</header>
 
-      {/* Header */}
-      <header className="space-y-2">
-        <h1 className="font-header text-4xl lg:text-5xl">{categoryName}</h1>
-        <p className="font-mono-data text-xs text-muted-foreground">
-          /// {bookmarks.length} ITEMS IN THIS COLLECTION
-        </p>
-      </header>
+			<div className="border border-border">
+				{bookmarks.length === 0 ? (
+					<div className="py-16 flex items-center justify-center">
+						<span className="font-mono text-[11px] text-muted-foreground uppercase tracking-wider">
+							[ NO BOOKMARKS AVAILABLE ]
+						</span>
+					</div>
+				) : (
+					bookmarks.map((b, idx) => (
+						<div
+							key={b.title}
+							className="border-b border-border last:border-b-0"
+						>
+							{/* Header row — always visible, click to expand/collapse */}
+							<button
+								type="button"
+								onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
+								className="w-full flex items-center justify-between py-3 px-4 hover:bg-secondary transition-colors duration-150 group text-left"
+							>
+								<div className="space-y-1.5 flex-1 min-w-0">
+									<span
+										className={`font-mono text-[11px] transition-colors duration-150 ${
+											openIndex === idx
+												? "text-accent"
+												: "text-foreground group-hover:text-accent"
+										}`}
+									>
+										{b.title}
+									</span>
+									<div className="flex gap-2">
+										{b.tags.map((tag) => (
+											<span
+												key={tag}
+												className="font-mono text-[9px] text-muted-foreground border border-border px-1.5 py-0.5 uppercase"
+											>
+												{tag}
+											</span>
+										))}
+									</div>
+								</div>
+								<div className="flex items-center gap-3 shrink-0 ml-4">
+									<a
+										href={b.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										onClick={(e) => e.stopPropagation()}
+										className="font-mono text-[10px] text-accent hover:text-foreground transition-colors duration-150"
+									>
+										&gt;&gt;&gt; VISIT
+									</a>
+									<span
+										className={`font-mono text-[14px] text-muted-foreground transition-transform duration-150 ${
+											openIndex === idx ? "rotate-90" : ""
+										}`}
+									>
+										►
+									</span>
+								</div>
+							</button>
 
-      {/* Bookmarks list */}
-      <div className="space-y-0">
-        {bookmarks.map((bookmark) => (
-          <div
-            key={bookmark.id}
-            className="border border-b-0 last:border-b border-border p-5 hover:bg-secondary transition-none"
-          >
-            <div className="flex items-start justify-between gap-4 mb-2">
-              <div>
-                <div className="font-mono text-sm mb-1">{bookmark.title}</div>
-                <p className="text-xs text-muted-foreground leading-relaxed">
-                  {bookmark.description}
-                </p>
-              </div>
-              <a
-                href={bookmark.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="shrink-0 inline-flex items-center gap-1.5 font-mono-data text-[11px] text-accent hover:text-accent/80 transition-none"
-              >
-                VISIT
-                <span className="font-mono-data text-[11px]">&#62;&#62;&#62;</span>
-              </a>
-            </div>
-
-            {bookmark.tags && bookmark.tags.length > 0 && (
-              <div className="flex flex-wrap gap-2 mt-3">
-                {bookmark.tags.map((tag) => (
-                  <TechMarker key={tag} text={tag.toUpperCase()} />
-                ))}
-              </div>
-            )}
-          </div>
-        ))}
-
-        {bookmarks.length === 0 && (
-          <div className="border border-border p-8 text-center">
-            <span className="font-mono-data text-xs text-muted-foreground">
-              [ NO BOOKMARKS IN THIS CATEGORY ]
-            </span>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+							{/* Collapsible notes */}
+							{openIndex === idx && (
+								<div className="px-4 pb-4 pt-1 border-t border-border bg-muted/30">
+									<p className="text-muted-foreground text-[13px] leading-relaxed">
+										{b.notes}
+									</p>
+								</div>
+							)}
+						</div>
+					))
+				)}
+			</div>
+		</div>
+	);
 }
