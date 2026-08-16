@@ -1,13 +1,4 @@
-import type { Route } from "./+types/journey";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "EI-01 — JOURNEY LOG" },
-    { name: "description", content: "Career trajectory and milestone log." },
-  ];
-}
-
-export default function Journey() {
+export function JourneyPage() {
   const events = [
     {
       year: 2025,

@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { JourneyPage } from "../components/pages/journey-page";
+
+export const prerender = true;
+
+const title = "EI-01 — JOURNEY LOG";
+const description = "Career trajectory and milestone log.";
+---
+
+<BaseLayout title={title} description={description}>
+  <JourneyPage />
+</BaseLayout>

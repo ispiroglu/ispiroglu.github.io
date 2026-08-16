@@ -1,71 +1,79 @@
 # Personal Website & Blog
 
-A modern, fast portfolio and blog built with React Router 7 and deployed on Cloudflare Workers.
+A fast portfolio and blog built with Astro 7 and deployed on Cloudflare Workers.
 
 ## Features
 
-- ✨ **Modern Stack**: React Router 7, TypeScript, Tailwind CSS v4
 - ⚡ **Edge Deployment**: Runs on Cloudflare Workers for global, low-latency delivery
-- 📝 **MDX Blog**: Write posts in Markdown with React components
-- 🎨 **Beautiful UI**: shadcn/ui components with dark/light theme support
+- 📝 **MDX Content**: Posts in `content/writing/`, stack in `content/stack/`, precompiled at build time
+- 🎨 **Brutalist UI**: Custom Tailwind CSS v4 design, CSS byte-identical to the previous React Router build
 - 📊 **Page Views**: KV-backed view counter for blog posts
-- 🔍 **Fast Search**: Client-side search with MiniSearch
-- 📱 **Responsive**: Mobile-first design with sidebar navigation
-- ♿ **Accessible**: WCAG AA compliant with proper semantic HTML
+- ⚛️ **React Islands**: `@astrojs/react` for the sidebar shell, reading progress, and bookmarks accordion
+- 📱 **Responsive**: Sidebar navigation with a mobile layout
 
 ## Project Structure
 
 ```
-my-react-router-app/
+ispiroglu.github.io/
 ├── app/
 │   ├── components/
-│   │   ├── layout/          # Layout components (Sidebar, etc.)
-│   │   └── ui/              # shadcn/ui components
+│   │   ├── layout/          # AppShell, Sidebar
+│   │   ├── pages/           # Page components (index, about, projects, ...)
+│   │   └── ui/              # shadcn/ui components (button, card, progress)
+│   ├── layouts/
+│   │   └── BaseLayout.astro # HTML shell + fonts + AppShell island
 │   ├── lib/
-│   │   ├── mdx.server.ts    # MDX utilities (server-only)
-│   │   └── utils.ts         # Utility functions
-│   ├── routes/              # React Router file-based routes
-│   │   ├── _index.tsx       # Home page
-│   │   ├── writing._index.tsx      # Writing list
-│   │   ├── writing.$slug.tsx       # Post detail
-│   │   ├── journey.tsx             # Timeline
-│   │   ├── stack.tsx               # Tools/stack
-│   │   ├── workspace.tsx           # Desk setup
-│   │   └── bookmarks.*.tsx         # Bookmarks pages
+│   │   ├── mdx.server.ts    # MDX metadata utilities (server-only)
+│   │   ├── post-content.tsx # Precompiled post JSX
+│   │   ├── posts.generated.ts   # Generated post metadata
+│   │   ├── stack.generated.ts   # Generated stack data
+│   │   ├── views.server.ts  # KV view counter
+│   │   └── sidebar-context.ts   # Sidebar collapse context
+│   ├── pages/               # Astro routes (.astro)
+│   │   ├── index.astro      # Home page
+│   │   ├── about.astro      # About
+│   │   ├── projects.astro   # Projects
+│   │   ├── journey.astro    # Timeline
+│   │   ├── stack.astro      # Tools/stack
+│   │   ├── workspace.astro  # Desk setup
+│   │   ├── bookmarks/       # Bookmarks index + categories
+│   │   ├── logs/            # Writing list + post detail
+│   │   └── 404.astro        # Not found
 │   ├── app.css              # Global styles & theme
-│   └── root.tsx             # App root component
+│   └── env.d.ts             # Astro + Cloudflare type references
 ├── content/
 │   ├── writing/             # MDX blog posts
-│   ├── journey/             # Timeline entries (JSON)
-│   └── bookmarks/           # Bookmark collections (JSON)
-├── workers/
-│   └── app.ts               # Cloudflare Worker entry
+│   ├── stack/               # Stack tools + skills (MDX)
+│   ├── journey/             # (empty — timeline is hardcoded)
+│   └── bookmarks/           # (empty — bookmarks are hardcoded)
 ├── public/                  # Static assets
+├── astro.config.mjs         # Astro + Cloudflare adapter + redirects
 ├── wrangler.jsonc           # Cloudflare configuration
-└── vite.config.ts           # Vite + MDX configuration
+└── scripts/
+    ├── generate-posts.js    # content/writing → posts.generated.ts
+    └── generate-stack.js    # content/stack → stack.generated.ts
 ```
 
 ## Tech Stack
 
 ### Core
-- **React Router 7**: Full-stack React framework
+- **Astro 7**: Content-focused meta-framework
 - **TypeScript**: Type safety
-- **Vite**: Fast build tool
+- **Vite**: Build tool
 - **Bun**: Package manager & runtime
 
 ### Styling
 - **Tailwind CSS v4**: Utility-first CSS
-- **shadcn/ui**: Accessible component library
-- **Lucide React**: Beautiful icons
+- **shadcn/ui**: Button, card, progress primitives
+- **Lucide React**: Icons
 
 ### Content
 - **MDX**: Markdown with React components
 - **gray-matter**: Frontmatter parsing
-- **remark-gfm**: GitHub Flavored Markdown
-- **rehype-pretty-code**: Syntax highlighting with Shiki
+- **reading-time**: Estimated read time
 
 ### Deployment
-- **Cloudflare Workers**: Edge compute
+- **Cloudflare Workers**: Edge compute (`@astrojs/cloudflare`)
 - **Cloudflare KV**: Page view storage
 - **Wrangler**: Deployment CLI
 
@@ -82,23 +90,35 @@ my-react-router-app/
 bun install
 ```
 
-2. Run the development server:
+2. Run the dev server (`astro dev` is currently broken upstream with the
+   Cloudflare adapter — see below), or run the production worker locally:
 ```bash
-bun run dev
+bun run dev:worker
 ```
 
-3. Open [http://localhost:5173](http://localhost:5173) in your browser.
+> **Note on `astro dev`**: `astro dev` fails to start with `@astrojs/cloudflare`
+> on current versions — the `@cloudflare/vite-plugin` dev runner crashes with
+> `require is not defined` in `workers/runner-worker/index.js` (upstream bug).
+> The faithful local test path is `bun run dev:worker`, which builds and serves
+> the actual worker with `wrangler dev --local` (KV views emulated locally).
+
+3. Test the production worker locally:
+```bash
+bun run build
+wrangler dev --config dist/server/wrangler.json --port 8787 --local
+```
 
 ### Commands
 
-- `bun run dev` - Start development server
-- `bun run build` - Build for production
-- `bun run typecheck` - Run TypeScript checks
-- `bun run deploy` - Deploy to Cloudflare Workers
+- `bun run dev` - Start the Astro dev server (currently broken upstream with the Cloudflare adapter; use `dev:worker`)
+- `bun run dev:worker` - Build + serve the worker locally with `wrangler dev` (production-faithful)
+- `bun run build` - Generate content + build for production
+- `bun run typecheck` - `wrangler types` + `astro check`
+- `bun run deploy` - Build + deploy to Cloudflare Workers
 
 ## Content Management
 
-### Writing a Blog Post
+### Writing a Post
 
 Create a new `.mdx` file in `content/writing/`:
 
@@ -116,76 +136,41 @@ draft: false
 Your content here...
 ```
 
-### Adding a Journey Entry
+Then run `bun run generate-posts` to regenerate `app/lib/posts.generated.ts`.
+The post body renders from `app/lib/post-content.tsx` (precompiled JSX — add the rendered content there, matching the existing `conways-law` entry).
 
-Edit the appropriate year in `content/journey/` or add entries directly in `app/routes/journey.tsx`.
+### Adding Stack Items
 
-### Adding Bookmarks
-
-Add bookmark data to JSON files in `content/bookmarks/` organized by category.
+Add an `.mdx` file under `content/stack/tools/` and run `bun run generate-stack`.
 
 ## Deployment
 
-### First-time Setup
+`VIEWS_KV` must exist in your Cloudflare account (see `wrangler.jsonc` for the binding and namespace ID).
 
-1. Create a Cloudflare KV namespace for page views:
-```bash
-npx wrangler kv:namespace create PAGEVIEWS
-```
-
-2. Update `wrangler.jsonc` with your KV namespace ID:
-```jsonc
-{
-  "kv_namespaces": [
-    {
-      "binding": "PAGEVIEWS",
-      "id": "your-kv-id-here"
-    }
-  ]
-}
-```
-
-3. Deploy:
 ```bash
 bun run deploy
 ```
 
-### Subsequent Deployments
+Your site will be live at your worker's `*.workers.dev` subdomain.
 
-Just run:
-```bash
-bun run deploy
-```
+## Redirects
 
-Your site will be live at `https://my-react-router-app.YOUR_SUBDOMAIN.workers.dev`
+Defined in `astro.config.mjs`:
+- `/home` → 302 → `/` (legacy alias)
+- `/writing` → 301 → `/logs`
+- `/writing/[slug]` → 301 → `/logs/[slug]`
 
 ## Customization
 
-### Update Personal Info
-
-1. Edit `app/components/layout/sidebar.tsx` - Update name, title, and social links
-2. Edit `app/routes/_index.tsx` - Update bio and intro
-3. Replace sample content in `content/writing/` with your posts
-
-### Theme Colors
-
-Theme colors are defined in `app/app.css` using CSS variables. Adjust the `--color-*` variables to customize the theme.
-
-### Adding New Routes
-
-Add new route files to `app/routes/` and register them in `app/routes.ts`.
+- Personal info and social links: `app/components/layout/sidebar.tsx`
+- Bio and intro: `app/components/pages/index-page.tsx`
+- Theme colors: `app/app.css` CSS variables (`--color-*`)
 
 ## Performance
 
 - Built on Cloudflare's global edge network
-- Zero cold starts
-- Static assets served from CDN
-- Minimal JavaScript bundle
-- Optimized fonts and images
-
-## License
-
-MIT
+- Static assets served from the CDN with immutable caching
+- Minimal client JavaScript (React islands hydrate only where needed)
 
 ## Author
 

@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { ProjectsPage } from "../components/pages/projects-page";
+
+export const prerender = true;
+
+const title = "EI-01 — PROJECTS";
+const description = "Engineering projects and systems.";
+---
+
+<BaseLayout title={title} description={description}>
+  <ProjectsPage />
+</BaseLayout>

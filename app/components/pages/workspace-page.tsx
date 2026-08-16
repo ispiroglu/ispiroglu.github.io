@@ -1,16 +1,4 @@
-import type { Route } from "./+types/workspace";
-
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: "EI-01 — WORKSPACE" },
-		{
-			name: "description",
-			content: "Hardware, tools, and development environment.",
-		},
-	];
-}
-
-export default function Workspace() {
+export function WorkspacePage() {
 	const sections = [
 		{
 			label: "/// HARDWARE",

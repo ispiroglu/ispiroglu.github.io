@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { WorkspacePage } from "../components/pages/workspace-page";
+
+export const prerender = true;
+
+const title = "EI-01 — WORKSPACE";
+const description = "Hardware, tools, and development environment.";
+---
+
+<BaseLayout title={title} description={description}>
+  <WorkspacePage />
+</BaseLayout>

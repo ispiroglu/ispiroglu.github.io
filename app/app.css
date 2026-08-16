@@ -66,6 +66,9 @@
   --font-serif: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, monospace;
 
+  /* Reading — long-form article prose (Spline Sans Mono: humanist mono, easy to track) */
+  --font-reading: "Spline Sans Mono", "JetBrains Mono", ui-monospace, monospace;
+
   /* Geometry — ZERO border-radius on structural elements */
   --radius: 0rem;
   --radius-sm: 0rem;
@@ -141,6 +144,7 @@
   --font-sans: var(--font-sans);
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
+  --font-reading: var(--font-reading);
 
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);

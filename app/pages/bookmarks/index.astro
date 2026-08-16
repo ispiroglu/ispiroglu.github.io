@@ -1,0 +1,13 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { BookmarksIndexPage } from "../../components/pages/bookmarks-index-page";
+
+export const prerender = true;
+
+const title = "EI-01 — BOOKMARKS";
+const description = "Curated collection of bookmarks and technical resources.";
+---
+
+<BaseLayout title={title} description={description}>
+  <BookmarksIndexPage />
+</BaseLayout>

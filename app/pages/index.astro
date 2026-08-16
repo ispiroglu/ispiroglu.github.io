@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { IndexPage } from "../components/pages/index-page";
+
+export const prerender = true;
+
+const title = "EI-01 — Evren Ispiroglu";
+const description =
+  "Software engineer building distributed systems with Go and Kotlin. Event-driven architectures, high-throughput APIs, and pragmatic system design.";
+---
+
+<BaseLayout title={title} description={description}>
+  <IndexPage />
+</BaseLayout>

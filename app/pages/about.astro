@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { AboutPage } from "../components/pages/about-page";
+
+export const prerender = true;
+
+const title = "EI-01 — ABOUT";
+const description =
+  "Unit specifications and capabilities. Software engineer specializing in distributed systems and event-driven architecture.";
+---
+
+<BaseLayout title={title} description={description}>
+  <AboutPage />
+</BaseLayout>

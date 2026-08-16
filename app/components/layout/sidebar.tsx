@@ -1,4 +1,3 @@
-import { Link, useLocation } from "react-router";
 import { cn } from "~/lib/utils";
 
 const navigation = [
@@ -19,12 +18,12 @@ const onlineLinks = [
 ];
 
 interface SidebarProps {
+  pathname: string;
   isCollapsed: boolean;
   onToggle: () => void;
 }
 
-export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
-  const location = useLocation();
+export function Sidebar({ pathname, isCollapsed, onToggle }: SidebarProps) {
 
   return (
     <aside
@@ -42,14 +41,14 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
               isCollapsed ? "px-2 py-4 flex-col gap-2" : "px-4 py-5 gap-3",
             )}
           >
-            <Link
-              to="/"
+            <a
+              href="/"
               className="w-10 h-10 bg-foreground flex items-center justify-center shrink-0 hover:bg-accent transition-colors"
             >
               <span className="font-mono font-bold text-[10px] text-background">
                 EI
               </span>
-            </Link>
+            </a>
             {!isCollapsed && (
               <div className="flex-1 min-w-0 flex items-center gap-2">
                 <div>
@@ -128,13 +127,13 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
         >
           {navigation.map((item) => {
             const isActive =
-              location.pathname === item.href ||
-              (item.href !== "/" && location.pathname.startsWith(item.href));
+              pathname === item.href ||
+              (item.href !== "/" && pathname.startsWith(item.href));
 
             return (
-              <Link
+              <a
                 key={item.name}
-                to={item.href}
+                href={item.href}
                 className={cn(
                   "flex items-center border-l-2 font-mono text-[11px] uppercase transition-none",
                   isCollapsed ? "justify-center py-3" : "py-2.5 px-4 gap-3",
@@ -142,7 +141,7 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
                 )}
               >
                 {!isCollapsed && <span>{item.name}</span>}
-              </Link>
+              </a>
             );
           })}
         </nav>
@@ -170,12 +169,12 @@ export function Sidebar({ isCollapsed, onToggle }: SidebarProps) {
         {/* ── CONTACT CTA ── */}
         {!isCollapsed && (
           <div className="px-4 py-3 border-t border-border shrink-0">
-            <Link
-              to="/about"
+            <a
+              href="/about"
               className="block w-full text-left font-mono text-[11px] text-foreground border border-border px-3 py-2 hover:bg-secondary hover:border-accent hover:text-accent transition-colors duration-150 active:translate-y-px uppercase"
             >
               &gt;&gt;&gt; CONTACT
-            </Link>
+            </a>
           </div>
         )}
       </div>

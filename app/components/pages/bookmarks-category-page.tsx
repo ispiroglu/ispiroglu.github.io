@@ -1,14 +1,4 @@
-import { Link } from "react-router";
 import { useState } from "react";
-import type { Route } from "./+types/bookmarks.$category";
-
-export function meta({ params }: Route.MetaArgs) {
-	const category = params.category?.toUpperCase() || "BOOKMARKS";
-	return [
-		{ title: `EI-01 — ${category}` },
-		{ name: "description", content: `${category} bookmarks and resources.` },
-	];
-}
 
 interface Bookmark {
 	title: string;
@@ -17,7 +7,7 @@ interface Bookmark {
 	notes: string;
 }
 
-const categoryBookmarks: Record<string, Bookmark[]> = {
+export const categoryBookmarks: Record<string, Bookmark[]> = {
 	engineering: [
 		{
 			title: "Designing Data-Intensive Applications",
@@ -177,8 +167,7 @@ const categoryBookmarks: Record<string, Bookmark[]> = {
 	],
 };
 
-export default function BookmarksCategory({ params }: Route.ComponentProps) {
-	const category = params.category || "unknown";
+export function BookmarksCategoryPage({ category }: { category: string }) {
 	const displayName = category.toUpperCase();
 	const [openIndex, setOpenIndex] = useState<number | null>(null);
 
@@ -187,15 +176,15 @@ export default function BookmarksCategory({ params }: Route.ComponentProps) {
 	return (
 		<div className="space-y-16 max-w-3xl">
 			{/* Back */}
-			<Link
-				to="/bookmarks"
+			<a
+				href="/bookmarks"
 				className="inline-flex items-center gap-2 font-mono text-[11px] text-muted-foreground hover:text-accent transition-colors duration-150 group"
 			>
 				<span className="group-hover:-translate-x-0.5 transition-transform duration-100">
 					◄
 				</span>
 				ALL BOOKMARKS
-			</Link>
+			</a>
 
 			<header className="space-y-3">
 				<h1 className="font-header text-5xl">{displayName}</h1>

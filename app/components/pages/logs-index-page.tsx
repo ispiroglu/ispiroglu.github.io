@@ -1,35 +1,10 @@
-import { Link } from "react-router";
-import type { Route } from "./+types/logs._index";
-import { getAllPosts } from "~/lib/mdx.server";
-import { getViews } from "~/lib/views.server";
+import type { Post } from "~/lib/mdx.server";
 
-export async function loader({ context }: Route.LoaderArgs) {
-	const posts = await getAllPosts();
-
-	const postsWithViews = await Promise.all(
-		posts.map(async (post) => ({
-			...post,
-			views: await getViews(`writing/${post.slug}`, context.cloudflare.env),
-		})),
-	);
-
-	return { posts: postsWithViews };
+export interface PostWithViews extends Post {
+  views: number;
 }
 
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: "LOGS — EVREN ISPIROGLU" },
-		{
-			name: "description",
-			content:
-				"Engineering logs and technical dispatches on software architecture and backend systems.",
-		},
-	];
-}
-
-export default function LogsIndex({ loaderData }: Route.ComponentProps) {
-	const { posts } = loaderData;
-
+export function LogsIndexPage({ posts }: { posts: PostWithViews[] }) {
 	return (
 		<div className="space-y-16 max-w-4xl">
 			{/* Header */}
@@ -87,11 +62,11 @@ export default function LogsIndex({ loaderData }: Route.ComponentProps) {
 													</span>
 													<div className="absolute -left-[10px] mt-1.5 w-1 h-1 bg-border group-hover:bg-accent transition-colors duration-150" />
 												</div>
-												<Link to={`/logs/${post.slug}`} className="block">
+												<a href={`/logs/${post.slug}`} className="block">
 													<h2 className="font-header text-lg text-foreground group-hover:text-accent transition-colors duration-150 mb-2">
 														{post.title}
 													</h2>
-												</Link>
+												</a>
 												{post.description && (
 													<p className="font-sans text-sm text-muted-foreground leading-relaxed max-w-2xl">
 														{post.description}

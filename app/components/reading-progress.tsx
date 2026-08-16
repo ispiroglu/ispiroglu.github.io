@@ -1,8 +1,6 @@
-import { useContext, useEffect, useState } from "react";
-import { SidebarContext } from "~/root";
+import { useEffect, useState } from "react";
 
 export function ReadingProgress() {
-	const { isCollapsed } = useContext(SidebarContext);
 	const [progress, setProgress] = useState(0);
 	const [left, setLeft] = useState(0);
 
@@ -24,16 +22,20 @@ export function ReadingProgress() {
 			setProgress(Math.min(100, Math.max(0, progress)));
 		};
 
+		// Sidebar toggle shifts the container — relocate. React context does
+		// not cross Astro island boundaries, so AppShell broadcasts the event.
 		window.addEventListener("scroll", handleScroll);
 		window.addEventListener("resize", updatePosition);
+		window.addEventListener("sidebar-collapse", updatePosition);
 		updatePosition(); // Initial
 		handleScroll();
 
 		return () => {
 			window.removeEventListener("scroll", handleScroll);
 			window.removeEventListener("resize", updatePosition);
+			window.removeEventListener("sidebar-collapse", updatePosition);
 		};
-	}, [isCollapsed]); // Add isCollapsed to dependencies
+	}, []);
 
 	return (
 		<div

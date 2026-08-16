@@ -1,12 +1,3 @@
-import type { Route } from "./+types/projects";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "EI-01 — PROJECTS" },
-    { name: "description", content: "Engineering projects and systems." },
-  ];
-}
-
 interface Project {
   title: string;
   status: "stable" | "archived" | "active-dev";
@@ -16,7 +7,7 @@ interface Project {
   url?: string;
 }
 
-export default function Projects() {
+export function ProjectsPage() {
   const projects: Project[] = [
     {
       title: "Chaki",

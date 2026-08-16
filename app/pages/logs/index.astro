@@ -1,0 +1,26 @@
+---
+import { env } from "cloudflare:workers";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { LogsIndexPage } from "../../components/pages/logs-index-page";
+import { getAllPosts } from "../../lib/mdx.server";
+import { getViews } from "../../lib/views.server";
+
+export const prerender = false;
+
+const posts = await getAllPosts();
+
+const postsWithViews = await Promise.all(
+  posts.map(async (post) => ({
+    ...post,
+    views: await getViews(`writing/${post.slug}`, env),
+  })),
+);
+
+const title = "LOGS — EVREN ISPIROGLU";
+const description =
+  "Engineering logs and technical dispatches on software architecture and backend systems.";
+---
+
+<BaseLayout title={title} description={description}>
+  <LogsIndexPage posts={postsWithViews} />
+</BaseLayout>

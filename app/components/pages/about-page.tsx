@@ -1,17 +1,4 @@
-import type { Route } from "./+types/about";
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "EI-01 — ABOUT" },
-    {
-      name: "description",
-      content:
-        "Unit specifications and capabilities. Software engineer specializing in distributed systems and event-driven architecture.",
-    },
-  ];
-}
-
-export default function About() {
+export function AboutPage() {
   const experience = [
     {
       date: "2025.01 — PRESENT",
@@ -151,7 +138,7 @@ export default function About() {
         </div>
 
         <div className="border border-border">
-          {experience.map((item, i) => (
+          {experience.map((item) => (
             <div
               key={`${item.date}-${item.role}`}
               className="py-5 px-4 hover:bg-secondary transition-colors duration-150 border-b border-border last:border-b-0"

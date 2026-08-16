@@ -1,17 +1,4 @@
-import { Link } from "react-router";
-import type { Route } from "./+types/bookmarks._index";
-
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: "EI-01 — BOOKMARKS" },
-		{
-			name: "description",
-			content: "Curated collection of bookmarks and technical resources.",
-		},
-	];
-}
-
-export default function BookmarksIndex() {
+export function BookmarksIndexPage() {
 	const categories = [
 		{ name: "ENGINEERING", slug: "engineering", count: 5 },
 		{ name: "DESIGN", slug: "design", count: 3 },
@@ -34,9 +21,9 @@ export default function BookmarksIndex() {
 
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 				{categories.map((cat) => (
-					<Link
+					<a
 						key={cat.slug}
-						to={`/bookmarks/${cat.slug}`}
+						href={`/bookmarks/${cat.slug}`}
 						className="group border border-border p-4 hover:bg-secondary transition-colors duration-150 flex justify-between items-center"
 					>
 						<span className="font-mono text-[11px] text-foreground group-hover:text-accent transition-colors duration-150 uppercase tracking-wider">
@@ -45,7 +32,7 @@ export default function BookmarksIndex() {
 						<span className="font-mono text-[10px] text-muted-foreground tabular-nums">
 							[{cat.count}]
 						</span>
-					</Link>
+					</a>
 				))}
 			</div>
 		</div>

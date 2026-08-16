@@ -1,16 +1,4 @@
-import type { Route } from "./+types/stack";
 import { StatusBadge } from "~/components/light/status-badge";
-
-export function meta({}: Route.MetaArgs) {
-	return [
-		{ title: "EI-01 — TECH STACK" },
-		{
-			name: "description",
-			content:
-				"Specification document. Current technology stack and infrastructure.",
-		},
-	];
-}
 
 interface StackItem {
 	name: string;
@@ -23,7 +11,7 @@ interface StackSection {
 	items: StackItem[];
 }
 
-export default function Stack() {
+export function StackPage() {
 	const sections: StackSection[] = [
 		{
 			label: "/// 01_LANGUAGES",

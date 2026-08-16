@@ -1,0 +1,32 @@
+---
+import { env } from "cloudflare:workers";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { LogDetailPage } from "../../components/pages/log-detail-page";
+import { getPost, getAllPosts, getPostNavigation } from "../../lib/mdx.server";
+import { incrementViews } from "../../lib/views.server";
+
+export const prerender = false;
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.rewrite("/404");
+}
+
+const post = await getPost(slug);
+
+if (!post) {
+  return Astro.rewrite("/404");
+}
+
+const allPosts = await getAllPosts();
+const navigation = getPostNavigation(allPosts, slug);
+const views = await incrementViews(`writing/${slug}`, env);
+
+const title = `${post.title.toUpperCase()} — EVREN ISPIROGLU`;
+const description = post.description;
+---
+
+<BaseLayout title={title} description={description}>
+  <LogDetailPage client:load post={post} navigation={navigation} views={views} />
+</BaseLayout>

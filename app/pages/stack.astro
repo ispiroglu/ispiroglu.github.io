@@ -1,0 +1,14 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { StackPage } from "../components/pages/stack-page";
+
+export const prerender = true;
+
+const title = "EI-01 — TECH STACK";
+const description =
+  "Specification document. Current technology stack and infrastructure.";
+---
+
+<BaseLayout title={title} description={description}>
+  <StackPage />
+</BaseLayout>

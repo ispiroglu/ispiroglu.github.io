@@ -1,44 +1,21 @@
-import { Link } from "react-router";
-import type { Route } from "./+types/logs.$slug";
-import { getPost, getAllPosts, getPostNavigation } from "~/lib/mdx.server";
+import type { Post } from "~/lib/mdx.server";
 import { postContent } from "~/lib/post-content";
-import { incrementViews } from "~/lib/views.server";
 import { ReadingProgress } from "~/components/reading-progress";
 
-export async function loader({ params, context }: Route.LoaderArgs) {
-	const post = await getPost(params.slug);
-
-	if (!post) {
-		throw new Response("Post not found", { status: 404 });
-	}
-
-	const allPosts = await getAllPosts();
-	const navigation = getPostNavigation(allPosts, params.slug);
-	const views = await incrementViews(
-		`writing/${params.slug}`,
-		context.cloudflare.env,
-	);
-
-	return { post, navigation, views };
+export interface PostNavigation {
+  prev: Post | null;
+  next: Post | null;
 }
 
-export function meta({ matches }: Route.MetaArgs) {
-	const data = matches[matches.length - 1]?.data as
-		| { post: { title: string; description: string } }
-		| undefined;
-
-	if (!data || !data.post) {
-		return [{ title: "404 — NOT FOUND" }];
-	}
-
-	return [
-		{ title: `${data.post.title.toUpperCase()} — EVREN ISPIROGLU` },
-		{ name: "description", content: data.post.description },
-	];
-}
-
-export default function LogDetail({ loaderData }: Route.ComponentProps) {
-	const { post, navigation, views } = loaderData;
+export function LogDetailPage({
+  post,
+  navigation,
+  views,
+}: {
+  post: Post;
+  navigation: PostNavigation;
+  views: number;
+}) {
 	const date = new Date(post.date);
 	const ContentComponent = postContent[post.slug];
 
@@ -53,15 +30,15 @@ export default function LogDetail({ loaderData }: Route.ComponentProps) {
 
 			{/* Back navigation */}
 			<div className="mb-8">
-				<Link
-					to="/logs"
+				<a
+					href="/logs"
 					className="inline-flex items-center gap-2 font-mono text-[11px] text-muted-foreground hover:text-accent transition-none group"
 				>
 					<span className="group-hover:-translate-x-0.5 transition-transform duration-100">
 						◄
 					</span>
 					BACK TO LOGS
-				</Link>
+				</a>
 			</div>
 
 			<article className="space-y-10">
@@ -127,35 +104,35 @@ export default function LogDetail({ loaderData }: Route.ComponentProps) {
 				</header>
 
 				{/* ── CONTENT ── */}
-				<div className="prose prose-lg max-w-none">
+				<div className="prose prose-lg max-w-none font-reading">
 					{ContentComponent ? <ContentComponent /> : null}
 				</div>
 
 				{/* ── FOOTER NAVIGATION ── */}
 				<div className="pt-8 border-t border-border flex justify-between items-center">
 					{navigation.prev ? (
-						<Link
-							to={`/logs/${navigation.prev.slug}`}
+						<a
+							href={`/logs/${navigation.prev.slug}`}
 							className="group flex items-center gap-3 text-foreground hover:text-accent transition-colors"
 						>
 							<span className="text-muted-foreground group-hover:text-accent transition-colors">
 								◄
 							</span>
 							<span className="font-mono text-[11px]">PREVIOUS</span>
-						</Link>
+						</a>
 					) : (
 						<div />
 					)}
 					{navigation.next ? (
-						<Link
-							to={`/logs/${navigation.next.slug}`}
+						<a
+							href={`/logs/${navigation.next.slug}`}
 							className="group flex items-center gap-3 text-foreground hover:text-accent transition-colors"
 						>
 							<span className="font-mono text-[11px]">NEXT</span>
 							<span className="text-muted-foreground group-hover:text-accent transition-colors">
 								►
 							</span>
-						</Link>
+						</a>
 					) : (
 						<div />
 					)}

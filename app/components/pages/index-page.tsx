@@ -1,23 +1,6 @@
-import { Link } from "react-router";
-import type { Route } from "./+types/_index";
 import { ActivityFeed } from "~/components/light/activity-feed";
 
-export async function loader() {
-  return {};
-}
-
-export function meta({}: Route.MetaArgs) {
-  return [
-    { title: "EI-01 — Evren Ispiroglu" },
-    {
-      name: "description",
-      content:
-        "Software engineer building distributed systems with Go and Kotlin. Event-driven architectures, high-throughput APIs, and pragmatic system design.",
-    },
-  ];
-}
-
-export default function Index({}: Route.ComponentProps) {
+export function IndexPage() {
   const activityEntries = [
     {
       timestamp: "2025.01",
@@ -119,20 +102,20 @@ export default function Index({}: Route.ComponentProps) {
 
           {/* CTAs */}
           <div className="flex gap-4 pt-2">
-            <Link
-              to="/projects"
+            <a
+              href="/projects"
               className="inline-flex items-center gap-2 px-4 py-2 border border-border font-mono text-[11px] text-foreground hover:border-accent hover:text-accent transition-colors duration-150 active:translate-y-px uppercase tracking-wider"
             >
               <span className="text-accent">&gt;&gt;&gt;</span>
               VIEW PROJECTS
-            </Link>
-            <Link
-              to="/logs"
+            </a>
+            <a
+              href="/logs"
               className="inline-flex items-center gap-2 px-4 py-2 border border-border font-mono text-[11px] text-muted-foreground hover:text-foreground transition-colors duration-150 active:translate-y-px uppercase tracking-wider"
             >
               <span className="text-accent">&gt;&gt;&gt;</span>
               READ LOGS
-            </Link>
+            </a>
           </div>
         </div>
       </section>
