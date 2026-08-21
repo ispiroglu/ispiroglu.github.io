@@ -18,8 +18,9 @@ ispiroglu.github.io/
 ├── app/
 │   ├── components/
 │   │   ├── layout/          # AppShell, Sidebar
-│   │   ├── pages/           # Page components (index, about, projects, ...)
-│   │   └── ui/              # shadcn/ui components (button, card, progress)
+│   │   ├── light/           # ActivityFeed, StatusBadge
+│   │   ├── mdx/             # MDX render components
+│   │   └── pages/           # Page components (index, about, projects, ...)
 │   ├── layouts/
 │   │   └── BaseLayout.astro # HTML shell + fonts + AppShell island
 │   ├── lib/
@@ -64,7 +65,6 @@ ispiroglu.github.io/
 
 ### Styling
 - **Tailwind CSS v4**: Utility-first CSS
-- **shadcn/ui**: Button, card, progress primitives
 - **Lucide React**: Icons
 
 ### Content
