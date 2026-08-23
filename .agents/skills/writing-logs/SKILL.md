@@ -14,10 +14,6 @@ Figures: rhetoric from PlanetScale architecture walks. Paint from this website (
 | Name | Value |
 |------|--------|
 | `CONTENT_DIR` | `content/writing/` |
-| `RENDER_FILE` | `app/lib/post-content.tsx` |
-| `ASSET_DIR` | `public/assets/<slug>/` |
-| `ASSET_URL` | `/assets/<slug>/` |
-| `GENERATE_POSTS` | `bun run generate-posts` |
 | `BODY_LANGUAGE` | English |
 | `DEFAULT_DRAFT` | `true` |
 | `QUESTION_BATCH` | `1` |
@@ -55,7 +51,7 @@ Each turn:
 2. Else ask `QUESTION_BATCH` question. One. Include a recommended answer.
 3. Wait. Do not queue the next branch.
 4. After the user decides, write `WRITE_SLICE` only. Show it. Stop.
-5. Dual-write that slice to `CONTENT_DIR/<slug>.mdx` and `RENDER_FILE` when the slice is prose or a figure. Leave `draft: true`.
+5. Write that slice to `CONTENT_DIR/<slug>.mdx` when the slice is prose or a figure. Leave `draft: true`. The site renders MDX directly; there is no separate render file.
 
 Question shape: what we are choosing, why it matters for the next beat, your recommendation. Prefer a short option list.
 
@@ -72,7 +68,7 @@ Lock in this order. Do not skip ahead.
 7. Act 2 state list (h2 names, which ones get a frame) — agree the list before any SVG
 8. Each Act 2 state, one at a time: facts → prose → SVG
 9. Recap
-10. `GENERATE_POSTS` when the user says the draft is ready to compile
+10. `bun run build` when the user says the draft is ready to compile
 
 Turkish in the brief is notes only. Body is English. No `h1` in the body. `LogDetailPage` already renders `post.title`.
 
@@ -109,9 +105,8 @@ description: "One sentence. Not a recap of the whole post."
 Grow these as slices land. Do not batch them at the end of a silent run.
 
 - [ ] `CONTENT_DIR/<slug>.mdx` (stub after title, then append)
-- [ ] `RENDER_FILE` entry `postContent["<slug>"]` matching the MDX body
 - [ ] `ASSET_DIR` sequential SVGs (one frame per agreed state change)
-- [ ] `GENERATE_POSTS` run when the user says compile
+- [ ] `bun run build` when the user says compile
 
 ## Red flags — stop and fix
 
@@ -127,6 +122,6 @@ Grow these as slices land. Do not batch them at the end of a silent run.
 | "One new illustration per section" | Same scene must mutate. Do not change the metaphor. |
 | "Match Conway SVGs / tldraw" | Anti-reference. Site paint + PlanetScale walk. See visualization.md. |
 | "In this article" with no scene | Join-me is beat 3, after scene + tension. |
-| "Body can live in MDX only" | Runtime reads `RENDER_FILE`. Dual-write. |
+| "Draft not visible on /logs" | `draft: true` hides the post everywhere until you flip it to `false`. |
 
 All of these mean: do not ship the dump. Return to the last undecided beat.

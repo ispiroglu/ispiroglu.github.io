@@ -146,12 +146,6 @@ File path: `ASSET_DIR/00-steady.svg`. Markdown:
 
 `alt` = `ALT_PREFIX` plus the state in one sentence. Never `alt text`.
 
-JSX twin in `app/lib/post-content.tsx`:
-
-```tsx
-<img src="/assets/<slug>/00-steady.svg" alt="Architecture diagram: three shards share traffic evenly" />
-```
-
 Banned: mermaid, raster PNG/WebP/JPEG in Act 2, tldraw, `@font-face`, embedded woff, drop shadows, gradients, rounded `rx`, decorative hero illustrations used as state frames, a new metaphor per section, PlanetScale UI screenshots as frames, full-bleed canvas fills (`#FAF9F6`, white, or a fake dot field).
 
 ## Caption
@@ -161,8 +155,6 @@ The markdown alt is the caption. Do not add a second italic caption line unless 
 ## Code artifacts
 
 Use a fenced block in MDX only for a sourced artifact this state needs. No `hello world`. No uncommented dumps. Trim to the fields that prove the state.
-
-The rendered JSX copy uses `<pre><code>{`...`}</code></pre>` to match existing `RENDER_FILE` entries.
 
 ## Hero
 

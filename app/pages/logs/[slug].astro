@@ -1,9 +1,11 @@
 ---
 import { env } from "cloudflare:workers";
+import { getEntry, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { LogDetailPage } from "../../components/pages/log-detail-page";
-import { getPost, getAllPosts, getPostNavigation } from "../../lib/mdx.server";
+import { getAllPosts, getPost, getPostNavigation } from "../../lib/mdx.server";
 import { incrementViews } from "../../lib/views.server";
+import { WRITING_COLLECTION_NAME } from "../../lib/writing-constants";
 
 export const prerender = false;
 
@@ -19,6 +21,8 @@ if (!post) {
   return Astro.rewrite("/404");
 }
 
+const entry = await getEntry(WRITING_COLLECTION_NAME, slug);
+const { Content } = await render(entry);
 const allPosts = await getAllPosts();
 const navigation = getPostNavigation(allPosts, slug);
 const views = await incrementViews(`writing/${slug}`, env);
@@ -28,5 +32,7 @@ const description = post.description;
 ---
 
 <BaseLayout title={title} description={description}>
-  <LogDetailPage client:load post={post} navigation={navigation} views={views} />
+  <LogDetailPage client:load post={post} navigation={navigation} views={views}>
+    <Content />
+  </LogDetailPage>
 </BaseLayout>

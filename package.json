@@ -3,7 +3,7 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "node scripts/generate-posts.js && node scripts/generate-stack.js && astro build",
+		"build": "node scripts/generate-stack.js && astro build",
 		"cf-typegen": "wrangler types",
 		"deploy": "bun run build && wrangler deploy",
 		"dev": "astro dev",
@@ -11,7 +11,6 @@
 		"postinstall": "npm run cf-typegen",
 		"preview": "astro preview",
 		"typecheck": "wrangler types && astro check",
-		"generate-posts": "node scripts/generate-posts.js",
 		"generate-stack": "node scripts/generate-stack.js"
 	},
 	"dependencies": {
@@ -26,6 +25,7 @@
 	"devDependencies": {
 		"@astrojs/check": "^0.9.4",
 		"@astrojs/cloudflare": "^14.2.0",
+		"@astrojs/mdx": "^7.0.7",
 		"@astrojs/react": "^6.0.2",
 		"@tailwindcss/typography": "^0.5.19",
 		"@tailwindcss/vite": "^4.1.13",

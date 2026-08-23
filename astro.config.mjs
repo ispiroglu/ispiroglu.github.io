@@ -1,3 +1,4 @@
+import mdx from "@astrojs/mdx";
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 import cloudflare from "@astrojs/cloudflare";
@@ -8,7 +9,7 @@ export default defineConfig({
 	srcDir: "./app",
 	output: "server",
 	session: false,
-	integrations: [react()],
+	integrations: [react(), mdx()],
 	adapter: cloudflare(),
 	vite: {
 		plugins: [tailwindcss()],

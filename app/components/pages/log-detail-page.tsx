@@ -1,5 +1,4 @@
 import type { Post } from "~/lib/mdx.server";
-import { postContent } from "~/lib/post-content";
 import { ReadingProgress } from "~/components/reading-progress";
 
 export interface PostNavigation {
@@ -8,17 +7,17 @@ export interface PostNavigation {
 }
 
 export function LogDetailPage({
-  post,
-  navigation,
-  views,
+	post,
+	navigation,
+	views,
+	children,
 }: {
-  post: Post;
-  navigation: PostNavigation;
-  views: number;
+	post: Post;
+	navigation: PostNavigation;
+	views: number;
+	children?: React.ReactNode;
 }) {
 	const date = new Date(post.date);
-	const ContentComponent = postContent[post.slug];
-
 	const day = date.getDate().toString().padStart(2, "0");
 	const month = (date.getMonth() + 1).toString().padStart(2, "0");
 	const year = date.getFullYear();
@@ -105,7 +104,7 @@ export function LogDetailPage({
 
 				{/* ── CONTENT ── */}
 				<div className="prose prose-lg max-w-none font-reading">
-					{ContentComponent ? <ContentComponent /> : null}
+					{children}
 				</div>
 
 				{/* ── FOOTER NAVIGATION ── */}
