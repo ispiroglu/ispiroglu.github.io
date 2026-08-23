@@ -203,6 +203,299 @@ export const postContent: Record<string, () => JSX.Element> = {
 		</div>
 	),
 
+	"forgotten-routing": () => (
+		<div className="max-w-none">
+			<p>
+				When we buy something from local stores, we can see it, touch it, smell
+				it, taste it, and experience it. Ask questions to the salesperson.
+			</p>
+			<p>
+				But when we buy something from e-commerce websites, we only see a
+				picture of it. We can't touch it, smell it, taste it, or experience it.
+				But luckily, we can ask questions, read the previously asked questions
+				and answers to the product.
+			</p>
+			<p>
+				That question box is doing the job of the salesperson. From the
+				shopper's side, it still looks like a conversation. A list. A few
+				topics. We ask. We read what other people already asked.
+			</p>
+			<p>
+				It is not one salesperson and one customer. It is one product, and
+				everyone who is about to buy it, at the same time. Most days that crowd
+				is thin, and we forget it is a crowd.
+			</p>
+			<p>
+				Then November arrives. Black Friday. The conversation on the screen
+				stays small. The crowd behind it does not. Every year we tighten the
+				page. Every year we still walk into the sale with our hearts in our
+				mouths.
+			</p>
+			<p>
+				In this article, we'll walk what sat behind that question box, and why
+				the sale still scared us after years of tightening. Join me as we
+				examine the query the crowd actually hits.
+			</p>
+			<p>
+				So we kept tightening. Before every November we took another pass at the
+				questions page. Last year we went deeper than usual. We taught the store
+				to keep one product's questions together. We added a circuit: if the
+				cluster started to drown, drop the topic counts and let the list live. It
+				helped. It was not enough.
+			</p>
+			<p>
+				This year's first load test was not a drill. Night jobs on. Cache on,
+				covering about forty percent of the traffic. We pushed. The wall was
+				still there.
+			</p>
+			<p>
+				Then we sat down with the query the crowd actually hits. We thought we
+				had already pointed it home.
+			</p>
+			<p>
+				Look at the screen again. A list of questions. Next to it, topic chips
+				with numbers. Usage. Storage. Breastfeeding. All of it. Two jobs. One
+				page.
+			</p>
+			<p>
+				The list query is simple in spirit. Give us this product's questions.
+				Last year we taught that path the product id as a routing key. The store
+				could walk to the right shelf.
+			</p>
+			<p>
+				The numbers on the chips are a different query. Count the questions per
+				topic, still for this one product. We filtered by product. We did not
+				point. So the store asked every shelf, and every shelf counted, and then
+				we added the counts up. That was the heavy one. That was the one we had
+				not watched.
+			</p>
+			<blockquote>
+				<p>
+					A routing key tells the store which shelf holds this product. Without
+					it, every shelf pays for one product's questions.
+				</p>
+			</blockquote>
+			<p>
+				That's{" "}
+				<strong>
+					<em>The Forgotten Routing Key</em>
+				</strong>
+				. The cheap instruction was already in the house. We had not put it on
+				the query that hurt.
+			</p>
+			<h2>Scattered</h2>
+			<p>
+				We run Elasticsearch 8.13.4. There is no coordinating-node pool. Three
+				nodes are master-only. Twelve nodes are data. Search does not land on a
+				master. 				The search client points at the data endpoints. The data node that
+				accepts the HTTP request plays the coordinating role for that one
+				search. Then it fans the work to the shards that might hold a hit.
+			</p>
+			<p>
+				The questions index has twelve primary shards. One replica. About 136
+				million questions, spread evenly, about eleven million on each primary.
+				Without a routing key, "might" means all twelve. A filter on product id
+				still wakes every shard. Each shard scans its own slice. The receiving
+				data node merges what comes back.
+			</p>
+			<p>
+				<img
+					src="/assets/forgotten-routing/00-scattered.svg"
+					alt="Architecture diagram: a data node fans one product filter to all twelve shards"
+				/>
+			</p>
+			<p>
+				One product. Twelve shards. Every data node that holds a slice still
+				pays.
+			</p>
+			<h2>Last year's stick</h2>
+			<p>
+				Last year we changed where a question sits. The indexer no longer lets
+				Elasticsearch hash the document id. It sends <code>_routing</code> set
+				to the product id. Same product, same shard. If the product id on a row
+				changes, the old document is deleted with the old routing and written
+				with the new one.
+			</p>
+			<p>
+				The list query does the same on read. When the request has a product id,
+				the search sends that value as routing. The data node that accepted the
+				HTTP request does not fan to twelve shards. It talks to the one shard
+				that holds that product. The product-id filter is still in the query.
+				The routing is what skips the other eleven.
+			</p>
+			<pre className="bg-muted p-4  overflow-x-auto">
+				<code>{`PUT /questions/_doc/{id}?routing={productId}
+
+GET /questions/_search?routing={productId}`}</code>
+			</pre>
+			<p>
+				<img
+					src="/assets/forgotten-routing/01-last-years-stick.svg"
+					alt="Architecture diagram: index and list queries route by product id to one shard"
+				/>
+			</p>
+			<p>The list could walk home. We thought the page could too.</p>
+			<h2>The count still broadcasts</h2>
+			<p>
+				The topic chips are not a lookup. They are a <code>terms</code>{" "}
+				aggregation. <code>size: 0</code>. No hits come back. A search can ask
+				an inverted index where this product lives. A <code>terms</code> agg
+				cannot return topic counts from that index alone. Each shard that
+				receives the request walks documents and increments a bucket per topic.
+			</p>
+			<pre className="bg-muted p-4  overflow-x-auto">
+				<code>{`for shard in shards_that_got_the_request:
+  for doc in shard:
+    if doc.productId == productId:
+      counts[doc.topic] += 1`}</code>
+			</pre>
+			<p>
+				Without <code>_routing</code>, the outer loop is twelve. The inner loop
+				is about eleven million documents on each shard. Almost none match. They
+				still pay the for. With <code>_routing</code>, the outer loop is one.
+				The inner loop is only that product's questions on one shard.
+			</p>
+			<p>
+				Elasticsearch says the same thing in two steps. Collect on each shard.
+				Then merge.
+			</p>
+			<blockquote>
+				<p>
+					To get more accurate results, the <code>terms</code> agg fetches more
+					than the top <code>size</code> terms from each shard. It fetches the
+					top <code>shard_size</code> terms […] it still takes more bytes over
+					the wire and waiting in memory on the coordinating node.
+				</p>
+			</blockquote>
+			<p>
+				That is the{" "}
+				<a href="https://www.elastic.co/guide/en/elasticsearch/reference/8.13/search-aggregations-bucket-terms-aggregation.html">
+					terms aggregation
+				</a>{" "}
+				in 8.13: a collect on every shard that got the request, then a merge on
+				the data node that accepted HTTP. The for is the collect. Our query
+				still had the product filter. It did not have <code>_routing</code>. So
+				we paid twelve collects, then a merge of twelve almost-empty results.
+			</p>
+			<p>
+				Last year we put <code>_routing</code> on the list. The aggregation
+				still only carried a term on product id inside the query body. That term
+				is a filter. Elasticsearch does not use it as a routing key. Omit{" "}
+				<code>_routing</code> on the aggregation, and the receiving data node
+				fans that for to all twelve shards. Eleven of them hold none of the
+				product. They still scan. Send the wrong routing value, and you land on
+				a shard that does not hold the product. The counts come back empty, or
+				short. The documents did not move. The query did.
+			</p>
+			<p>
+				So the page still paid twelve fors for every load of topic counts. Last
+				year's stick helped the list. It did not help the counts. This year's
+				work was the aggregation.
+			</p>
+			<pre className="bg-muted p-4  overflow-x-auto">
+				<code>{`GET /questions/_search
+{
+  "size": 0,
+  "query": { "term": { "productId": "{productId}" } },
+  "aggs": { "topics": { "terms": { "field": "topic" } } }
+}`}</code>
+			</pre>
+			<p>
+				<img
+					src="/assets/forgotten-routing/02-count-broadcasts.svg"
+					alt="Architecture diagram: topic-count aggregation fans to all twelve shards"
+				/>
+			</p>
+			<p>The documents were home. The count query was not.</p>
+			<p>
+				<img
+					src="/assets/forgotten-routing/02-agg-cost.svg"
+					alt="Architecture diagram: work per topic-count query on one shard versus twelve"
+				/>
+			</p>
+			<p>
+				Routed, work follows the product. Unrouted, work follows the whole
+				index.
+			</p>
+			<p>
+				We did not remove the for. A <code>terms</code> agg still walks
+				documents. We stopped the walk from running on twelve shards. One
+				collect, on the shard that actually holds the product. That is the whole
+				gain.
+			</p>
+			<h2>The count sticks</h2>
+			<p>
+				This year we put <code>_routing</code> on the aggregation. Same product
+				id the indexer already used. Same shard the list already walked. The for
+				still runs. It runs once.
+			</p>
+			<pre className="bg-muted p-4  overflow-x-auto">
+				<code>{`GET /questions/_search?routing={productId}
+{
+  "size": 0,
+  "query": { "term": { "productId": "{productId}" } },
+  "aggs": { "topics": { "terms": { "field": "topic" } } }
+}`}</code>
+			</pre>
+			<p>
+				<img
+					src="/assets/forgotten-routing/03-count-sticks.svg"
+					alt="Architecture diagram: topic-count aggregation routes by product id to one shard"
+				/>
+			</p>
+			<p>One collect. Eleven shards idle.</p>
+			<p>
+				Last year the questions page hit a wall around 600 thousand requests per
+				minute. Night jobs off. Indexing off. This night we left the night jobs
+				on. Indexing on. Cache off. The same page held 2.1 million requests per
+				minute. With the night jobs, about 3 million. Elasticsearch did not
+				fall. The cluster still had room. What throttled us was Java CPU on the
+				applications. A quiet day peaks around 200 thousand.
+			</p>
+			<h2>Looking past the one-line fix</h2>
+			<p>
+				The routing key on the aggregation was not a new idea. The list already
+				sent it. The indexer already sent it. The count query did not. That gap
+				sat in the house for a year.
+			</p>
+			<p>
+				In an architecture review we talked about taking topic counts out of
+				Elasticsearch. A table. The keys we already filter on. Increment on
+				write. Decrement on archive. Dual-write. Backfill. A high refactor. AI
+				made that path feel close. So we aimed at it. We did not see the easier,
+				cleaner move: put <code>_routing</code> on the aggregation we already
+				had. We did not need the new store. We did not need the rewrite.
+			</p>
+			<p>
+				AI did not hide the line by writing too slow. It hid the line by making
+				the big change feel like the work. We looked past the cheapest collect
+				we could still skip.
+			</p>
+			<p>
+				<strong>In conclusion</strong>,{" "}
+				<strong>
+					<em>The Forgotten Routing Key</em>
+				</strong>{" "}
+				is the cheap instruction that tells Elasticsearch which shard holds this
+				product. A term in the query body is not that instruction. The body
+				still filters. Only <code>_routing</code> points. Two jobs sat on one
+				page. We pointed the list. We did not point the count. The count is a{" "}
+				<code>terms</code> collect: a for over documents on every shard that
+				receives the request. Last year we taught the documents and the list to
+				go home. The aggregation still woke twelve shards. Eleven held none of
+				the product. They still paid the for. This year we put the same key on
+				the aggregation. One collect. The for is still there. We did not kill
+				it. We stopped splitting it.
+			</p>
+			<p>
+				The line was already in the house. The rewrite was not required.{" "}
+				<strong>We must control our urge to produce more code.</strong> The walk
+				is the reason. When a bigger system feels close, the query we already
+				fear is still the first place to look.
+			</p>
+		</div>
+	),
+
 	"conways-law": () => (
 		<div className="max-w-none">
 			<p>
