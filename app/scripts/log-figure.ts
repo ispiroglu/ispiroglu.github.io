@@ -45,10 +45,14 @@ class LogFigureElement extends HTMLElement {
 		this.reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
 		if (this.reduced.matches) this.lastT = 1;
 
-		// Loop time holds near t≈1 briefly before wrapping, so each cycle
+		// Each cycle plays t 0→1, then freezes on the final frame for
+		// HOLD_RATIO of the scene duration before wrapping, so every loop
 		// reads as "play, settle, restart" rather than a hard cut.
-		const withHold = (p: number): number =>
-			p >= 0.96 ? 0.97 + ((p - 0.96) / 0.04) * 0.03 : (p / 0.96) * 0.97;
+		const HOLD_RATIO = 0.5;
+		const cycleToT = (p: number): number => {
+			const play = 1 / (1 + HOLD_RATIO);
+			return p >= play ? 1 : p / play;
+		};
 
 		const drawAt = (t: number): void => {
 			if (!this.ctx || !this.canvas) return;
@@ -76,7 +80,7 @@ class LogFigureElement extends HTMLElement {
 			this.start_ = performance.now();
 			const frame = (now: number): void => {
 				if (!this.running) return;
-				drawAt(withHold(((now - this.start_) / (scene.duration * 1000)) % 1));
+				drawAt(cycleToT(((now - this.start_) / (scene.duration * 1000)) % 1));
 				this.raf = requestAnimationFrame(frame);
 			};
 			this.raf = requestAnimationFrame(frame);

@@ -2,10 +2,48 @@
 title: Tech Stack
 ---
 
-Languages: Go (Golang), Kotlin, Java (JVM), JavaScript, TypeScript
+## Languages
 
-Frameworks & Libraries: Spring Boot, React, Angular
+- Go :: Primary backend language. Service mesh, frameworks, CLI tooling. Foundation of Chaki and Mercurius. :: stable
+- Kotlin :: JVM ecosystem. Spring Boot microservices. Multi-tenant auth APIs. High-throughput event processing. :: stable
+- Java :: Spring Boot enterprise services. Legacy migration targets. Battle-tested JVM reliability. :: stable
 
-Databases: PostgreSQL, ElasticSearch, Couchbase
+## Frameworks
 
-Technologies: Kafka, gRPC, CDC, CQRS, Event-driven systems, Docker, Kubernetes (on-prem), Jenkins, GitHub Actions, GitLab, Grafana, OpenTelemetry, Logging, Tracing
+- Spring Boot :: Primary JVM microservice framework. Auto-configuration, actuator health checks, embedded servers. :: stable
+- Uber FX :: Go dependency injection framework. Foundation of Chaki — auto-configuration, lifecycle hooks, modular wiring. :: stable
+- React :: Frontend library for back-office tools, portfolio site, and internal dashboards. SSR with React Router. :: stable
+- gRPC :: Service-to-service communication. Bidirectional streaming in Mercurius. Low-latency binary protocol. :: stable
+
+## Messaging
+
+- Apache Kafka :: Event-driven backbone. High-throughput streaming. CDC source and event sourcing at 1.2M+ RPM. :: stable
+- gRPC Streaming :: Bidirectional pub-sub messaging in Mercurius. Low-latency alternative for internal service events. :: experimental
+
+## Databases
+
+- PostgreSQL :: Primary relational database. CDC source with logical replication. Transactional consistency. :: stable
+- Elasticsearch :: Full-text search and analytics engine. Log aggregation. Q&A domain optimized queries. :: stable
+- Couchbase :: Distributed NoSQL document database. Low-latency key-value workloads. Multi-cluster deployment. :: stable
+- MongoDB :: Document database for specific services. Migrating workloads to PostgreSQL and Couchbase. :: migrating
+
+## DevOps
+
+- Docker :: Containerization for all services. Multi-stage builds. Consistent dev-to-prod environments. :: stable
+- Kubernetes :: Production container orchestration. Horizontal scaling, rolling updates, service discovery. :: stable
+- GitHub Actions :: CI/CD pipeline automation. Testing, building, deploying with matrix builds and caching. :: stable
+- Jenkins :: Legacy CI/CD server. Migrating pipelines to GitHub Actions for faster feedback loops. :: migrating
+- Cloudflare :: CDN, DNS, Workers edge compute. Portfolio site deployment and content delivery. :: stable
+
+## Observability
+
+- Grafana :: Metrics visualization and dashboards. System health monitoring. Campaign traffic observability. :: stable
+- Prometheus :: Metrics collection and alerting. Time-series database. Infrastructure and application metrics. :: stable
+- OpenTelemetry :: Distributed tracing specification. Integrated into Chaki framework. Cross-service request tracing. :: stable
+
+## Patterns
+
+- CQRS :: Command Query Responsibility Segregation. Separate read/write models for optimized query performance. :: stable
+- CDC :: Change Data Capture async data flows. PostgreSQL logical replication to Kafka for downstream consumers. :: stable
+- Event-Driven Architecture :: Kafka event sourcing backbone. Asynchronous service communication. Campaign-scale throughput. :: stable
+- Microservices :: Distributed decomposition of monoliths. Independent deployability. Multi-tenant architectures. :: stable

@@ -3,7 +3,7 @@ export function JourneyPage() {
     {
       year: 2025,
       date: "2025.01",
-      event: "Promoted to Software Engineer at Trendyol",
+      event: "Promoted to Software Engineer II at Trendyol",
       description:
         "Took on expanded responsibilities in the Q&A domain. Optimized RAG-based applications for process efficiency. Focused on innovative solutions and performance improvements.",
     },

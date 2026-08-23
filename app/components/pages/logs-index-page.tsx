@@ -53,37 +53,21 @@ export function LogsIndexPage({ posts }: { posts: PostWithViews[] }) {
 
 										return (
 											<article key={post.slug} className="group -ml-8 pl-4">
-												<div className="flex items-baseline gap-4 mb-1">
+												<a
+													href={`/logs/${post.slug}`}
+													className="flex items-baseline gap-4 py-1 group/link"
+												>
 													<time className="font-mono text-[11px] text-muted-foreground tracking-wide whitespace-nowrap">
 														{date.getFullYear()}.{month}.{day}
 													</time>
-													<span className="font-mono text-[10px] text-muted-foreground/60 tabular-nums ml-auto">
-														{post.views} VIEWS
-													</span>
-													<div className="absolute -left-[10px] mt-1.5 w-1 h-1 bg-border group-hover:bg-accent transition-colors duration-150" />
-												</div>
-												<a href={`/logs/${post.slug}`} className="block">
-													<h2 className="font-header text-lg text-foreground group-hover:text-accent transition-colors duration-150 mb-2">
+													<h2 className="font-header text-lg text-foreground group-hover:text-accent transition-colors duration-150">
 														{post.title}
 													</h2>
+													<span className="font-mono text-[11px] text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-150 ml-auto">
+														→
+													</span>
 												</a>
-												{post.description && (
-													<p className="font-sans text-sm text-muted-foreground leading-relaxed max-w-2xl">
-														{post.description}
-													</p>
-												)}
-												{post.tags && post.tags.length > 0 && (
-													<div className="flex flex-wrap gap-1.5 mt-3">
-														{post.tags.map((tag: string) => (
-															<span
-																key={tag}
-																className="font-mono text-[9px] text-muted-foreground border border-border px-1.5 py-0.5 uppercase"
-															>
-																{tag}
-															</span>
-														))}
-													</div>
-												)}
+												<div className="absolute -left-[10px] mt-2.5 w-1 h-1 bg-border group-hover:bg-accent transition-colors duration-150" />
 											</article>
 										);
 									})}

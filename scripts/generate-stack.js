@@ -20,28 +20,58 @@ function generateStack() {
     };
   });
 
-  // Generate skills
+  // Generate stack sections from `## Category` headings with
+  // `- Name :: description :: status` entries.
   const skillsContent = fs.readFileSync(skillsFile, 'utf-8');
   const { content: skillsRaw } = matter(skillsContent);
 
-  const skills = {};
-  skillsRaw.trim().split('\n').forEach(line => {
-    if (line.includes(':')) {
-      const [category, items] = line.split(':').map(s => s.trim());
-      if (category && items) {
-        skills[category] = items.split(',').map(item => item.trim()).filter(item => item);
-      }
+  const sections = [];
+  let current = null;
+  for (const line of skillsRaw.split('\n')) {
+    const heading = line.match(/^##\s+(.+)$/);
+    if (heading) {
+      current = { category: heading[1].trim(), items: [] };
+      sections.push(current);
+      continue;
     }
-  });
+    if (!current) continue;
+    const entry = line.match(/^-\s+(.+?)\s*::\s*(.+?)\s*::\s*(\w+)\s*$/);
+    if (entry) {
+      current.items.push({
+        name: entry[1].trim(),
+        description: entry[2].trim(),
+        status: entry[3].trim(),
+      });
+    }
+  }
+
+  for (const [index, section] of sections.entries()) {
+    const slug = section.category.toUpperCase().replace(/[^A-Z0-9]+/g, '_');
+    section.label = `/// ${String(index + 1).padStart(2, '0')}_${slug}`;
+  }
 
   const output = `// Auto-generated file - do not edit manually
-export const generatedTools = ${JSON.stringify(tools, null, 2)};
+export type StackStatus = "stable" | "experimental" | "migrating";
 
-export const generatedSkills = ${JSON.stringify(skills, null, 2)};
+export interface StackItem {
+  name: string;
+  description: string;
+  status: StackStatus;
+}
+
+export interface StackSection {
+  label: string;
+  category: string;
+  items: StackItem[];
+}
+
+export const generatedSections: StackSection[] = ${JSON.stringify(sections, null, 2)};
+
+export const generatedTools = ${JSON.stringify(tools, null, 2)};
 `;
 
   fs.writeFileSync(outputFile, output);
-  console.log(`Generated ${tools.length} tools and skills in ${outputFile}`);
+  console.log(`Generated ${sections.length} sections (${sections.reduce((n, s) => n + s.items.length, 0)} items) and ${tools.length} tools in ${outputFile}`);
 }
 
 generateStack();

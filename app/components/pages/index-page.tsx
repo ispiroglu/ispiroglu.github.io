@@ -1,5 +1,11 @@
 import { ActivityFeed } from "~/components/light/activity-feed";
 
+// Full years of professional experience since July 2022, recomputed at render.
+const EXPERIENCE_YEARS = Math.max(
+  1,
+  Math.floor((Date.now() - new Date("2022-07-01T00:00:00Z").getTime()) / (365.25 * 24 * 60 * 60 * 1000)),
+);
+
 export function IndexPage() {
   const activityEntries = [
     {
@@ -167,7 +173,7 @@ export function IndexPage() {
                   Experience
                 </span>
                 <span className="font-mono text-[11px] text-foreground tabular-nums">
-                  3+ YEARS
+                  {EXPERIENCE_YEARS}+ YEARS
                 </span>
               </div>
               <div className="flex justify-between items-center py-2.5 px-4">

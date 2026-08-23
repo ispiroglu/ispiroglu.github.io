@@ -9,7 +9,7 @@ description: "The cheapest Elasticsearch win was already sitting on the query we
 
 import { LogFigure } from "~/components/embeds/log-figure";
 
-Late one evening, you just got home, changed, and picked up your phone to look for a piece of clothing you had been wanting. But the seller's page didn't quite explain the material, the size table, whether it was cotton or polyester, whether it would fit you.
+You got home late one evening, changed, and picked up your phone to look for a piece of clothing you had been wanting. But the seller's page didn't quite explain the material, the size table, whether it was cotton or polyester, whether it would fit you.
 
 In a physical store you would just ask. Online, you can still send the seller your question — but with some luck, someone has already asked it, and the answer is waiting in the question box under the product.
 
@@ -21,9 +21,9 @@ In this article, we'll walk through what sat behind that question box, and why a
 
 Some of what follows took two Novembers to play out, and the part that mattered most we only understood this year. So we kept tightening. Before every November we took another pass at the questions page. Last year we went deeper than usual. One product's questions already lived together on one shelf; what was missing was the pointer, so we taught the store to walk straight there. Then, instead of deepening that improvement, we reached for something more complex: a circuit that drops the topic counts and lets the list live if the cluster starts to drown. It helped. It was not enough.
 
-This year's first load test was not a drill either. Night jobs were running, and cache covered about twenty percent of the traffic. We pushed anyway. The system fell over. And that confused us. Last year's routing fix was supposed to point everything home. Meanwhile, a big rewrite already sat on the table. It would move the topic counts out of Elasticsearch and into a table of our own. Honestly, it felt close. It felt like the real work.
+This year's first load test was not a drill either. Night jobs were running, and cache covered about twenty percent of the traffic. We pushed anyway. The system fell over. And that confused us. Last year's routing fix was supposed to point everything home. Meanwhile, a big rewrite already sat on the table. It would move the topic counts out of Elasticsearch and into a table of our own. It felt close. It felt like the real work.
 
-Before committing to that, we went back to the page itself. We had looked last year too, but not deep enough we suppose. This time we opened the page, listed every query it fires, and read each Elasticsearch query one by one. And there it was: the chips are a second query, a different one, and nothing pointed it home.
+Before committing to that, we went back to the page itself. We had looked last year too, though not deep enough, we suppose. This time we opened the page, listed every query it fires, and read each Elasticsearch query one by one. And there it was: the chips are a second query, a different one, and nothing pointed it home.
 
 ![The questions page: topic chips with counts on the left, the question list on the right](/assets/forgotten-routing/qa-page.png)
 
@@ -116,18 +116,18 @@ GET /questions/_search?routing={productId}
 
 One collect. Eleven shards idle.
 
-Last year's ceiling came out of a hard limit. In every earlier load test, Elasticsearch's CPU utilization climbed toward one hundred percent, and that is what broke us. It is also why we kept night jobs off in those runs: night jobs drive indexing inside Elasticsearch, and indexing is pure CPU work. So with night jobs off, indexing off, and cache covering about forty percent of the traffic, we topped out around 600 thousand requests per minute. This year we ran the harder configuration on purpose — night jobs on, indexing on, cache off — which makes any comparison to that old ceiling conservative.
+Last year's ceiling was Elasticsearch CPU. In every earlier load test, its CPU utilization climbed toward one hundred percent, and that is what broke us. It is also why we kept night jobs off in those runs: night jobs drive indexing inside Elasticsearch, and indexing is pure CPU work. So with night jobs off, indexing off, and cache covering about forty percent of the traffic, we topped out around 600 thousand requests per minute. This year we ran the harder configuration on purpose — night jobs on, indexing on, cache off — which makes any comparison to that old ceiling conservative.
 
 <LogFigure id="forgotten-routing/load-test" title="Questions page load test, requests per minute" desc="Last year's ceiling was 600k rpm. This year the same page held 2.1M cache-off and about 3M with night jobs." />
 
 Cache off, the same page held 2.1 million requests per minute. With the night jobs in the mix, about 3 million. For scale: a quiet day peaks around 200 thousand — this test ran at more than ten times that.
 
-Elasticsearch did not fall. The cluster still had room left. What throttled us in the end was Java CPU on the applications. _That is whole another problem of ours_
+Elasticsearch did not fall. The cluster still had room left. What throttled us in the end was Java CPU on the applications. _That is a whole other problem of ours_
 
 ## Looking past the one-line fix
 
-**_The Forgotten Routing Key_**, restated in one breath: a term in the query body filters, and only `_routing` points. Two jobs sat on one page. We pointed the list and left the count waking twelve shards. In other words, a heavy query that runs on all shards instead just one and it caused an exponential increase in CPU usage.
+**_The Forgotten Routing Key_**, restated in one breath: a term in the query body filters, and only `_routing` points. Two jobs sat on one page. We pointed the list and left the count waking twelve shards. In other words, one heavy query ran on every shard instead of one, and the CPU cost grew with the catalog.
 
 And here is the part that still stings, because it is the AI-era version of this mistake. The rewrite did not feel like the real work despite the tools. It felt like the real work **because of them**. Code generation got so fast that the old cost of a big change — dual-write, backfill, cutover, weeks of careful planning — collapsed into an afternoon of scaffolding. So instead of sitting down and debugging the simple thing right in front of us, we shrugged: *whatever, refactors are cheap now, we will just do the big one.* We aimed at the big path and never moved. The cheapest collect on the board sat there, one parameter away, while we daydreamed about architecture.
 
-**In conclusion**, the line was already in the house. The rewrite was not required. **We must control our urge to produce more code.**. We still own the system and the walk is the reason. When a bigger system feels close, the query we already fear is still the first place to look.
+**In conclusion**, the line was already in the house. The rewrite was not required. **The urge to write more code is ours to manage.** We still own the system, and the walk above is why. When a bigger system feels close, the query we already fear is still the first place to look.

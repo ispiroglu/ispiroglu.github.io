@@ -403,8 +403,8 @@ function scattered(ctx: Ctx, t: number): void {
 
   // Global doc counter ticks up during the scan (t 0.45–0.9).
   if (scan > 0) {
-    const v = 11e6 * easeInOut(scan);
-    mono(ctx, `≈${(v / 1e6).toFixed(1)}M scanned`, 584, 161, {
+    const v = 136e6 * easeInOut(scan);
+    mono(ctx, `≈${Math.round(v / 1e6)}M scanned`, 584, 161, {
       color: scan >= 1 ? INK : MUTED,
     });
   }
@@ -438,7 +438,15 @@ function lastYearsStick(ctx: Ctx, t: number): void {
     if (i !== HOT_SHARD) tracePoly(ctx, pathTo(i), 1, IDLE, STROKE, [4, 4]);
   }
   // One solid accent ray to the hot shard.
-  tracePoly(ctx, pathTo(HOT_SHARD), easeOut(seg(t, 0.15, 0.35)), ACCENT, STROKE_HOT);
+  tracePoly(ctx, pathTo(HOT_SHARD), easeOut(seg(t, 0.2, 0.35)), ACCENT, STROKE_HOT);
+
+  // Docs in play collapse from the whole index to one shard as routing lands.
+  if (t > 0.05) {
+    const v = 136e6 - (136e6 - 11e6) * easeInOut(seg(t, 0.35, 0.6));
+    mono(ctx, `≈${Math.round(v / 1e6)}M docs in play`, 584, 161, {
+      color: t > 0.6 ? INK : MUTED,
+    });
+  }
 
   // Leader annotation: the hot shard holds this product's questions.
   const note = seg(t, 0.55, 0.85);
@@ -460,10 +468,12 @@ function countBroadcasts(ctx: Ctx, t: number): void {
   figureTitle(ctx, "02 — COUNT BROADCASTS");
   drawQueryAndData(ctx);
 
-  const fan = easeOut(seg(t, 0, 0.08));
+  const fan = easeOut(seg(t, 0.12, 0.26));
   const looks: ShardLook[] = [];
   for (let i = 0; i < 12; i++) looks.push({ bar: fan >= 1 ? t : null, count: fan >= 1 });
   drawAllShards(ctx, looks);
+  // Request arrives at the data node before anything fans out.
+  dropDot(ctx, seg(t, 0, 0.12));
 
   // Fan-out arrows to all twelve.
   for (let i = 0; i < 12; i++) {
@@ -479,17 +489,17 @@ function countBroadcasts(ctx: Ctx, t: number): void {
   mono(ctx, "walking ≈11M docs", 480, 468, { color: MUTED, align: "center" });
 
   // Partial counts stream back up to the data node.
-  if (t > 0.12) {
+  if (t > 0.28) {
     for (let i = 0; i < 12; i++) {
       const speed = 0.55 + (i % 4) * 0.12;
-      const s = (((t - 0.12) * speed + i * 0.17) % 1 + 1) % 1;
+      const s = (((t - 0.28) * speed + i * 0.17) % 1 + 1) % 1;
       const p = polyPoint(pathTo(i), 1 - s);
       dot(ctx, p.x, p.y, 2.5, MUTED);
     }
   }
 
   // Merge counter accumulates shard reports; the clock makes the cost felt.
-  const k = Math.min(12, Math.floor(seg(t, 0.2, 0.85) * 12));
+  const k = Math.min(12, Math.floor(seg(t, 0.3, 0.9) * 12));
   if (k > 0) mono(ctx, `merged ${k}/12`, 584, 161, { color: INK });
   if (fan >= 1) {
     mono(ctx, `query clock: ${(t * 2.8).toFixed(1)}s`, 584, 141, { color: MUTED });
@@ -560,8 +570,8 @@ function countSticks(ctx: Ctx, t: number): void {
   for (let i = 0; i < 12; i++) {
     if (i === HOT_SHARD) {
       looks.push({
-        hot: t > 0.28,
-        bar: easeOut(seg(t, 0.05, 0.4)),
+        hot: t > 0.35,
+        bar: easeOut(seg(t, 0.38, 0.72)),
         barFill: ACCENT,
       });
     } else {
@@ -575,11 +585,11 @@ function countSticks(ctx: Ctx, t: number): void {
   for (let i = 0; i < 12; i++) {
     if (i !== HOT_SHARD) tracePoly(ctx, pathTo(i), 1, IDLE, STROKE, [4, 4]);
   }
-  tracePoly(ctx, pathTo(HOT_SHARD), easeOut(seg(t, 0.1, 0.28)), ACCENT, STROKE_HOT);
+  tracePoly(ctx, pathTo(HOT_SHARD), easeOut(seg(t, 0.15, 0.35)), ACCENT, STROKE_HOT);
 
-  const ma = seg(t, 0.45, 0.55);
+  const ma = seg(t, 0.75, 0.85);
   if (ma > 0) mono(ctx, "merged 1/1", 584, 161, { color: INK, alpha: ma });
-  const ck = seg(t, 0.05, 0.45);
+  const ck = seg(t, 0.05, 0.72);
   if (ck > 0) {
     mono(ctx, `query clock: ${(ck * 0.2).toFixed(1)}s${ck >= 1 ? " ✓" : ""}`, 584, 141, {
       color: MUTED,
@@ -691,6 +701,7 @@ const REGISTRY: Record<string, Scene> = {
   "forgotten-routing/count-broadcasts": { duration: 3, draw: countBroadcasts },
   "forgotten-routing/agg-cost": { duration: 6, draw: aggCost },
   "forgotten-routing/count-sticks": { duration: 3, draw: countSticks },
+  "forgotten-routing/load-test": { duration: 5, draw: loadTest },
 };
 
 export function getScene(id: string): Scene | undefined {
