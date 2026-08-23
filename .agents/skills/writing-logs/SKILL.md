@@ -7,7 +7,7 @@ description: Use when writing, drafting, revising, or finishing a post in conten
 
 House style for `/logs` posts. Story envelope is Conway. Technical spine is PlanetScale. Every post has both. PlanetScale is not the narrator.
 
-Figures: rhetoric from PlanetScale architecture walks. Paint from this website (`app/app.css`). Do not clone `public/assets/conways-law/` (tldraw rainbow, huge fonts). Open visualization.md before any SVG.
+Figures: Act 2 figures are ANIMATED Canvas 2D scenes via `FIGURE_RUNTIME`. Rhetoric from PlanetScale architecture walks. Paint from this website (`app/app.css`). Do not clone `public/assets/conways-law/` (tldraw rainbow, huge fonts). Open visualization.md before any figure.
 
 ## Constants
 
@@ -19,6 +19,8 @@ Figures: rhetoric from PlanetScale architecture walks. Paint from this website (
 | `QUESTION_BATCH` | `1` |
 | `WRITE_SLICE` | the beat just decided, nothing else |
 | `WRITE_MODE` | co-write |
+| `FIGURE_RUNTIME` | shell `~/components/embeds/log-figure`, engine `~/scripts/log-figure`, boot `<script>` in the log route |
+| `SCENE_LOOP` | `~3–4s`, brief hold, then wrap |
 
 ## When to use
 
@@ -34,7 +36,7 @@ Open references by beat, not by post type. Incident posts still run Act 1. The i
 brief
   ├─ co-write loop (this file) → question, decide, write one slice
   ├─ Act 1 beat / recap slice → storytelling.md
-  └─ Act 2 state / SVG slice → visualization.md
+  └─ Act 2 state / figure scene slice → visualization.md
 ```
 
 **REQUIRED:** Read [storytelling.md](storytelling.md) before an Act 1 or recap slice. Read [visualization.md](visualization.md) before an Act 2 slice.
@@ -43,7 +45,7 @@ brief
 
 This is not a one-shot generator. Flow is decided with the user. Prose is written on the way.
 
-**Hard gate:** Do not output a full post, a full Act, or a stack of SVGs in one turn. `WRITE_MODE` is co-write. Switch to a full dump only if the user says `write the full draft` in those words.
+**Hard gate:** Do not output a full post, a full Act, or a stack of figures in one turn. `WRITE_MODE` is co-write. Switch to a full dump only if the user says `write the full draft` in those words.
 
 Each turn:
 
@@ -65,8 +67,8 @@ Lock in this order. Do not skip ahead.
 4. Act 1 Join-me promise
 5. Act 1 Imagine vs sourced investigation
 6. Act 1 Name the idea
-7. Act 2 state list (h2 names, which ones get a frame) — agree the list before any SVG
-8. Each Act 2 state, one at a time: facts → prose → SVG
+7. Act 2 state list (h2 names, which states get a figure) — agree the list before any scene
+8. Each Act 2 state, one at a time: facts → prose → figure SCENE (agree the scene id and its motion beats, not a static image)
 9. Recap
 10. `bun run build` when the user says the draft is ready to compile
 
@@ -83,7 +85,7 @@ Turkish in the brief is notes only. Body is English. No `h1` in the body. `LogDe
 | Truth | Act 1 may mark a thought experiment with `Imagine`. Act 2 uses only facts from the brief or repo. No invented numbers. No fake case studies. |
 | Headings | No `h2` until the idea has a name. Act 2 `h2` = state name, not Background / Overview / Deep Dive. Case study = `h3`/`h4`. |
 | Code | Only a real artifact the current state needs. Never in Act 1. |
-| Figures | Act 1: 0–1 figure, only if the thought experiment needs a picture. Act 2: one SVG per state change. Rhetoric = PlanetScale. Look = site tokens. Canvas = transparent (`CANVAS_FILL`) so body dots show. No Conway tldraw. No mermaid. No decorative figures. |
+| Figures | Act 1: 0–1 static SVG, only if the thought experiment needs a spatial picture. Hero unchanged: optional banner SVG. Act 2: one ANIMATED Canvas 2D figure per state change, embedded via `LogFigure` (no `client:` directive — see visualization.md Motion). Rhetoric = PlanetScale. Look = site tokens. Canvas = transparent so body dots show. No Conway tldraw. No mermaid. No decorative figures. |
 | Language | English. |
 
 ## Frontmatter
@@ -98,14 +100,15 @@ tags: ["kebab-or-phrase"]
 description: "One sentence. Not a recap of the whole post."
 ```
 
-`slug` = filename stem = `ASSET_DIR` folder. Kebab-case. `hero` is optional. If present, it is a banner SVG, not a substitute for Act 2 frames.
+`slug` = filename stem = `ASSET_DIR` folder. Kebab-case. `hero` is optional. If present, it is a banner SVG, not a substitute for Act 2 figures.
 
 ## Deliverables
 
 Grow these as slices land. Do not batch them at the end of a silent run.
 
 - [ ] `CONTENT_DIR/<slug>.mdx` (stub after title, then append)
-- [ ] `ASSET_DIR` sequential SVGs (one frame per agreed state change)
+- [ ] `ASSET_DIR` sequential SVGs (Act 1 spatial figure and hero banner only)
+- [ ] `ASSET_DIR` scenes (one animated Canvas figure per agreed state change, registered per `<slug>/<id>`)
 - [ ] `bun run build` when the user says compile
 
 ## Red flags — stop and fix
@@ -116,11 +119,15 @@ Grow these as slices land. Do not batch them at the end of a silent run.
 | "I'll outline everything first, then dump" | Outline is a decision list you agree, not a license to generate. |
 | "Two questions save time" | `QUESTION_BATCH` is 1. |
 | "Incident posts skip the scene" | Investigation is Act 1. Always. |
-| "I'll add diagrams later" | Act 2 without frames is a tutorial dump. Write frames with the prose. |
+| "I'll add diagrams later" | Act 2 without figures is a tutorial dump. Write figures with the prose. |
 | "Amazon / Netflix did this too" | Fake case study. Cut it unless the brief sourced it. |
-| "Mermaid is faster" | Banned. Agent-authored SVG only. |
+| "Mermaid is faster" | Banned. Agent-authored figures only. |
 | "One new illustration per section" | Same scene must mutate. Do not change the metaphor. |
 | "Match Conway SVGs / tldraw" | Anti-reference. Site paint + PlanetScale walk. See visualization.md. |
+| "three.js / WebGL / Lottie would be nicer" | Banned for post figures. PlanetScale's own trick is hand-written Canvas 2D + rAF. We use a custom element instead of iframes or islands. |
+| "Ship static frames, animate later" | Motion is written with the prose, same turn. A state change gets its animated scene now. |
+| "Make the figure an Astro island (`client:visible`)" | Nested islands deadlock inside MDX children. Shell renders `<log-figure>`; the engine boots from a hoisted `<script>` in the log route. See visualization.md Motion. |
+| "Import the engine from the route frontmatter" | It runs during SSR and dies on `HTMLElement`. The import belongs inside the template `<script>`. |
 | "In this article" with no scene | Join-me is beat 3, after scene + tension. |
 | "Draft not visible on /logs" | `draft: true` hides the post everywhere until you flip it to `false`. |
 

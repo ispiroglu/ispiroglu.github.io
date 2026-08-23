@@ -63,6 +63,38 @@ Tells you copied Conway / tldraw — rewrite the file:
 - viewBox in the thousands, file over ~20kb for a simple topology
 - Sketchy / hand-drawn stroke
 
+## Motion — animated figures
+
+Three pieces, deliberately NOT an Astro island:
+
+1. **Shell** — `app/components/embeds/log-figure.tsx` exports `LogFigure({ id, title, desc })`. It renders a plain `<log-figure scene="<slug>/<id>" role="img">` custom element. Server-rendered only; no hooks, no hydration.
+2. **Engine** — `app/scripts/log-figure.ts`. Vanilla custom element: Canvas 2D, DPR sizing, IntersectionObserver play gate, `prefers-reduced-motion` static final frame. Exposes `seekTo(t)` for tests and future scroll-linked scrubbing.
+3. **Boot** — one hoisted `<script> import "~/scripts/log-figure";</script>` in the log route page. Never import the engine from frontmatter (it runs during SSR and dies on `HTMLElement`).
+
+Scenes are registered per `<slug>/<id>` in `app/components/embeds/figures.ts`.
+
+Embed from MDX (NO `client:` directive):
+
+```mdx
+import { LogFigure } from "~/components/embeds/log-figure";
+
+<LogFigure id="<slug>/<scene>" title="..." desc="..." />
+```
+
+Why no island: islands nested inside another island's children (MDX content passed into a `client:load` page component) gate hydration on the parent's `astro:hydrate` event and can deadlock. The custom element needs no Astro machinery at all.
+
+Contract:
+
+- Scene = a pure `(ctx, t)` draw function. `t` loops 0→1 over ~3–4s, brief hold before wrap. No library. Hand-written Canvas 2D + rAF only — this is exactly what PlanetScale does inside iframes; we use a self-booting custom element instead.
+- Logical space 960×540 (`SVG_WIDTH` / `SVG_HEIGHT`), DPR-scaled.
+- IntersectionObserver gates the loop when off-screen. `prefers-reduced-motion: reduce` renders the static final frame.
+- Transparent canvas over the page dot grid. Same paint law as Look: site tokens, `FONT_LABEL`, radius 0, borders only, one red accent.
+
+Banned for post figures: three.js, WebGL, p5, Lottie, GSAP, mermaid, raster images.
+
+Static SVG remains ONLY for the optional Act 1 spatial figure and the optional hero banner. Everything in the SVG contract below applies to those two cases.
+
+
 ## Rhetoric — PlanetScale
 
 Steal the walk from `RHETORIC_EXAMPLE_1` and `RHETORIC_EXAMPLE_2`. Do not steal PlanetScale orange, product UI shots, tweets, or backup-console screenshots. Those are not Act 2 frames.
@@ -80,20 +112,20 @@ Do not use PlanetScale as a color reference. Their brand orange is not `COLOR_AC
 
 ## Cadence
 
-**Gate:** Do not invent the Act 2 walk. SKILL.md must lock the state list with the user first (h2 names, which states get a frame). Then write one state per turn: facts → prose → one SVG. Do not emit a folder of frames in one shot.
+**Gate:** Do not invent the Act 2 walk. SKILL.md must lock the state list with the user first (h2 names, which states get a figure). Then write one state per turn: facts → prose → one figure scene. Do not emit a folder of scenes in one shot.
 
 Act 2 is a walk of states. Each `h2` is the name of a state (`Replaying the WAL`, `Traffic sticks to one shard`), not a textbook heading.
 
 For each `h2`:
 
 1. One or two paragraphs: what is true in this state, using only sourced facts. PlanetScale beat: name the live system before the figure.
-2. If the system changed since the previous `h2`, write the next SVG frame. Embed it immediately after that prose.
+2. If the system changed since the previous `h2`, write the next figure scene (animated by default; static SVG only if the state has no motion worth showing). Embed it immediately after that prose.
 3. One sentence after the figure: the implication (why this state matters).
 4. Code only if this state needs a real artifact (query, mapping, config, command) from the brief.
 
 If the `h2` is commentary with no state change, write no figure.
 
-Act 1 already used 0–1 figure for the broken scene. Frame `00` of Act 2 is the PlanetScale baseline in site paint, then mutate.
+Act 1 already used 0–1 figure for the broken scene. Scene `00` of Act 2 is the PlanetScale baseline in site paint, then mutate.
 
 ## Sequential mutation
 
@@ -105,6 +137,7 @@ Allowed diffs:
 - Idle fill on nodes that are out of play (`COLOR_SECONDARY`, `COLOR_IDLE` labels)
 - One new node or arrow the state introduces
 - A title label in the figure that matches the `h2`
+- A motion diff on MOTION variants of the same scene: a ray lights up vs stays idle, a bar scans fast vs crawls, a corner count label ticks with the motion
 
 Disallowed diffs:
 
@@ -113,9 +146,9 @@ Disallowed diffs:
 - Recoloring everything
 - Adding a legend that the previous frame did not need unless a new symbol appeared
 
-## SVG contract
+## SVG contract — Act 1 spatial figure and hero only
 
-Hand-authored SVG. Lean. Transparent canvas (`CANVAS_FILL`). Text in `FONT_LABEL`. Boxes are `rect` with `RADIUS` 0.
+Hand-authored SVG. Lean. Transparent canvas (`CANVAS_FILL`). Text in `FONT_LABEL`. Boxes are `rect` with `RADIUS` 0. Act 2 state figures do NOT use this format — see Motion above.
 
 ```svg
 <svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
@@ -146,7 +179,7 @@ File path: `ASSET_DIR/00-steady.svg`. Markdown:
 
 `alt` = `ALT_PREFIX` plus the state in one sentence. Never `alt text`.
 
-Banned: mermaid, raster PNG/WebP/JPEG in Act 2, tldraw, `@font-face`, embedded woff, drop shadows, gradients, rounded `rx`, decorative hero illustrations used as state frames, a new metaphor per section, PlanetScale UI screenshots as frames, full-bleed canvas fills (`#FAF9F6`, white, or a fake dot field).
+Banned in post figures: three.js, WebGL, p5, Lottie, GSAP, mermaid, raster PNG/WebP/JPEG in Act 2, tldraw, `@font-face`, embedded woff, drop shadows, gradients, rounded `rx`, decorative hero illustrations used as state frames, a new metaphor per section, PlanetScale UI screenshots as frames, full-bleed canvas fills (`#FAF9F6`, white, or a fake dot field).
 
 ## Caption
 
@@ -167,11 +200,11 @@ Optional `banner.svg` in `ASSET_DIR`. Wide, sparse, site tokens, transparent can
 | "Match the Conway post diagrams" | `ANTI_REFERENCE_DIR` is tldraw history. Paint from `STYLE_SOURCE`. |
 | "PlanetScale uses orange and app screenshots" | Steal the topology walk. Paint with site tokens. No UI shots in Act 2. |
 | "Bigger labels read better" | `FONT_SIZE_LABEL` is 12. Huge type is tldraw. |
-| "New picture, new metaphor" | Copy the previous SVG, diff the state. |
+| "New picture, new metaphor" | Copy the previous scene, diff the state. |
 | "Paint the canvas paper so it matches the site" | Paper and dots live on `body`. Canvas stays `CANVAS_FILL`. |
 | "Draw the dot grid in the SVG" | Dots will drift off the page grid. Leave gutters empty. |
 | "Rainbow makes shards distinct" | Ink, paper, border, one red hot path. Siblings stay identical until one is hot. |
 | "Figure then a wall of theory" | Implication is one sentence, then the next `h2`. |
 | "Numbers not in the brief" | Delete the number or stop and ask. |
 | "Frame for every h2 including recap" | Recap has zero figures. |
-| "I'll draw all frames now" | One agreed state, one SVG. Then stop. |
+| "I'll draw all frames now" | One agreed state, one scene. Then stop. |
