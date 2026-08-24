@@ -3,6 +3,7 @@
 // page (see app/pages/logs/[slug].astro); upgrades every <log-figure> on it.
 
 import {
+	applyCanvasPalette,
 	getScene,
 	VIEW_W,
 	VIEW_H,
@@ -15,6 +16,10 @@ class LogFigureElement extends HTMLElement {
 	private io: IntersectionObserver | null = null;
 	private reduced: MediaQueryList | null = null;
 	private onReducedChange = (): void => this.sync();
+	private onThemeChange = (): void => {
+		applyCanvasPalette();
+		if (this.drawAtRef) this.drawAtRef(this.lastT);
+	};
 	private raf = 0;
 	private running = false;
 	private visible = false;
@@ -24,6 +29,8 @@ class LogFigureElement extends HTMLElement {
 
 	connectedCallback(): void {
 		const id = this.getAttribute("scene");
+		// Resolve palette from the active theme before the first paint.
+		applyCanvasPalette();
 		if (!id) return;
 		const scene = getScene(id);
 		if (!scene) return;
@@ -139,6 +146,7 @@ class LogFigureElement extends HTMLElement {
 		this.io.observe(canvas);
 
 		this.reduced.addEventListener("change", this.onReducedChange);
+		document.addEventListener("themechange", this.onThemeChange);
 
 		// JetBrains Mono may land after first paint — repaint labels once ready.
 		document.fonts.ready.then(() => {
@@ -173,6 +181,7 @@ class LogFigureElement extends HTMLElement {
 		this.io?.disconnect();
 		this.reduced?.removeEventListener("change", this.onReducedChange);
 		window.removeEventListener("resize", this.onWindowResize);
+		document.removeEventListener("themechange", this.onThemeChange);
 	}
 }
 

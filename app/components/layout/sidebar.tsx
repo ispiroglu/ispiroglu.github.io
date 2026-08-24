@@ -1,4 +1,5 @@
 import { cn } from "~/lib/utils";
+import { ThemeToggle } from "./theme-toggle";
 
 const navigation = [
   { name: "HOME", href: "/" },
@@ -145,6 +146,9 @@ export function Sidebar({ pathname, isCollapsed, onToggle }: SidebarProps) {
             );
           })}
         </nav>
+
+        {/* ── THEME ── */}
+        <ThemeToggle isCollapsed={isCollapsed} />
 
         {/* ── EXTERNAL LINKS ── */}
         {!isCollapsed && (

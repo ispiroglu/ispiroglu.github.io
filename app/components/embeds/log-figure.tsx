@@ -31,7 +31,7 @@ export function LogFigure({ id, title, desc }: LogFigureProps) {
 	if (!getScene(id)) {
 		return (
 			<figure role="img" aria-label={`${title}. ${desc}`} style={{ margin: 0 }}>
-				<p style={{ border: "1px solid #E5E0DA", padding: "2rem", fontFamily: "JetBrains Mono, monospace", fontSize: "0.875rem" }}>
+				<p style={{ border: "1px solid var(--border)", padding: "2rem", fontFamily: "JetBrains Mono, monospace", fontSize: "0.875rem" }}>
 					unknown figure: {id}
 				</p>
 			</figure>

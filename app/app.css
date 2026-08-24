@@ -101,6 +101,111 @@
   /* Status */
   --status-green: #2D8C4A;
   --signal-red: #D41515;
+
+  /* Native controls / scrollbars follow the active theme */
+  color-scheme: light;
+
+  /* Dot grid + scrollbar thumb (tokenized so dark theme can retint them) */
+  --dot-grid: #E5E0DA;
+  --scrollbar-thumb: #D4CFC7;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   DARK THEME — night-shift variant of the same protocol.
+   Warm near-black substrate, chalk ink, signal red brightened
+   for contrast. Same variable names, so @theme inline needs no change.
+   ───────────────────────────────────────────────────────────── */
+
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* Substrate — warm near-black */
+  --background: #161513;
+  --foreground: #EDEAE4;
+
+  /* Surfaces — elevated panels stay a step lighter than the substrate */
+  --card: #1D1B18;
+  --card-foreground: #EDEAE4;
+  --popover: #1D1B18;
+  --popover-foreground: #EDEAE4;
+
+  /* Primary — chalk on slate */
+  --primary: #EDEAE4;
+  --primary-foreground: #161513;
+
+  /* Secondary — subtle containers */
+  --secondary: #26231F;
+  --secondary-foreground: #EDEAE4;
+
+  /* Muted — dimmed labels and metadata */
+  --muted: #26231F;
+  --muted-foreground: #A8A29A;
+
+  /* Accent — signal red, brightened for dark ground. STILL THE ONLY ACCENT. */
+  --accent: #FF4B3E;
+  --accent-foreground: #FFFFFF;
+
+  /* Destructive — same red */
+  --destructive: #FF4B3E;
+  --destructive-foreground: #FFFFFF;
+
+  /* Borders — hairline warm charcoal */
+  --border: #35312B;
+  --input: #35312B;
+  --ring: #FF4B3E;
+
+  /* Charts */
+  --chart-1: #EDEAE4;
+  --chart-2: #A8A29A;
+  --chart-3: #57534E;
+  --chart-4: #FF4B3E;
+  --chart-5: #46C06A;
+
+  /* Sidebar */
+  --sidebar: #161513;
+  --sidebar-foreground: #EDEAE4;
+  --sidebar-primary: #FF4B3E;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #26231F;
+  --sidebar-accent-foreground: #EDEAE4;
+  --sidebar-border: #35312B;
+  --sidebar-ring: #FF4B3E;
+
+  /* Code block panel — a step darker than the page so it still reads as a panel */
+  --code-bg: #100F0E;
+  --code-fg: #FFFFFF;
+
+  /* Status */
+  --status-green: #46C06A;
+  --signal-red: #FF4B3E;
+
+  /* Dot grid + scrollbar thumb */
+  --dot-grid: #211F1C;
+  --scrollbar-thumb: #3A362F;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   PROSE IN DARK — @tailwindcss/typography ships fixed gray colors;
+   remap them to theme tokens so MDX articles stay readable.
+   Code blocks are left alone: shiki's inline github-dark background
+   wins over --tw-prose-pre-bg in both themes.
+   ───────────────────────────────────────────────────────────── */
+
+[data-theme="dark"] .prose {
+  --tw-prose-body: #B9B3AA;
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-lead: var(--muted-foreground);
+  --tw-prose-links: var(--accent);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-counters: var(--muted-foreground);
+  --tw-prose-bullets: var(--muted-foreground);
+  --tw-prose-hr: var(--border);
+  --tw-prose-quotes: var(--foreground);
+  --tw-prose-quote-borders: var(--border);
+  --tw-prose-captions: var(--muted-foreground);
+  --tw-prose-code: var(--foreground);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
 }
 
 @theme inline {
@@ -175,7 +280,7 @@
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
     letter-spacing: var(--tracking-normal);
-    background-image: radial-gradient(circle, #E5E0DA 1px, transparent 1px);
+    background-image: radial-gradient(circle, var(--dot-grid) 1px, transparent 1px);
     background-size: 24px 24px;
     background-position: 0 0;
   }
@@ -192,8 +297,8 @@
 
   /* Selection — signal red highlight */
   ::selection {
-    background: #D41515;
-    color: #FFFFFF;
+    background: var(--accent);
+    color: var(--accent-foreground);
   }
 }
 
@@ -207,12 +312,12 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: #F0EDE8;
+  background: var(--secondary);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D4CFC7;
-  border: 1px solid #F0EDE8;
+  background: var(--scrollbar-thumb);
+  border: 1px solid var(--secondary);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -243,8 +348,8 @@
    ───────────────────────────────────────────────────────────── */
 
 .code-panel {
-  background-color: #18181B;
-  color: #FFFFFF;
+  background-color: var(--code-bg);
+  color: var(--code-fg);
   border: none;
 }
 

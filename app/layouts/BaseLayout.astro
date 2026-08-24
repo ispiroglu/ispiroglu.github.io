@@ -15,7 +15,23 @@ const { title, description } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title}</title>
+    <meta name="color-scheme" content="light dark" />
+    {/* Theme bootstrap — runs before first paint; keep resolve rule in sync
+        with app/lib/theme.ts (THEME_STORAGE_KEY + system fallback). */}
+    <script is:inline>
+      (() => {
+        try {
+          var pref = localStorage.getItem("theme");
+          var dark =
+            pref === "dark" ||
+            ((pref === null || pref === "system") &&
+              matchMedia("(prefers-color-scheme: dark)").matches);
+          var resolved = dark ? "dark" : "light";
+          document.documentElement.dataset.theme = resolved;
+          document.documentElement.style.colorScheme = resolved;
+        } catch (e) {}
+      })();
+    </script>
     <meta name="description" content={description} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link

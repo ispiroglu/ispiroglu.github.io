@@ -1,14 +1,36 @@
 // Canvas 2D figure runtime — house paint + shared draw helpers + Act 2 scenes.
 // Palette and type rules mirror .agents/skills/writing-logs/visualization.md.
-// Canvas background stays transparent; the page's warm paper + dot grid shows through.
+// Canvas background stays transparent; the page's substrate shows through.
 
-export const INK = "#18181B";
-export const BORDER = "#E5E0DA";
-export const CARD = "#FFFFFF";
-export const MUTED = "#6B6B6B";
-export const SECONDARY = "#F0EDE8";
-export const ACCENT = "#D41515";
-export const IDLE = "#B0ACA6";
+// Palette resolves from the page's CSS custom properties at runtime, so
+// canvas scenes follow the active data-theme. These are live ESM bindings:
+// applyCanvasPalette() reassigns them, and every scene reads them per frame.
+export let INK = "#18181B";
+export let BORDER = "#E5E0DA";
+export let CARD = "#FFFFFF";
+export let MUTED = "#6B6B6B";
+export let SECONDARY = "#F0EDE8";
+export let ACCENT = "#D41515";
+export let IDLE = "#B0ACA6";
+
+/**
+ * Re-read the palette from the document's CSS custom properties. Values stay
+ * hex (as defined in app.css) so rgba()/mixHex() keep parsing them.
+ * No-op on the server — scenes only draw in the browser.
+ */
+export function applyCanvasPalette(): void {
+  if (typeof document === "undefined") return;
+  const s = getComputedStyle(document.documentElement);
+  const v = (name: string, fallback: string): string =>
+    s.getPropertyValue(name).trim() || fallback;
+  INK = v("--foreground", "#18181B");
+  BORDER = v("--border", "#E5E0DA");
+  CARD = v("--card", "#FFFFFF");
+  MUTED = v("--muted-foreground", "#6B6B6B");
+  SECONDARY = v("--secondary", "#F0EDE8");
+  ACCENT = v("--accent", "#D41515");
+  IDLE = v("--chart-3", "#B0ACA6");
+}
 
 const FONT_STACK = "JetBrains Mono, ui-monospace, monospace";
 const SIZE_LABEL = 12;
